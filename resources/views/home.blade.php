@@ -1,216 +1,294 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Yash Shirsath - Home</title>
+@php
+    $settings = \App\Models\Setting::pluck('value', 'key');
+    // $socialLinks is shared via AppServiceProvider
+    $typingTexts = \App\Models\TypingText::where('active', true)->orderBy('sort_order')->pluck('text');
     
-    <!-- JetBrains Mono Font -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    $profileImage = isset($settings['profile_image']) ? Storage::url($settings['profile_image']) : 'https://ui-avatars.com/api/?name=Yash+Shirsath&background=random&size=200';
+    $resumeUrl = isset($settings['resume']) ? Storage::url($settings['resume']) : null;
+    $description = $settings['description'] ?? 'Building digital experiences with code and creativity. Focused on clean, efficient, and scalable web solutions.';
     
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-    
-    <!-- Inline script to apply theme immediately and prevent flash -->
-    <script>
-        (function() {
-            try {
-                const theme = localStorage.getItem('theme') || 'dark';
-                if (theme === 'dark') {
-                    document.documentElement.classList.add('dark');
-                } else {
-                    document.documentElement.classList.remove('dark');
-                }
-            } catch(e) {
-                document.documentElement.classList.add('dark');
-            }
-        })();
-    </script>
-    
-    <style>
-        body {
-            font-family: 'JetBrains Mono', monospace;
-        }
+    // Convert typing texts to JS array string
+    $typingTextJs = $typingTexts->isEmpty() ? "['Web Developer', 'Problem Solver']" : $typingTexts->map(fn($t) => "'".addslashes($t)."'")->implode(', ');
+    $typingTextJs = "[{$typingTextJs}]";
+@endphp
+<x-app-layout>
+    <x-slot name="title">Home</x-slot>
+
+    <!-- Main Container -->
+    <div class="flex flex-col items-center justify-center min-h-[80vh] w-full max-w-4xl mx-auto px-4 md:px-0 animate-fade-in relative z-10">
         
-        /* Blinking caret animation */
-        @keyframes blink {
-            0%, 50% { opacity: 1; }
-            51%, 100% { opacity: 0; }
-        }
-        
-        .typing-caret {
-            display: inline-block;
-            width: 2px;
-            height: 1.2em;
-            background-color: #58a6ff;
-            margin-left: 2px;
-            animation: blink 1s infinite;
-            vertical-align: baseline;
-        }
-        
-        /* Page blur when modal is open */
-        body.is-blurred {
-            overflow: hidden;
-        }
-        
-        body.is-blurred main {
-            filter: blur(4px);
-            pointer-events: none;
-        }
-    </style>
-</head>
-<body class="bg-white dark:bg-[#0d1117] text-gray-900 dark:text-[#e6edf3] min-h-screen transition-colors">
-    @include('components.navbar')
-    
-    <main class="min-h-screen flex items-center justify-center px-4 py-12">
-        <section class="w-full max-w-6xl">
-            <!-- Hero Section -->
-            <div class="flex flex-col md:flex-row items-center md:items-start gap-8 md:gap-12">
+        <!-- Profile Section -->
+        <div class="flex flex-col items-center text-center space-y-8 w-full">
+            
+            <!-- Image with Unique Hover Animation -->
+            <div class="relative group cursor-pointer perspective-1000">
+                <!-- Rotating/Pulsing Glow -->
+                <div class="absolute -inset-1 bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 rounded-full blur opacity-25 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-tilt"></div>
                 
-                <!-- Left: Avatar -->
-                <div class="flex-shrink-0">
-                    <img 
-                        src="https://i.pravatar.cc/300" 
-                        alt="Yash Shirsath photo" 
-                        class="w-56 h-56 md:w-[220px] md:h-[220px] rounded-full object-cover border-4 border-[#58a6ff] shadow-lg hover:scale-[1.03] transition-transform duration-300"
-                    >
+                <!-- Main Image Container -->
+                <div class="relative w-40 h-40 md:w-56 md:h-56 p-1 bg-white dark:bg-[#0d1117] rounded-full ring-1 ring-slate-900/5 dark:ring-white/10 shadow-2xl transition-all duration-500 ease-out group-hover:scale-[1.02] overflow-hidden">
+                    <img src="{{ $profileImage }}" alt="Profile" class="w-full h-full rounded-full object-cover transition-transform duration-700 ease-in-out group-hover:scale-110 group-hover:rotate-3">
+                    
+                    <!-- Shine Effect overlay -->
+                    <div class="absolute inset-0 rounded-full bg-gradient-to-tr from-white/0 via-white/20 to-white/0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none transform -translate-x-full group-hover:translate-x-full"></div>
                 </div>
+            </div>
+
+            <!-- Typography & Content -->
+            <div class="space-y-6 max-w-3xl relative">
+                <p class="text-xs md:text-sm font-bold text-blue-600 dark:text-blue-500 tracking-[0.3em] uppercase mb-2 animate-fade-in">Hello, I'm</p>
                 
-                <!-- Right: Content -->
-                <div class="flex-1 text-center md:text-left">
-                    <!-- Typing Animation -->
-                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
-                        <span>I am </span>
-                        <span class="js-typing inline-block">
-                            <span class="js-typing-text"></span>
-                            <span class="typing-caret"></span>
-                        </span>
-                    </h1>
+                <!-- Trendy Modern Name -->
+                <h1 class="text-6xl md:text-8xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-slate-900 via-slate-700 to-slate-900 dark:from-white dark:via-slate-200 dark:to-slate-400 font-sans leading-[0.9] drop-shadow-sm animate-slide-up">
+                    Yash Shirsath
+                </h1>
+                
+                <h3 class="text-xl md:text-2xl font-light text-slate-500 dark:text-slate-400 h-10 flex items-center justify-center gap-3 animate-slide-up delay-75">
+                    <span class="typing-text bg-clip-text text-transparent bg-gradient-to-r from-slate-700 to-slate-900 dark:from-slate-100 dark:to-slate-400 font-medium"></span>
+                    <span class="typing-cursor w-0.5 h-8 bg-blue-500 block animate-pulse"></span>
+                </h3>
+                
+                <!-- Bio Card -->
+                <div class="relative p-8 bg-slate-50 dark:bg-white/5 backdrop-blur-sm rounded-[2.5rem] border border-slate-200 dark:border-white/5 shadow-sm text-left animate-slide-up delay-100 overflow-hidden group hover:shadow-lg transition-all duration-300">
+                    <!-- Decorative Gradient -->
+                    <div class="absolute top-0 right-0 -mt-4 -mr-4 w-24 h-24 bg-gradient-to-br from-blue-500/20 to-purple-500/20 blur-2xl rounded-full"></div>
                     
-                    <!-- Personal Overview -->
-                    <p class="text-lg md:text-xl text-gray-700 dark:text-[#e6edf3]/80 mb-8 max-w-2xl mx-auto md:mx-0 text-justify">
-                        Building digital experiences and bringing ideas to life through code and creativity.
-                    </p>
-                    
-                    <!-- CTA Buttons -->
-                    <div class="flex flex-col sm:flex-row gap-4 mb-8 justify-center md:justify-start">
-                        <button 
-                            type="button"
-                            class="js-download-cv px-6 py-3 bg-[#58a6ff] text-white dark:text-[#0d1117] font-semibold rounded-lg hover:bg-[#58a6ff]/90 hover:shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#58a6ff] focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-[#0d1117]"
-                            aria-label="Download CV"
-                        >
-                            Download CV
-                        </button>
+                    <div class="flex flex-col md:flex-row gap-6 items-start relative z-10">
+                        <!-- Visual Anchor Icon -->
+                        <div class="flex-shrink-0 hidden md:block">
+                            <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center text-white shadow-lg shadow-blue-500/25 transform rotate-3 group-hover:rotate-6 transition-transform duration-300">
+                                <i class="fa-solid fa-user-astronaut text-2xl"></i>
+                            </div>
+                        </div>
                         
-                        <button 
-                            type="button"
-                            class="js-contact-btn px-6 py-3 bg-transparent border-2 border-[#58a6ff] text-[#58a6ff] font-semibold rounded-lg hover:bg-[#58a6ff] hover:text-white dark:hover:text-[#0d1117] hover:shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#58a6ff] focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-[#0d1117]"
-                            aria-label="Contact Me"
-                        >
-                            Contact Me
-                        </button>
-                    </div>
-                    
-                    <!-- Social Icons -->
-                    <div class="flex gap-4 justify-center md:justify-start">
-                        <a 
-                            href="#" 
-                            class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-200 dark:bg-[#21262d] text-gray-700 dark:text-[#e6edf3] hover:bg-[#58a6ff] hover:text-white dark:hover:text-[#0d1117] transition-colors duration-200"
-                            aria-label="Instagram"
-                        >
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-                            </svg>
-                        </a>
-                        
-                        <a 
-                            href="#" 
-                            class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-200 dark:bg-[#21262d] text-gray-700 dark:text-[#e6edf3] hover:bg-[#58a6ff] hover:text-white dark:hover:text-[#0d1117] transition-colors duration-200"
-                            aria-label="LinkedIn"
-                        >
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.386-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                            </svg>
-                        </a>
-                        
-                        <a 
-                            href="#" 
-                            class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-200 dark:bg-[#21262d] text-gray-700 dark:text-[#e6edf3] hover:bg-[#58a6ff] hover:text-white dark:hover:text-[#0d1117] transition-colors duration-200"
-                            aria-label="GitHub"
-                        >
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                                <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd"/>
-                            </svg>
-                        </a>
+                        <!-- Content -->
+                        <div class="flex-1 space-y-2">
+                            <h4 class="text-xs font-bold text-blue-600 dark:text-blue-400 uppercase tracking-widest flex items-center gap-2">
+                                <i class="fa-solid fa-bolt md:hidden"></i> About Me
+                            </h4>
+                            <div class="text-sm md:text-base text-slate-600 dark:text-slate-300 leading-relaxed">
+                                 @if(Str::length($description) > 185)
+                                    {{ Str::limit($description, 185) }}
+                                    <button id="view-description-btn" class="inline-flex items-center gap-1 text-slate-900 dark:text-white font-bold hover:text-blue-600 dark:hover:text-blue-400 transition-colors ml-1 focus:outline-none text-xs uppercase tracking-wide group/btn">
+                                        Read More 
+                                        <i class="fa-solid fa-arrow-right text-[10px] transform group-hover/btn:translate-x-1 transition-transform"></i>
+                                    </button>
+                                @else
+                                    {{ $description }}
+                                @endif
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </section>
-    </main>
-    
-    <!-- Contact Modal -->
-    <div 
-        class="js-contact-modal fixed inset-0 z-50 hidden items-center justify-center p-4"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="contact-modal-title"
-    >
-        <!-- Backdrop -->
-        <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" aria-hidden="true"></div>
-        
-        <!-- Modal Content -->
-        <div class="relative bg-[#161b22] border border-[#30363d] rounded-lg shadow-xl max-w-md w-full p-6">
-            <!-- Close Button -->
-            <button 
-                type="button"
-                class="js-contact-close absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full hover:bg-[#21262d] transition-colors focus:outline-none focus:ring-2 focus:ring-[#58a6ff]"
-                aria-label="Close contact modal"
-            >
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-            </button>
-            
-            <!-- Modal Header -->
-            <h2 id="contact-modal-title" class="text-2xl font-bold mb-6">Get in Touch</h2>
-            
-            <!-- Contact Details -->
-            <div class="space-y-4">
-                <div class="flex items-center gap-4">
-                    <div class="w-10 h-10 flex items-center justify-center rounded-full bg-[#21262d]">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                        </svg>
-                    </div>
-                    <div>
-                        <p class="text-sm text-[#e6edf3]/60">Email</p>
-                        <a href="mailto:yashshirsath@gmail.com" class="text-[#58a6ff] hover:underline">
-                            yashshirsath@gmail.com
+
+            <!-- Action Buttons (Pill Shapes) -->
+            <div class="flex flex-wrap items-center justify-center gap-4 pt-4 animate-slide-up delay-100 w-full">
+                <!-- Resume Group -->
+                @if($resumeUrl)
+                    <div class="flex items-center p-1 bg-slate-100 dark:bg-slate-800/50 rounded-full border border-slate-200 dark:border-slate-700/50">
+                        <a href="{{ $resumeUrl }}" download class="px-6 py-3 rounded-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-sm font-bold shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 flex items-center gap-2">
+                            <span>Download CV</span>
+                            <i class="fa-solid fa-download"></i>
                         </a>
+                        <button id="view-cv-btn" class="px-6 py-3 rounded-full text-slate-600 dark:text-slate-300 text-sm font-bold hover:text-slate-900 dark:hover:text-white transition-colors flex items-center gap-2">
+                            <span>View</span>
+                            <i class="fa-solid fa-eye"></i>
+                        </button>
                     </div>
-                </div>
+                @endif
                 
-                <div class="flex items-center gap-4">
-                    <div class="w-10 h-10 flex items-center justify-center rounded-full bg-[#21262d]">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                        </svg>
-                    </div>
-                    <div>
-                        <p class="text-sm text-[#e6edf3]/60">Phone</p>
-                        <a href="tel:+1234567890" class="text-[#58a6ff] hover:underline">
-                            +1 (234) 567-8900
-                        </a>
+                <!-- Primary Action -->
+                <button id="reach-me-trigger" class="px-8 py-4 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-sm font-bold shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:-translate-y-0.5 transition-all duration-300 min-w-[160px]">
+                    Reach Me
+                </button>
+            </div>
+            
+            <!-- Tech Stack Floating Dock -->
+            <div class="pt-12 w-full max-w-3xl animate-slide-up delay-200">
+                <div class="flex flex-col items-center">
+                    <p class="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em] mb-6">Tech Stack & Tools</p>
+                    
+                    <div class="flex flex-wrap justify-center gap-4 p-4 rounded-[2rem] bg-white dark:bg-white/5 border border-slate-200 dark:border-white/5 shadow-xl shadow-slate-200/50 dark:shadow-none backdrop-blur-md">
+                        @if(isset($techStacks) && $techStacks->count() > 0)
+                            @foreach($techStacks as $tech)
+                                <div class="group relative transition-all duration-300 hover:-translate-y-2">
+                                    <a href="{{ $tech->url ?? '#' }}" target="{{ $tech->url ? '_blank' : '_self' }}" class="flex items-center justify-center w-12 h-12 rounded-full bg-slate-50 dark:bg-white/10 text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-white dark:hover:bg-white/20 hover:shadow-lg transition-all" title="{{ $tech->name }}">
+                                        <i class="{{ $tech->icon_class }} text-xl"></i>
+                                    </a>
+                                    <!-- Tooltip Pill -->
+                                    <span class="absolute -top-10 left-1/2 -translate-x-1/2 bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-[10px] font-bold py-1 px-3 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap shadow-lg pointer-events-none translate-y-2 group-hover:translate-y-0">
+                                        {{ $tech->name }}
+                                    </span>
+                                </div>
+                            @endforeach
+                        @else
+                            <p class="text-slate-400 text-xs py-2 px-4">Add your tech stack in Admin Panel</p>
+                        @endif
                     </div>
                 </div>
             </div>
         </div>
     </div>
     
-    <script src="{{ asset('js/theme/theme.js') }}" defer></script>
-    <script src="{{ asset('js/navbar/navbar.js') }}" defer></script>
-    <script src="{{ asset('js/home/typing.js') }}" defer></script>
-    <script src="{{ asset('js/home/contact.js') }}" defer></script>
-</body>
-</html>
+    <!-- Reach Me Modal (Pill & Premium) -->
+    <div id="reach-me-modal" class="fixed inset-0 z-[100] flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
+        <div class="absolute inset-0 bg-slate-900/40 backdrop-blur-md" id="reach-me-backdrop"></div>
+        <div class="relative bg-white dark:bg-[#161b22] rounded-[2.5rem] shadow-2xl p-8 max-w-sm w-full mx-4 transform scale-95 transition-transform duration-300 border border-white/20" id="reach-me-content">
+            <button id="close-reach-me" class="absolute top-6 right-6 w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 dark:bg-white/10 text-slate-400 hover:text-slate-600 dark:hover:text-white transition-colors">
+                <i class="fa-solid fa-xmark text-sm"></i>
+            </button>
+            
+            <div class="text-center mb-8">
+                <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-2">Get In Touch</h3>
+                <p class="text-xs text-slate-500 dark:text-slate-400">Let's build something amazing together.</p>
+            </div>
+            
+            <div class="space-y-3">
+                @if(isset($contactInfos))
+                    @foreach($contactInfos as $info)
+                        <div class="group flex items-center gap-4 p-4 rounded-2xl bg-slate-50 dark:bg-[#0d1117] border border-transparent hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/5 transition-all duration-300">
+                            <div class="w-12 h-12 rounded-full bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center text-blue-600 dark:text-blue-400 group-hover:scale-110 transition-transform">
+                                <i class="{{ $info->icon_class }} text-lg"></i>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-0.5">{{ $info->label }}</p>
+                                @if($info->link)
+                                    <a href="{{ $info->link }}" target="_blank" class="block text-sm font-semibold text-slate-900 dark:text-slate-100 truncate hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                                        {{ $info->value }}
+                                    </a>
+                                @else
+                                    <p class="text-sm font-semibold text-slate-900 dark:text-slate-100 truncate">{{ $info->value }}</p>
+                                @endif
+                            </div>
+                        </div>
+                    @endforeach
+                @endif
+            </div>
+        </div>
+    </div>
+
+    <!-- CV Modal (Pill & Large) -->
+    <div id="cv-modal" class="fixed inset-0 z-[100] flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-md" id="cv-backdrop"></div>
+        <div class="relative bg-white dark:bg-[#161b22] rounded-[2rem] shadow-2xl w-full max-w-5xl h-[85vh] mx-4 transform scale-95 transition-transform duration-300 border border-white/20 flex flex-col overflow-hidden" id="cv-content">
+            <div class="flex justify-between items-center p-6 border-b border-slate-100 dark:border-white/5 bg-white/50 dark:bg-[#161b22]/50 backdrop-blur-sm z-20">
+                <h3 class="font-bold text-lg text-slate-900 dark:text-white flex items-center gap-2">
+                    <i class="fa-solid fa-file-pdf text-red-500"></i> Resume Preview
+                </h3>
+                <button id="close-cv" class="w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 dark:bg-white/10 text-slate-400 hover:text-slate-600 dark:hover:text-white transition-colors">
+                    <i class="fa-solid fa-xmark text-sm"></i>
+                </button>
+            </div>
+            <div class="flex-1 bg-slate-50 dark:bg-[#0d1117] relative">
+                @if($resumeUrl)
+                    <iframe src="{{ $resumeUrl }}" class="w-full h-full border-none" title="Resume PDF"></iframe>
+                @else
+                    <div class="flex flex-col items-center justify-center h-full text-slate-400 gap-4">
+                        <i class="fa-regular fa-file-pdf text-4xl opacity-50"></i>
+                        <p>No Resume Uploaded</p>
+                    </div>
+                @endif
+            </div>
+        </div>
+    </div>
+
+    <!-- Description Modal (Justified Text) -->
+    <div id="description-modal" class="fixed inset-0 z-[100] flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
+        <div class="absolute inset-0 bg-slate-900/40 backdrop-blur-md" id="description-backdrop"></div>
+        <div class="relative bg-white dark:bg-[#161b22] rounded-[2.5rem] shadow-2xl p-8 max-w-2xl w-full mx-4 transform scale-95 transition-transform duration-300 border border-white/20 flex flex-col max-h-[80vh]" id="description-content">
+            <button id="close-description" class="absolute top-6 right-6 w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 dark:bg-white/10 text-slate-400 hover:text-slate-600 dark:hover:text-white transition-colors z-10">
+                <i class="fa-solid fa-xmark text-sm"></i>
+            </button>
+            
+            <div class="text-center mb-6">
+                <h3 class="text-2xl font-bold text-slate-900 dark:text-white">About Me</h3>
+                <div class="w-12 h-1 bg-blue-500 rounded-full mx-auto mt-2"></div>
+            </div>
+            
+            <div class="overflow-y-auto pr-4 custom-scrollbar text-justify text-slate-600 dark:text-slate-300 leading-8 text-lg space-y-6 font-light">
+                {!! nl2br(e($description)) !!}
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Typing Animation
+            const textElement = document.querySelector('.typing-text');
+            const phrases = {!! $typingTextJs !!};
+            
+            if (textElement && phrases.length > 0) {
+                let phraseIndex = 0;
+                let charIndex = 0;
+                let isDeleting = false;
+                let typeSpeed = 100;
+                
+                function type() {
+                    const currentPhrase = phrases[phraseIndex];
+                    if (isDeleting) {
+                        textElement.textContent = currentPhrase.substring(0, charIndex - 1);
+                        charIndex--;
+                        typeSpeed = 50;
+                    } else {
+                        textElement.textContent = currentPhrase.substring(0, charIndex + 1);
+                        charIndex++;
+                        typeSpeed = 100;
+                    }
+                    if (!isDeleting && charIndex === currentPhrase.length) {
+                        isDeleting = true;
+                        typeSpeed = 2000; 
+                    } else if (isDeleting && charIndex === 0) {
+                        isDeleting = false;
+                        phraseIndex = (phraseIndex + 1) % phrases.length;
+                        typeSpeed = 500;
+                    }
+                    setTimeout(type, typeSpeed);
+                }
+                type();
+            }
+
+            // Modal Logic
+            function setupModal(triggerId, modalId, closeId, backdropId, contentId) {
+                const trigger = document.getElementById(triggerId);
+                const modal = document.getElementById(modalId);
+                const close = document.getElementById(closeId);
+                const backdrop = document.getElementById(backdropId);
+                const content = document.getElementById(contentId);
+
+                if (!trigger || !modal) return;
+
+                function openModal() {
+                    modal.classList.remove('hidden');
+                    // Small delay to allow display:block to apply before opacity transition
+                    requestAnimationFrame(() => {
+                        modal.classList.remove('opacity-0');
+                        content.classList.remove('scale-95');
+                        content.classList.add('scale-100');
+                    });
+                }
+
+                function closeModal() {
+                    modal.classList.add('opacity-0');
+                    content.classList.remove('scale-100');
+                    content.classList.add('scale-95');
+                    setTimeout(() => {
+                        modal.classList.add('hidden');
+                    }, 300);
+                }
+
+                trigger.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    openModal();
+                });
+
+                close.addEventListener('click', closeModal);
+                backdrop.addEventListener('click', closeModal);
+            }
+
+            setupModal('reach-me-trigger', 'reach-me-modal', 'close-reach-me', 'reach-me-backdrop', 'reach-me-content');
+            setupModal('view-cv-btn', 'cv-modal', 'close-cv', 'cv-backdrop', 'cv-content');
+            setupModal('view-description-btn', 'description-modal', 'close-description', 'description-backdrop', 'description-content');
+        });
+    </script>
+</x-app-layout>

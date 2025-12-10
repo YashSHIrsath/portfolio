@@ -12,7 +12,12 @@ class AdminDashboardController extends Controller
      */
     public function index()
     {
-        return view('admin.dashboard');
+        return view('admin.dashboard', [
+            'contactInfoCount' => \App\Models\ContactInfo::count(),
+            'techStackCount' => \App\Models\TechStack::count(),
+            'socialLinkCount' => \App\Models\SocialLink::count(),
+            'typingTextCount' => \App\Models\TypingText::count(),
+        ]);
     }
 }
 
