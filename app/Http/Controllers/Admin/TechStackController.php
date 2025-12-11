@@ -88,6 +88,7 @@ class TechStackController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
+            'category' => 'required|string|max:255',
             'icon_class' => 'required|string|max:255',
             'url' => 'nullable|url|max:255',
             'sort_order' => 'nullable|integer',
@@ -113,6 +114,7 @@ class TechStackController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
+            'category' => 'required|string|max:255',
             'icon_class' => 'required|string|max:255',
             'url' => 'nullable|url|max:255',
             'sort_order' => 'nullable|integer',

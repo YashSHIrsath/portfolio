@@ -38,6 +38,7 @@
                                     </div>
                                     <div class="flex flex-col">
                                         <span>{{ $stack->name }}</span>
+                                        <span class="text-xs text-slate-400 capitalize">{{ $stack->category }}</span>
                                         @if($stack->url)
                                             <a href="{{ $stack->url }}" target="_blank" class="text-xs text-blue-500 hover:underline">{{ $stack->url }}</a>
                                         @endif

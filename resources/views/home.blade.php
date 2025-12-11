@@ -14,136 +14,178 @@
 <x-app-layout>
     <x-slot name="title">Home</x-slot>
 
-    <!-- Main Container -->
-    <div class="flex flex-col items-center justify-center min-h-[80vh] w-full max-w-4xl mx-auto px-4 md:px-0 animate-fade-in relative z-10">
+    <!-- Main Container (Bento Grid) -->
+    <div class="w-full max-w-6xl mx-auto px-4 md:px-0 py-12 animate-fade-in relative z-10 min-h-[85vh] flex flex-col justify-center gap-6">
         
-        <!-- Profile Section -->
-        <div class="flex flex-col items-center text-center space-y-8 w-full">
+        <!-- Top Row: Profile & Identity Collage -->
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-6 w-full">
             
-            <!-- Image with Unique Hover Animation -->
-            <div class="relative group cursor-pointer perspective-1000">
-                <!-- Rotating/Pulsing Glow -->
-                <div class="absolute -inset-1 bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 rounded-full blur opacity-25 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-tilt"></div>
+            <!-- Card 1: Profile Image (Visual Focus) -->
+            <div class="md:col-span-4 relative group perspective-1000 h-full min-h-[300px] md:min-h-[400px]">
+                <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 to-purple-600/20 blur-2xl rounded-[2.5rem] transform -rotate-1"></div>
                 
-                <!-- Main Image Container -->
-                <div class="relative w-40 h-40 md:w-56 md:h-56 p-1 bg-white dark:bg-[#0d1117] rounded-full ring-1 ring-slate-900/5 dark:ring-white/10 shadow-2xl transition-all duration-500 ease-out group-hover:scale-[1.02] overflow-hidden">
-                    <img src="{{ $profileImage }}" alt="Profile" class="w-full h-full rounded-full object-cover transition-transform duration-700 ease-in-out group-hover:scale-110 group-hover:rotate-3">
+                <div class="relative h-full w-full bg-white dark:bg-[#161b22] rounded-[2.5rem] border border-slate-200 dark:border-white/10 shadow-2xl overflow-hidden flex items-center justify-center p-2 group-hover:scale-[1.02] transition-all duration-500">
+                    <img src="{{ $profileImage }}" alt="Profile" class="w-full h-full object-cover rounded-[2rem] filter grayscale contrast-125 group-hover:grayscale-0 transition-all duration-700">
                     
-                    <!-- Shine Effect overlay -->
-                    <div class="absolute inset-0 rounded-full bg-gradient-to-tr from-white/0 via-white/20 to-white/0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none transform -translate-x-full group-hover:translate-x-full"></div>
-                </div>
-            </div>
-
-            <!-- Typography & Content -->
-            <div class="space-y-6 max-w-3xl relative">
-                <p class="text-xs md:text-sm font-bold text-blue-600 dark:text-blue-500 tracking-[0.3em] uppercase mb-2 animate-fade-in">Hello, I'm</p>
-                
-                <!-- Trendy Modern Name -->
-                <h1 class="text-6xl md:text-8xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-slate-900 via-slate-700 to-slate-900 dark:from-white dark:via-slate-200 dark:to-slate-400 font-sans leading-[0.9] drop-shadow-sm animate-slide-up">
-                    Yash Shirsath
-                </h1>
-                
-                <h3 class="text-xl md:text-2xl font-light text-slate-500 dark:text-slate-400 h-10 flex items-center justify-center gap-3 animate-slide-up delay-75">
-                    <span class="typing-text bg-clip-text text-transparent bg-gradient-to-r from-slate-700 to-slate-900 dark:from-slate-100 dark:to-slate-400 font-medium"></span>
-                    <span class="typing-cursor w-0.5 h-8 bg-blue-500 block animate-pulse"></span>
-                </h3>
-                
-                <!-- Bio Card -->
-                <div class="relative p-8 bg-slate-50 dark:bg-white/5 backdrop-blur-sm rounded-[2.5rem] border border-slate-200 dark:border-white/5 shadow-sm text-left animate-slide-up delay-100 overflow-hidden group hover:shadow-lg transition-all duration-300">
-                    <!-- Decorative Gradient -->
-                    <div class="absolute top-0 right-0 -mt-4 -mr-4 w-24 h-24 bg-gradient-to-br from-blue-500/20 to-purple-500/20 blur-2xl rounded-full"></div>
+                    <!-- Overlay Effects -->
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-60 group-hover:opacity-30 transition-opacity duration-500 rounded-[2rem]"></div>
                     
-                    <div class="flex flex-col md:flex-row gap-6 items-start relative z-10">
-                        <!-- Visual Anchor Icon -->
-                        <div class="flex-shrink-0 hidden md:block">
-                            <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center text-white shadow-lg shadow-blue-500/25 transform rotate-3 group-hover:rotate-6 transition-transform duration-300">
-                                <i class="fa-solid fa-user-astronaut text-2xl"></i>
-                            </div>
-                        </div>
-                        
-                        <!-- Content -->
-                        <div class="flex-1 space-y-2">
-                            <h4 class="text-xs font-bold text-blue-600 dark:text-blue-400 uppercase tracking-widest flex items-center gap-2">
-                                <i class="fa-solid fa-bolt md:hidden"></i> About Me
-                            </h4>
-                            <div class="text-sm md:text-base text-slate-600 dark:text-slate-300 leading-relaxed">
-                                 @if(Str::length($description) > 185)
-                                    {{ Str::limit($description, 185) }}
-                                    <button id="view-description-btn" class="inline-flex items-center gap-1 text-slate-900 dark:text-white font-bold hover:text-blue-600 dark:hover:text-blue-400 transition-colors ml-1 focus:outline-none text-xs uppercase tracking-wide group/btn">
-                                        Read More 
-                                        <i class="fa-solid fa-arrow-right text-[10px] transform group-hover/btn:translate-x-1 transition-transform"></i>
-                                    </button>
-                                @else
-                                    {{ $description }}
-                                @endif
-                            </div>
-                        </div>
+                    <!-- Status Badge -->
+                    <div class="absolute top-6 left-6 px-4 py-2 bg-white/90 dark:bg-black/80 backdrop-blur-md rounded-full text-xs font-bold uppercase tracking-widest text-slate-800 dark:text-white shadow-lg flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                        Open to work
                     </div>
                 </div>
             </div>
 
-            <!-- Action Buttons (Pill Shapes) -->
-            <div class="flex flex-wrap items-center justify-center gap-4 pt-4 animate-slide-up delay-100 w-full">
-                <!-- Resume Group -->
-                @if($resumeUrl)
-                    <div class="flex items-center p-1 bg-slate-100 dark:bg-slate-800/50 rounded-full border border-slate-200 dark:border-slate-700/50">
-                        <a href="{{ $resumeUrl }}" download class="px-6 py-3 rounded-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-sm font-bold shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 flex items-center gap-2">
-                            <span>Download CV</span>
-                            <i class="fa-solid fa-download"></i>
-                        </a>
-                        <button id="view-cv-btn" class="px-6 py-3 rounded-full text-slate-600 dark:text-slate-300 text-sm font-bold hover:text-slate-900 dark:hover:text-white transition-colors flex items-center gap-2">
-                            <span>View</span>
+            <!-- Card 2: Identity & Actions (Functional Focus) -->
+            <div class="md:col-span-8 flex flex-col gap-6">
+                <!-- Typography Card -->
+                <div class="relative bg-white/80 dark:bg-[#161b22]/80 backdrop-blur-md rounded-[2.5rem] border border-slate-200 dark:border-white/10 p-10 flex flex-col justify-center flex-grow shadow-lg hover:shadow-xl transition-all duration-300">
+                    <div class="space-y-4">
+                        <p class="text-xs font-bold text-blue-600 dark:text-blue-500 tracking-[0.3em] uppercase animate-slide-up">Hello, I'm</p>
+                        
+                        <h1 class="text-5xl md:text-7xl font-black tracking-tighter text-slate-900 dark:text-white leading-[0.9] animate-slide-up delay-75">
+                            Yash<br>Shirsath
+                        </h1>
+                        
+                        <div class="h-8 flex items-center gap-3 animate-slide-up delay-100">
+                            <span class="text-xl md:text-2xl font-light text-slate-500 dark:text-slate-400 typing-text"></span>
+                            <span class="typing-cursor w-0.5 h-6 bg-blue-500 block animate-pulse"></span>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons Row (Integrated) -->
+                    <div class="mt-8 flex flex-wrap gap-4 animate-slide-up delay-150">
+                        <button id="reach-me-trigger" class="px-8 py-4 rounded-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-sm font-bold shadow-lg hover:scale-105 transition-all duration-300 flex items-center gap-2 group">
+                            Reach Me
+                            <i class="fa-solid fa-arrow-right -rotate-45 group-hover:rotate-0 transition-transform duration-300"></i>
+                        </button>
+                        
+                        @if($resumeUrl)
+                            <a href="{{ $resumeUrl }}" download class="px-8 py-4 rounded-full border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white text-sm font-bold hover:bg-slate-50 dark:hover:bg-white/5 transition-all duration-300 flex items-center gap-2">
+                                Resume
+                                <i class="fa-solid fa-download text-xs opacity-70"></i>
+                            </a>
+                        @endif
+                        
+                        <button id="view-cv-btn" class="w-12 h-12 rounded-full border border-slate-200 dark:border-white/10 text-slate-500 dark:text-slate-400 flex items-center justify-center hover:bg-slate-50 dark:hover:bg-white/5 hover:text-blue-500 transition-colors" title="View CV">
                             <i class="fa-solid fa-eye"></i>
                         </button>
                     </div>
-                @endif
+                </div>
                 
-                <!-- Primary Action -->
-                <button id="reach-me-trigger" class="px-8 py-4 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-sm font-bold shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:-translate-y-0.5 transition-all duration-300 min-w-[160px]">
-                    Reach Me
-                </button>
+                <!-- Stats Row (New Module) -->
+                 @if(isset($stats) && $stats->count() > 0)
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 animate-slide-up delay-200">
+                        @foreach($stats as $stat)
+                            <div class="bg-white dark:bg-[#161b22] p-4 rounded-[2rem] border border-slate-200 dark:border-white/10 flex flex-col items-center justify-center text-center shadow-sm hover:shadow-md transition-all">
+                                <span class="text-2xl font-black text-slate-900 dark:text-white">{{ $stat->value }}</span>
+                                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">{{ $stat->key }}</span>
+                            </div>
+                        @endforeach
+                    </div>
+                @endif
             </div>
+        </div>
+
+        <!-- Section 2: Unified Hub & Experience Split -->
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-6 w-full animate-slide-up delay-200">
             
-            <!-- Tech Stack Floating Dock -->
-            <div class="pt-12 w-full max-w-3xl animate-slide-up delay-200">
-                <div class="flex flex-col items-center">
-                    <p class="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em] mb-6">Tech Stack & Tools</p>
+            <!-- Left: Description & Tech Stack (The "About" Module) -->
+            <div class="md:col-span-7 flex flex-col gap-6">
+                 <div class="relative w-full bg-slate-50 dark:bg-[#161b22]/80 backdrop-blur-xl rounded-[2.5rem] border border-slate-200 dark:border-white/10 shadow-xl overflow-hidden p-8 md:p-10 flex flex-col gap-6">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center text-white shadow-lg shadow-blue-500/25">
+                            <i class="fa-solid fa-user-astronaut text-xl"></i>
+                        </div>
+                        <h4 class="text-sm font-bold text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em]">About Me</h4>
+                    </div>
                     
-                    <div class="flex flex-wrap justify-center gap-4 p-4 rounded-[2rem] bg-white dark:bg-white/5 border border-slate-200 dark:border-white/5 shadow-xl shadow-slate-200/50 dark:shadow-none backdrop-blur-md">
-                        @if(isset($techStacks) && $techStacks->count() > 0)
-                            @foreach($techStacks as $tech)
-                                <div class="group relative transition-all duration-300 hover:-translate-y-2">
-                                    <a href="{{ $tech->url ?? '#' }}" target="{{ $tech->url ? '_blank' : '_self' }}" class="flex items-center justify-center w-12 h-12 rounded-full bg-slate-50 dark:bg-white/10 text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-white dark:hover:bg-white/20 hover:shadow-lg transition-all" title="{{ $tech->name }}">
-                                        <i class="{{ $tech->icon_class }} text-xl"></i>
+                    <div class="text-sm md:text-base text-slate-600 dark:text-slate-300 leading-relaxed font-light text-justify">
+                         @if(Str::length($description) > 300)
+                            <span class="opacity-90">{{ Str::limit($description, 300) }}</span>
+                            <button id="view-description-btn" class="inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 font-bold hover:underline decoration-2 underline-offset-4 transition-all mt-2 focus:outline-none text-xs uppercase tracking-wide group/btn">
+                                Read Full Bio
+                            </button>
+                        @else
+                            {{ $description }}
+                        @endif
+                    </div>
+                    
+                    <div class="h-px w-full bg-slate-200 dark:bg-white/5 my-2"></div>
+                    
+                    <!-- Tech Stack Mini-Grid -->
+                    <div>
+                         <h4 class="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em] mb-4 flex items-center gap-2">
+                            <i class="fa-solid fa-code text-indigo-500"></i> Tech Stack
+                        </h4>
+                        <div class="flex flex-wrap gap-3">
+                            @if(isset($techStacks) && $techStacks->count() > 0)
+                                @foreach($techStacks as $tech)
+                                    <a href="{{ $tech->url ?? '#' }}" target="{{ $tech->url ? '_blank' : '_self' }}" class="flex items-center justify-center w-10 h-10 rounded-xl bg-white dark:bg-[#0d1117] border border-slate-200 dark:border-white/10 text-slate-500 dark:text-slate-400 hover:text-white hover:bg-gradient-to-br hover:from-blue-500 hover:to-indigo-500 hover:border-transparent shadow-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 hover:scale-110" title="{{ $tech->name }}">
+                                        <i class="{{ $tech->icon_class }} text-base"></i>
                                     </a>
-                                    <!-- Tooltip Pill -->
-                                    <span class="absolute -top-10 left-1/2 -translate-x-1/2 bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-[10px] font-bold py-1 px-3 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap shadow-lg pointer-events-none translate-y-2 group-hover:translate-y-0">
-                                        {{ $tech->name }}
-                                    </span>
+                                @endforeach
+                            @else
+                                <span class="text-xs text-slate-400 italic">No stack loaded</span>
+                            @endif
+                        </div>
+                    </div>
+                 </div>
+            </div>
+
+            <!-- Right: Experience Timeline (New Module) -->
+            <div class="md:col-span-5 flex flex-col h-full">
+                <div class="relative w-full h-full bg-white dark:bg-[#161b22] rounded-[2.5rem] border border-slate-200 dark:border-white/10 shadow-xl p-8 md:p-10 overflow-hidden">
+                    <div class="flex items-center gap-4 mb-8">
+                         <div class="w-12 h-12 rounded-2xl bg-slate-100 dark:bg-white/5 flex items-center justify-center text-slate-900 dark:text-white border border-slate-200 dark:border-white/10">
+                            <i class="fa-solid fa-briefcase text-xl"></i>
+                        </div>
+                        <h4 class="text-sm font-bold text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em]">Experience</h4>
+                    </div>
+                    
+                    <div class="space-y-8 relative">
+                        <!-- Connecting Line -->
+                        <div class="absolute left-[11px] top-3 bottom-3 w-0.5 bg-slate-200 dark:bg-white/5"></div>
+                        
+                        @if(isset($experiences) && $experiences->count() > 0)
+                            @foreach($experiences as $exp)
+                                <div class="relative pl-8 group">
+                                    <!-- Dot -->
+                                    <div class="absolute left-0 top-1.5 w-6 h-6 rounded-full bg-white dark:bg-[#161b22] border-4 border-blue-500 dark:border-blue-600 z-10 group-hover:scale-110 transition-transform"></div>
+                                    
+                                    <h5 class="text-lg font-bold text-slate-900 dark:text-white leading-tight">{{ $exp->position }}</h5>
+                                    @if($exp->company)
+                                        <p class="text-sm font-semibold text-blue-600 dark:text-blue-400 mb-1">{{ $exp->company }}</p>
+                                    @endif
+                                    <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">{{ $exp->duration }}</p>
+                                    <p class="text-sm text-slate-600 dark:text-slate-300 font-light leading-relaxed">
+                                        {{ $exp->description }}
+                                    </p>
                                 </div>
                             @endforeach
                         @else
-                            <p class="text-slate-400 text-xs py-2 px-4">Add your tech stack in Admin Panel</p>
+                            <div class="pl-8 text-sm text-slate-400 italic">No experience added yet.</div>
                         @endif
                     </div>
                 </div>
             </div>
         </div>
+
     </div>
     
-    <!-- Reach Me Modal (Pill & Premium) -->
+    <!-- Modals (Reach Me, CV, Description) - Keeping existing logic -->
     <div id="reach-me-modal" class="fixed inset-0 z-[100] flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
         <div class="absolute inset-0 bg-slate-900/40 backdrop-blur-md" id="reach-me-backdrop"></div>
         <div class="relative bg-white dark:bg-[#161b22] rounded-[2.5rem] shadow-2xl p-8 max-w-sm w-full mx-4 transform scale-95 transition-transform duration-300 border border-white/20" id="reach-me-content">
             <button id="close-reach-me" class="absolute top-6 right-6 w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 dark:bg-white/10 text-slate-400 hover:text-slate-600 dark:hover:text-white transition-colors">
                 <i class="fa-solid fa-xmark text-sm"></i>
             </button>
-            
             <div class="text-center mb-8">
                 <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-2">Get In Touch</h3>
                 <p class="text-xs text-slate-500 dark:text-slate-400">Let's build something amazing together.</p>
             </div>
-            
             <div class="space-y-3">
                 @if(isset($contactInfos))
                     @foreach($contactInfos as $info)
@@ -168,7 +210,7 @@
         </div>
     </div>
 
-    <!-- CV Modal (Pill & Large) -->
+    <!-- CV Modal -->
     <div id="cv-modal" class="fixed inset-0 z-[100] flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
         <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-md" id="cv-backdrop"></div>
         <div class="relative bg-white dark:bg-[#161b22] rounded-[2rem] shadow-2xl w-full max-w-5xl h-[85vh] mx-4 transform scale-95 transition-transform duration-300 border border-white/20 flex flex-col overflow-hidden" id="cv-content">
@@ -193,19 +235,17 @@
         </div>
     </div>
 
-    <!-- Description Modal (Justified Text) -->
+    <!-- Description Modal -->
     <div id="description-modal" class="fixed inset-0 z-[100] flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
         <div class="absolute inset-0 bg-slate-900/40 backdrop-blur-md" id="description-backdrop"></div>
         <div class="relative bg-white dark:bg-[#161b22] rounded-[2.5rem] shadow-2xl p-8 max-w-2xl w-full mx-4 transform scale-95 transition-transform duration-300 border border-white/20 flex flex-col max-h-[80vh]" id="description-content">
             <button id="close-description" class="absolute top-6 right-6 w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 dark:bg-white/10 text-slate-400 hover:text-slate-600 dark:hover:text-white transition-colors z-10">
                 <i class="fa-solid fa-xmark text-sm"></i>
             </button>
-            
             <div class="text-center mb-6">
                 <h3 class="text-2xl font-bold text-slate-900 dark:text-white">About Me</h3>
                 <div class="w-12 h-1 bg-blue-500 rounded-full mx-auto mt-2"></div>
             </div>
-            
             <div class="overflow-y-auto pr-4 custom-scrollbar text-justify text-slate-600 dark:text-slate-300 leading-8 text-lg space-y-6 font-light">
                 {!! nl2br(e($description)) !!}
             </div>
@@ -217,13 +257,11 @@
             // Typing Animation
             const textElement = document.querySelector('.typing-text');
             const phrases = {!! $typingTextJs !!};
-            
             if (textElement && phrases.length > 0) {
                 let phraseIndex = 0;
                 let charIndex = 0;
                 let isDeleting = false;
                 let typeSpeed = 100;
-                
                 function type() {
                     const currentPhrase = phrases[phraseIndex];
                     if (isDeleting) {
@@ -255,19 +293,15 @@
                 const close = document.getElementById(closeId);
                 const backdrop = document.getElementById(backdropId);
                 const content = document.getElementById(contentId);
-
                 if (!trigger || !modal) return;
-
                 function openModal() {
                     modal.classList.remove('hidden');
-                    // Small delay to allow display:block to apply before opacity transition
                     requestAnimationFrame(() => {
                         modal.classList.remove('opacity-0');
                         content.classList.remove('scale-95');
                         content.classList.add('scale-100');
                     });
                 }
-
                 function closeModal() {
                     modal.classList.add('opacity-0');
                     content.classList.remove('scale-100');
@@ -276,16 +310,13 @@
                         modal.classList.add('hidden');
                     }, 300);
                 }
-
                 trigger.addEventListener('click', (e) => {
                     e.preventDefault();
                     openModal();
                 });
-
                 close.addEventListener('click', closeModal);
                 backdrop.addEventListener('click', closeModal);
             }
-
             setupModal('reach-me-trigger', 'reach-me-modal', 'close-reach-me', 'reach-me-backdrop', 'reach-me-content');
             setupModal('view-cv-btn', 'cv-modal', 'close-cv', 'cv-backdrop', 'cv-content');
             setupModal('view-description-btn', 'description-modal', 'close-description', 'description-backdrop', 'description-content');

@@ -15,6 +15,12 @@ class SettingController extends Controller
         return view('admin.settings.index', compact('settings'));
     }
 
+    public function editAbout()
+    {
+        $settings = Setting::pluck('value', 'key');
+        return view('admin.settings.about', compact('settings'));
+    }
+
     public function update(Request $request)
     {
         $request->validate([

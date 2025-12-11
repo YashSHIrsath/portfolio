@@ -7,7 +7,12 @@ use Illuminate\Support\Facades\Route;
 
 // Public routes
 Route::get('/', function () {
-    return view('home');
+    $experiences = \App\Models\Experience::where('is_active', true)->orderBy('sort_order')->orderBy('created_at', 'desc')->get();
+    $stats = \App\Models\KeyValue::where('is_active', true)->where('type', 'stat')->orderBy('sort_order')->get();
+    $techStacks = \App\Models\TechStack::where('active', true)->orderBy('sort_order')->get();
+    $contactInfos = \App\Models\ContactInfo::where('active', true)->orderBy('sort_order')->get();
+    
+    return view('home', compact('experiences', 'stats', 'techStacks', 'contactInfos'));
 })->name('home');
 
 Route::get('/about', function () {
@@ -35,6 +40,7 @@ Route::prefix('admin')->name('admin.')->middleware([IsAdmin::class])->group(func
 
     // Settings
     Route::get('/settings', [App\Http\Controllers\Admin\SettingController::class, 'index'])->name('settings.index');
+    Route::get('/settings/about', [App\Http\Controllers\Admin\SettingController::class, 'editAbout'])->name('settings.about');
     Route::post('/settings', [App\Http\Controllers\Admin\SettingController::class, 'update'])->name('settings.update');
 
     // Social Links
@@ -48,4 +54,16 @@ Route::prefix('admin')->name('admin.')->middleware([IsAdmin::class])->group(func
 
     // Tech Stacks
     Route::resource('tech-stacks', App\Http\Controllers\Admin\TechStackController::class);
+
+    // Experiences
+    Route::resource('experiences', App\Http\Controllers\Admin\ExperienceController::class);
+
+    // Key Values (Stats)
+    Route::resource('key-values', App\Http\Controllers\Admin\KeyValueController::class);
+
+    // Bios
+    Route::resource('bios', App\Http\Controllers\Admin\BioController::class);
+
+    // Cat Stacks (JSON Section)
+    Route::resource('cat-stacks', App\Http\Controllers\Admin\CatStackController::class);
 });

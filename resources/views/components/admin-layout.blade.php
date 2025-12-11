@@ -49,8 +49,8 @@
                     <span class="font-medium">Dashboard</span>
                 </a>
 
-                <!-- Home Page Group (Dropdown) -->
-                <div x-data="{ open: {{ request()->is('admin/settings*') || request()->is('admin/typing-texts*') || request()->is('admin/contact-infos*') || request()->is('admin/tech-stacks*') || request()->is('admin/social-links*') ? 'true' : 'false' }} }" class="space-y-1">
+                <!-- Home Page Group -->
+                <div x-data="{ open: {{ request()->is('admin/settings*') || request()->is('admin/typing-texts*') || request()->is('admin/contact-infos*') || request()->is('admin/social-links*') ? 'true' : 'false' }} }" class="space-y-1">
                     <button @click="open = !open" class="w-full flex items-center justify-between px-4 py-3 rounded-2xl transition-all duration-300 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-blue-600 dark:hover:text-blue-400">
                         <div class="flex items-center gap-3">
                             <i class="fa-solid fa-house w-5 text-center"></i>
@@ -70,11 +70,6 @@
                             <i class="fa-solid fa-keyboard w-4 text-center text-xs"></i>
                             <span class="text-sm">Typing Texts</span>
                         </a>
-                        
-                        <a href="{{ route('admin.tech-stacks.index') }}" class="group flex items-center gap-3 px-4 py-2 rounded-xl transition-all duration-300 {{ request()->routeIs('admin.tech-stacks.*') ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/10' : 'text-slate-500 dark:text-slate-500 hover:text-slate-800 dark:hover:text-slate-200' }}">
-                            <i class="fa-solid fa-layer-group w-4 text-center text-xs"></i>
-                            <span class="text-sm">Tech Stack</span>
-                        </a>
 
                         <a href="{{ route('admin.contact-infos.index') }}" class="group flex items-center gap-3 px-4 py-2 rounded-xl transition-all duration-300 {{ request()->routeIs('admin.contact-infos.*') ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/10' : 'text-slate-500 dark:text-slate-500 hover:text-slate-800 dark:hover:text-slate-200' }}">
                             <i class="fa-solid fa-address-book w-4 text-center text-xs"></i>
@@ -84,6 +79,45 @@
                         <a href="{{ route('admin.social-links.index') }}" class="group flex items-center gap-3 px-4 py-2 rounded-xl transition-all duration-300 {{ request()->routeIs('admin.social-links.*') ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/10' : 'text-slate-500 dark:text-slate-500 hover:text-slate-800 dark:hover:text-slate-200' }}">
                             <i class="fa-solid fa-share-nodes w-4 text-center text-xs"></i>
                             <span class="text-sm">Social Links</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- About Page Group -->
+                <div x-data="{ open: {{ request()->is('admin/key-values*') || request()->is('admin/tech-stacks*') || request()->is('admin/experiences*') || request()->is('admin/bios*') || request()->is('admin/cat-stacks*') ? 'true' : 'false' }} }" class="space-y-1">
+                    <button @click="open = !open" class="w-full flex items-center justify-between px-4 py-3 rounded-2xl transition-all duration-300 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-blue-600 dark:hover:text-blue-400">
+                        <div class="flex items-center gap-3">
+                            <i class="fa-solid fa-user-astronaut w-5 text-center"></i>
+                            <span class="font-medium">About Page</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-down text-xs transition-transform duration-300" :class="{ 'rotate-180': open }"></i>
+                    </button>
+
+                    <div x-show="open" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0" class="pl-4 space-y-1">
+                        
+                         <a href="{{ route('admin.bios.index') }}" class="group flex items-center gap-3 px-4 py-2 rounded-xl transition-all duration-300 {{ request()->routeIs('admin.bios.*') ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/10' : 'text-slate-500 dark:text-slate-500 hover:text-slate-800 dark:hover:text-slate-200' }}">
+                            <i class="fa-solid fa-address-card w-4 text-center text-xs"></i>
+                            <span class="text-sm">Bio / Who Am I</span>
+                        </a>
+
+                         <a href="{{ route('admin.key-values.index') }}" class="group flex items-center gap-3 px-4 py-2 rounded-xl transition-all duration-300 {{ request()->routeIs('admin.key-values.*') ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/10' : 'text-slate-500 dark:text-slate-500 hover:text-slate-800 dark:hover:text-slate-200' }}">
+                            <i class="fa-solid fa-chart-simple w-4 text-center text-xs"></i>
+                            <span class="text-sm">Stats (Cat Stack)</span>
+                        </a>
+
+                         <a href="{{ route('admin.cat-stacks.index') }}" class="group flex items-center gap-3 px-4 py-2 rounded-xl transition-all duration-300 {{ request()->routeIs('admin.cat-stacks.*') ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/10' : 'text-slate-500 dark:text-slate-500 hover:text-slate-800 dark:hover:text-slate-200' }}">
+                            <i class="fa-solid fa-code w-4 text-center text-xs"></i>
+                            <span class="text-sm">Cat Stack Section</span>
+                        </a>
+
+                         <a href="{{ route('admin.tech-stacks.index') }}" class="group flex items-center gap-3 px-4 py-2 rounded-xl transition-all duration-300 {{ request()->routeIs('admin.tech-stacks.*') ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/10' : 'text-slate-500 dark:text-slate-500 hover:text-slate-800 dark:hover:text-slate-200' }}">
+                            <i class="fa-solid fa-layer-group w-4 text-center text-xs"></i>
+                            <span class="text-sm">Visual Icons (Home)</span>
+                        </a>
+
+                        <a href="{{ route('admin.experiences.index') }}" class="group flex items-center gap-3 px-4 py-2 rounded-xl transition-all duration-300 {{ request()->routeIs('admin.experiences.*') ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/10' : 'text-slate-500 dark:text-slate-500 hover:text-slate-800 dark:hover:text-slate-200' }}">
+                            <i class="fa-solid fa-briefcase w-4 text-center text-xs"></i>
+                            <span class="text-sm">Experience</span>
                         </a>
                     </div>
                 </div>
