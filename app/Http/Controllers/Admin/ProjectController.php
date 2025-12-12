@@ -22,7 +22,8 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        return view('admin.projects.create');
+        $experiences = \App\Models\Experience::orderBy('sort_order')->get(['id', 'position', 'company']);
+        return view('admin.projects.create', compact('experiences'));
     }
 
     /**
@@ -37,6 +38,10 @@ class ProjectController extends Controller
             'tech_stack' => 'nullable|string',
             'sort_order' => 'nullable|integer',
             'is_active' => 'boolean',
+            'image' => 'nullable|image|max:2048',
+            'duration' => 'nullable|string|max:255',
+            'experience_ids' => 'nullable|array',
+            'experience_ids.*' => 'exists:experiences,id',
         ]);
 
         $validated['sort_order'] = $request->input('sort_order', 0);
@@ -48,7 +53,15 @@ class ProjectController extends Controller
              $validated['tech_stack'] = [];
         }
 
-        \App\Models\Project::create($validated);
+        if ($request->hasFile('image')) {
+            $validated['image_path'] = $request->file('image')->store('projects', 'public');
+        }
+
+        $project = \App\Models\Project::create($validated);
+
+        if ($request->has('experience_ids')) {
+            $project->experiences()->sync($request->experience_ids);
+        }
 
         return redirect()->route('admin.projects.index')
             ->with('success', 'Project created successfully.');
@@ -67,7 +80,8 @@ class ProjectController extends Controller
      */
     public function edit(\App\Models\Project $project)
     {
-        return view('admin.projects.edit', compact('project'));
+        $experiences = \App\Models\Experience::orderBy('sort_order')->get(['id', 'position', 'company']);
+        return view('admin.projects.edit', compact('project', 'experiences'));
     }
 
     /**
@@ -82,6 +96,10 @@ class ProjectController extends Controller
             'tech_stack' => 'nullable|string',
             'sort_order' => 'nullable|integer',
             'is_active' => 'boolean',
+            'image' => 'nullable|image|max:2048',
+            'duration' => 'nullable|string|max:255',
+            'experience_ids' => 'nullable|array',
+            'experience_ids.*' => 'exists:experiences,id',
         ]);
 
         $validated['sort_order'] = $request->input('sort_order', 0);
@@ -93,7 +111,17 @@ class ProjectController extends Controller
              $validated['tech_stack'] = [];
         }
 
+        if ($request->hasFile('image')) {
+            $validated['image_path'] = $request->file('image')->store('projects', 'public');
+        }
+
         $project->update($validated);
+        
+        if ($request->has('experience_ids')) {
+            $project->experiences()->sync($request->experience_ids);
+        } else {
+            $project->experiences()->detach();
+        }
 
         return redirect()->route('admin.projects.index')
             ->with('success', 'Project updated successfully.');

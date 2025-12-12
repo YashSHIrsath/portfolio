@@ -19,10 +19,15 @@ Route::get('/about', function () {
     return view('about');
 })->name('about');
 
-Route::get('/projects', function () {
-    $projects = \App\Models\Project::where('is_active', true)->orderBy('sort_order')->orderBy('created_at', 'desc')->get();
-    return view('projects', compact('projects'));
-})->name('projects');
+Route::get('/projects', [App\Http\Controllers\ProjectController::class, 'index'])->name('projects');
+
+Route::get('/experience', function () {
+    $experiences = \App\Models\Experience::where('is_active', true)->orderBy('sort_order')->orderBy('created_at', 'desc')->get();
+    return view('experience', compact('experiences'));
+})->name('experience');
+
+Route::get('/experience/{experience}', [\App\Http\Controllers\ExperienceController::class, 'show'])->name('experience.show');
+Route::view('/experience-prototype', 'experience_prototype')->name('experience.prototype');
 
 Route::get('/contact', [App\Http\Controllers\ContactController::class, 'index'])->name('contact');
 Route::post('/contact', [App\Http\Controllers\ContactController::class, 'store'])->name('contact.store');
@@ -77,4 +82,8 @@ Route::prefix('admin')->name('admin.')->middleware([IsAdmin::class])->group(func
 
     // Contact Submissions
     Route::resource('contact-submissions', App\Http\Controllers\Admin\ContactSubmissionController::class);
+
+    // GitHub Settings
+    Route::get('/github-settings', [App\Http\Controllers\Admin\GitHubSettingController::class, 'edit'])->name('github-settings.edit');
+    Route::put('/github-settings', [App\Http\Controllers\Admin\GitHubSettingController::class, 'update'])->name('github-settings.update');
 });

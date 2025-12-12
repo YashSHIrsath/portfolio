@@ -20,9 +20,10 @@ class ExperienceController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(\App\Services\GitHubService $gitHubService)
     {
-        return view('admin.experiences.create');
+        $githubRepos = $gitHubService->getRepositories();
+        return view('admin.experiences.create', compact('githubRepos'));
     }
 
     /**
@@ -37,10 +38,18 @@ class ExperienceController extends Controller
             'description' => 'nullable|string',
             'sort_order' => 'nullable|integer',
             'is_active' => 'boolean',
+            'github_repos' => 'nullable|array',
         ]);
 
         $validated['sort_order'] = $request->input('sort_order', 0);
         $validated['is_active'] = $request->has('is_active');
+        
+        // Decode JSON strings from checkboxes into actual arrays
+        if (!empty($validated['github_repos'])) {
+            $validated['github_repos'] = array_map(function ($repo) {
+                return json_decode($repo, true);
+            }, $validated['github_repos']);
+        }
 
         Experience::create($validated);
 
@@ -51,9 +60,10 @@ class ExperienceController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Experience $experience)
+    public function edit(Experience $experience, \App\Services\GitHubService $gitHubService)
     {
-        return view('admin.experiences.edit', compact('experience'));
+        $githubRepos = $gitHubService->getRepositories();
+        return view('admin.experiences.edit', compact('experience', 'githubRepos'));
     }
 
     /**
@@ -68,10 +78,18 @@ class ExperienceController extends Controller
             'description' => 'nullable|string',
             'sort_order' => 'nullable|integer',
             'is_active' => 'boolean',
+            'github_repos' => 'nullable|array',
         ]);
 
         $validated['sort_order'] = $request->input('sort_order', 0);
         $validated['is_active'] = $request->has('is_active');
+
+        // Decode JSON strings from checkboxes into actual arrays
+        if (!empty($validated['github_repos'])) {
+            $validated['github_repos'] = array_map(function ($repo) {
+                return json_decode($repo, true);
+            }, $validated['github_repos']);
+        }
 
         $experience->update($validated);
 

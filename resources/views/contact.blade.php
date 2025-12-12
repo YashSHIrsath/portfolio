@@ -1,53 +1,296 @@
 <x-app-layout>
     <x-slot name="title">Contact</x-slot>
 
-    <div class="max-w-md mx-auto animate-fade-in">
-        <h1 class="text-2xl font-bold mb-2 text-center text-slate-800 dark:text-slate-100">/contact</h1>
-        <p class="text-xs text-center text-slate-500 dark:text-slate-400 mb-8">
-            Get in touch for opportunities or collaborations.
-        </p>
+    <!-- 
+      Wrapper: .contact-page-wrapper 
+      This wrapper centers the card and provides the dark backdrop.
+    -->
+    <div class="contact-page-wrapper">
+        <div class="glass-card">
+            <header class="card-header">
+                <h1 class="form-title">Get in Touch</h1>
+                <p class="form-subtitle">We'd love to hear from you.</p>
+            </header>
 
-        @if (session('success'))
-            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4 text-sm" role="alert">
-                <span class="block sm:inline">{{ session('success') }}</span>
-            </div>
-        @endif
-
-        <form action="{{ route('contact.store') }}" method="POST" class="space-y-4">
-            @csrf
-            
-            @foreach($fields as $field)
-                <div>
-                    <label for="{{ $field['name'] }}" class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">
-                        {{ $field['label'] }}
-                        @if(!empty($field['required'])) <span class="text-red-500">*</span> @endif
-                    </label>
-                    
-                    @if($field['type'] === 'textarea')
-                        <textarea id="{{ $field['name'] }}" name="{{ $field['name'] }}" rows="4" 
-                            class="w-full px-3 py-2 rounded-md bg-white dark:bg-[#161b22] border border-slate-200 dark:border-slate-700 focus:border-blue-500 dark:focus:border-blue-400 focus:ring-1 focus:ring-blue-500/20 outline-none transition-all text-sm dark:text-white" 
-                            {{ !empty($field['required']) ? 'required' : '' }}></textarea>
-                    @else
-                        <input type="{{ $field['type'] }}" id="{{ $field['name'] }}" name="{{ $field['name'] }}" 
-                            class="w-full px-3 py-2 rounded-md bg-white dark:bg-[#161b22] border border-slate-200 dark:border-slate-700 focus:border-blue-500 dark:focus:border-blue-400 focus:ring-1 focus:ring-blue-500/20 outline-none transition-all text-sm dark:text-white" 
-                            {{ !empty($field['required']) ? 'required' : '' }}>
-                    @endif
-                    
-                    @error($field['name'])
-                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                    @enderror
+            @if (session('success'))
+                <div class="success-message" role="alert">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                    </svg>
+                    <span>{{ session('success') }}</span>
                 </div>
-            @endforeach
-            
-            <button type="submit" class="w-full py-2.5 bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-500 text-white text-sm font-medium rounded-md shadow-sm transition-colors cursor-pointer">
-                Send Message
-            </button>
-        </form>
-        
-        <div class="mt-8 pt-6 border-t border-slate-100 dark:border-slate-800 text-center">
-            <a href="mailto:{{ \App\Models\Setting::where('key', 'contact_email')->value('value') ?? 'yashshirsath@gmail.com' }}" class="text-xs text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
-                {{ \App\Models\Setting::where('key', 'contact_email')->value('value') ?? 'yashshirsath@gmail.com' }}
-            </a>
+            @endif
+
+            <form action="{{ route('contact.store') }}" method="POST" class="contact-form">
+                @csrf
+                
+                @foreach($fields as $field)
+                    <div class="form-group">
+                        <label for="{{ $field['name'] }}" class="form-label">
+                            {{ $field['label'] }} @if(!empty($field['required'])) <span class="required-mark" aria-hidden="true">*</span> @endif
+                        </label>
+                        
+                        @if($field['type'] === 'textarea')
+                            <textarea 
+                                id="{{ $field['name'] }}" 
+                                name="{{ $field['name'] }}" 
+                                class="form-input textarea" 
+                                placeholder=" "
+                                {{ !empty($field['required']) ? 'required' : '' }}
+                                aria-label="{{ $field['label'] }}"
+                            ></textarea>
+                        @else
+                            <input 
+                                type="{{ $field['type'] }}" 
+                                id="{{ $field['name'] }}" 
+                                name="{{ $field['name'] }}" 
+                                class="form-input" 
+                                placeholder=" "
+                                {{ !empty($field['required']) ? 'required' : '' }}
+                                aria-label="{{ $field['label'] }}"
+                            >
+                        @endif
+
+                        @error($field['name'])
+                            <span class="error-message" role="alert">{{ $message }}</span>
+                        @enderror
+                    </div>
+                @endforeach
+
+                <button type="submit" class="submit-btn">
+                    <span>SEND MESSAGE</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="22" y1="2" x2="11" y2="13"></line>
+                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                    </svg>
+                </button>
+            </form>
         </div>
     </div>
+        <style>
+        /* Theme Variables */
+        :root {
+            /* Fonts */
+            --font-mono: 'JetBrains Mono', monospace;
+
+            /* Colors */
+            --bg-dark: #050505;
+            --accent-primary: #3b82f6; /* Blue 500 */
+            --accent-glow: rgba(59, 130, 246, 0.5);
+            --text-main: #ffffff;
+            --text-muted: #94a3b8;
+            --danger: #ef4444;
+            --success-bg: rgba(34, 197, 94, 0.1);
+            --success-text: #4ade80;
+
+            /* Glass Card */
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.06);
+            --input-bg: rgba(0, 0, 0, 0.3);
+            
+            /* Dimensions - Compact */
+            --card-radius: 12px;
+            --input-radius: 8px;
+            --pad-section: 12px;
+            --pad-input: 10px;
+            --max-width: 550px;
+        }
+
+        /* Import JetBrains Mono */
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+        /* Layout & Reset Overrides for this component */
+        .contact-page-wrapper {
+            font-family: var(--font-mono);
+            background-color: transparent;
+            color: var(--text-main);
+            /* Removed min-height: 100vh to prevent scrolling caused by parent padding */
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 1;
+            /* Negative margin to counteract app-layout py-12 (approx 3rem) */
+            margin-top: -2rem; 
+            margin-bottom: -1rem;
+        }
+
+        /* Background Ambience */
+        .contact-page-wrapper::before {
+            content: '';
+            position: absolute;
+            width: 80%;
+            height: 80%;
+            background: radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.08), transparent 70%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Glass Card */
+        .glass-card {
+            width: 100%;
+            max-width: var(--max-width);
+            background:transparent;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 1.5rem 1.5rem; /* Reduced Padding */
+            animation: cardEnter 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        .card-header {
+            text-align: center;
+            margin-bottom: 1.25rem; /* Reduced Margin */
+        }
+
+        .form-title {
+            font-size: 1.5rem; /* Reduced Title */
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+            letter-spacing: -0.05em;
+            background: linear-gradient(to right, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .form-subtitle {
+            color: var(--text-muted);
+            font-size: 0.8rem; /* Reduced Subtitle */
+        }
+
+        /* Form Elements */
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem; /* Reduced Gap */
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem; /* Reduced Gap */
+            position: relative;
+        }
+
+        .form-label {
+            font-size: 0.7rem; /* Reduced Label */
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            margin-left: 0.25rem;
+            font-weight: 500;
+        }
+
+        .required-mark {
+            color: var(--danger);
+        }
+
+        .form-input {
+            width: 100%;
+            background: var(--input-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--input-radius);
+            padding: var(--pad-input) 0.75rem;
+            color: var(--text-main);
+            font-family: var(--font-mono);
+            font-size: 0.85rem; /* Reduced Input Text */
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .form-input.textarea {
+            min-height: 80px; /* Reduced Textarea Height */
+            resize: none; /* Prevent resize scroll */
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+            background: rgba(0, 0, 0, 0.5);
+            transform: translateY(-1px);
+        }
+
+        /* Error & Success Messages */
+        .error-message {
+            color: var(--danger);
+            font-size: 0.7rem;
+            margin-left: 0.5rem;
+            margin-top: 0.1rem;
+        }
+
+        .success-message {
+            background: var(--success-bg);
+            border: 1px solid rgba(34, 197, 94, 0.2);
+            color: var(--success-text);
+            padding: 0.75rem;
+            border-radius: var(--input-radius);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.8rem;
+        }
+
+        /* Submit Button */
+        .submit-btn {
+            margin-top: 0.5rem;
+            width: 100%;
+            padding: 0.8rem; /* Reduced Button Padding */
+            border: none;
+            border-radius: var(--input-radius);
+            background: linear-gradient(135deg, #1e40af, #3b82f6);
+            color: white;
+            font-family: var(--font-mono);
+            font-weight: 700;
+            font-size: 0.9rem;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -5px var(--accent-glow);
+            filter: brightness(1.1);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Animations */
+        @keyframes cardEnter {
+            from { opacity: 0; transform: translateY(20px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* Responsiveness */
+        @media (max-width: 640px) {
+            .glass-card {
+                padding: 1.25rem 1rem;
+            }
+            
+            .form-title {
+                font-size: 1.25rem;
+            }
+        }
+
+        /* Reduced Motion */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+    </style>
 </x-app-layout>

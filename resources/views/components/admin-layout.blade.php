@@ -127,7 +127,7 @@
                 </div>
 
                 <!-- Projects Page Group -->
-                <div x-data="{ open: {{ request()->is('admin/projects*') ? 'true' : 'false' }} }" class="space-y-1">
+                <div x-data="{ open: {{ request()->is('admin/projects*') || request()->is('admin/github-settings*') ? 'true' : 'false' }} }" class="space-y-1">
                     <button @click="open = !open" class="w-full flex items-center justify-between px-4 py-3 rounded-2xl transition-all duration-300 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-blue-600 dark:hover:text-blue-400">
                         <div class="flex items-center gap-3">
                             <i class="fa-solid fa-folder-open w-5 text-center"></i>
@@ -141,6 +141,11 @@
                          <a href="{{ route('admin.projects.index') }}" class="group flex items-center gap-3 px-4 py-2 rounded-xl transition-all duration-300 {{ request()->routeIs('admin.projects.*') ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/10' : 'text-slate-500 dark:text-slate-500 hover:text-slate-800 dark:hover:text-slate-200' }}">
                             <i class="fa-solid fa-list-check w-4 text-center text-xs"></i>
                             <span class="text-sm">All Projects</span>
+                        </a>
+
+                        <a href="{{ route('admin.github-settings.edit') }}" class="group flex items-center gap-3 px-4 py-2 rounded-xl transition-all duration-300 {{ request()->routeIs('admin.github-settings.*') ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/10' : 'text-slate-500 dark:text-slate-500 hover:text-slate-800 dark:hover:text-slate-200' }}">
+                            <i class="fa-brands fa-github w-4 text-center text-xs"></i>
+                            <span class="text-sm">GitHub Settings</span>
                         </a>
                     </div>
                 </div>

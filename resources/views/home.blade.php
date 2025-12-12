@@ -150,7 +150,7 @@
                         <div class="absolute left-[11px] top-3 bottom-3 w-0.5 bg-slate-200 dark:bg-white/5"></div>
                         
                         @if(isset($experiences) && $experiences->count() > 0)
-                            @foreach($experiences as $exp)
+                            @foreach($experiences->take(2) as $exp)
                                 <div class="relative pl-8 group">
                                     <!-- Dot -->
                                     <div class="absolute left-0 top-1.5 w-6 h-6 rounded-full bg-white dark:bg-[#161b22] border-4 border-blue-500 dark:border-blue-600 z-10 group-hover:scale-110 transition-transform"></div>
@@ -165,6 +165,15 @@
                                     </p>
                                 </div>
                             @endforeach
+                            
+                            @if($experiences->count() > 2)
+                                <div class="mt-8 pl-8">
+                                    <a href="{{ route('experience') }}" class="inline-flex items-center gap-2 px-6 py-2 rounded-full bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 text-sm font-bold text-slate-600 dark:text-slate-300 hover:bg-blue-500 hover:text-white dark:hover:bg-blue-600 hover:border-transparent transition-all duration-300 group/more animate-fade-in-up">
+                                        View Full Journey
+                                        <i class="fa-solid fa-arrow-right group-hover/more:translate-x-1 transition-transform"></i>
+                                    </a>
+                                </div>
+                            @endif
                         @else
                             <div class="pl-8 text-sm text-slate-400 italic">No experience added yet.</div>
                         @endif

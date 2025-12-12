@@ -17,6 +17,7 @@
             <div class="hidden md:flex items-center gap-6 text-xs font-medium">
                 <a href="{{ route('home') }}" class="text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 {{ request()->routeIs('home') ? 'text-blue-600 dark:text-blue-400' : '' }} transition-colors">/home</a>
                 <a href="{{ route('about') }}" class="text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 {{ request()->routeIs('about') ? 'text-blue-600 dark:text-blue-400' : '' }} transition-colors">/about</a>
+                <a href="{{ route('experience') }}" class="text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 {{ request()->routeIs('experience') ? 'text-blue-600 dark:text-blue-400' : '' }} transition-colors">/experience</a>
                 <a href="{{ route('projects') }}" class="text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 {{ request()->routeIs('projects') ? 'text-blue-600 dark:text-blue-400' : '' }} transition-colors">/projects</a>
                 <a href="{{ route('contact') }}" class="text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 {{ request()->routeIs('contact') ? 'text-blue-600 dark:text-blue-400' : '' }} transition-colors">/contact</a>
                 
@@ -40,6 +41,7 @@
         <div class="flex flex-col px-6 py-4 space-y-2 text-sm">
             <a href="{{ route('home') }}" class="block py-2 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">/home</a>
             <a href="{{ route('about') }}" class="block py-2 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">/about</a>
+            <a href="{{ route('experience') }}" class="block py-2 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">/experience</a>
             <a href="{{ route('projects') }}" class="block py-2 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">/projects</a>
             <a href="{{ route('contact') }}" class="block py-2 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">/contact</a>
         </div>

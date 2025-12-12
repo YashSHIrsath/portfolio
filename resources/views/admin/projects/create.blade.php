@@ -10,10 +10,20 @@
         </div>
 
         <div class="bg-white dark:bg-[#161b22] shadow rounded-lg p-6 border border-slate-200 dark:border-slate-800">
-            <form action="{{ route('admin.projects.store') }}" method="POST">
+            <form action="{{ route('admin.projects.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 
                 <div class="space-y-4">
+                    <div>
+                        <label for="experience_ids" class="block text-sm font-medium text-slate-700 dark:text-slate-300">Linked Experiences (Optional)</label>
+                        <select name="experience_ids[]" id="experience_ids" multiple class="mt-1 block w-full rounded-md border-slate-300 dark:border-slate-700 dark:bg-[#0d1117] dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm h-32">
+                            @foreach($experiences as $exp)
+                                <option value="{{ $exp->id }}">{{ $exp->position }} at {{ $exp->company }}</option>
+                            @endforeach
+                        </select>
+                        <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">Hold Ctrl/Cmd to select multiple.</p>
+                    </div>
+
                     <div>
                         <label for="title" class="block text-sm font-medium text-slate-700 dark:text-slate-300">Title</label>
                         <input type="text" name="title" id="title" class="mt-1 block w-full rounded-md border-slate-300 dark:border-slate-700 dark:bg-[#0d1117] dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" placeholder="e.g. Portfolio V2" required>
@@ -27,6 +37,16 @@
                     <div>
                         <label for="link" class="block text-sm font-medium text-slate-700 dark:text-slate-300">Link</label>
                         <input type="url" name="link" id="link" class="mt-1 block w-full rounded-md border-slate-300 dark:border-slate-700 dark:bg-[#0d1117] dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" placeholder="https://example.com">
+                    </div>
+
+                    <div>
+                        <label for="duration" class="block text-sm font-medium text-slate-700 dark:text-slate-300">Duration (e.g. "3 months", "Jan 2023 - Mar 2023")</label>
+                        <input type="text" name="duration" id="duration" class="mt-1 block w-full rounded-md border-slate-300 dark:border-slate-700 dark:bg-[#0d1117] dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                    </div>
+
+                    <div>
+                        <label for="image" class="block text-sm font-medium text-slate-700 dark:text-slate-300">Project Image</label>
+                        <input type="file" name="image" id="image" class="mt-1 block w-full text-slate-500 dark:text-slate-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100">
                     </div>
 
                     <div>

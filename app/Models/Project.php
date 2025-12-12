@@ -16,10 +16,17 @@ class Project extends Model
         'tech_stack',
         'sort_order',
         'is_active',
+        'image_path',
+        'duration',
     ];
 
     protected $casts = [
         'tech_stack' => 'array',
         'is_active' => 'boolean',
     ];
+
+    public function experiences()
+    {
+        return $this->belongsToMany(Experience::class);
+    }
 }

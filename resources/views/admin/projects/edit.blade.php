@@ -10,11 +10,23 @@
         </div>
 
         <div class="bg-white dark:bg-[#161b22] shadow rounded-lg p-6 border border-slate-200 dark:border-slate-800">
-            <form action="{{ route('admin.projects.update', $project) }}" method="POST">
+            <form action="{{ route('admin.projects.update', $project) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 
                 <div class="space-y-4">
+                    <div>
+                        <label for="experience_ids" class="block text-sm font-medium text-slate-700 dark:text-slate-300">Linked Experiences (Optional)</label>
+                        <select name="experience_ids[]" id="experience_ids" multiple class="mt-1 block w-full rounded-md border-slate-300 dark:border-slate-700 dark:bg-[#0d1117] dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm h-32">
+                            @foreach($experiences as $exp)
+                                <option value="{{ $exp->id }}" {{ in_array($exp->id, old('experience_ids', $project->experiences->pluck('id')->toArray())) ? 'selected' : '' }}>
+                                    {{ $exp->position }} at {{ $exp->company }}
+                                </option>
+                            @endforeach
+                        </select>
+                        <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">Hold Ctrl/Cmd to select multiple.</p>
+                    </div>
+
                     <div>
                         <label for="title" class="block text-sm font-medium text-slate-700 dark:text-slate-300">Title</label>
                         <input type="text" name="title" id="title" value="{{ old('title', $project->title) }}" class="mt-1 block w-full rounded-md border-slate-300 dark:border-slate-700 dark:bg-[#0d1117] dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" required>
@@ -28,6 +40,21 @@
                     <div>
                         <label for="link" class="block text-sm font-medium text-slate-700 dark:text-slate-300">Link</label>
                         <input type="url" name="link" id="link" value="{{ old('link', $project->link) }}" class="mt-1 block w-full rounded-md border-slate-300 dark:border-slate-700 dark:bg-[#0d1117] dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                    </div>
+
+                    <div>
+                        <label for="duration" class="block text-sm font-medium text-slate-700 dark:text-slate-300">Duration</label>
+                        <input type="text" name="duration" id="duration" value="{{ old('duration', $project->duration) }}" class="mt-1 block w-full rounded-md border-slate-300 dark:border-slate-700 dark:bg-[#0d1117] dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                    </div>
+
+                    <div>
+                        <label for="image" class="block text-sm font-medium text-slate-700 dark:text-slate-300">Project Image</label>
+                        @if($project->image_path)
+                            <div class="mb-2">
+                                <img src="{{ asset('storage/' . $project->image_path) }}" alt="Current Project Image" class="h-20 w-auto rounded border border-slate-200 dark:border-slate-700">
+                            </div>
+                        @endif
+                        <input type="file" name="image" id="image" class="mt-1 block w-full text-slate-500 dark:text-slate-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100">
                     </div>
 
                     <div>
