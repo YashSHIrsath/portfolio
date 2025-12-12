@@ -20,12 +20,12 @@ Route::get('/about', function () {
 })->name('about');
 
 Route::get('/projects', function () {
-    return view('projects');
+    $projects = \App\Models\Project::where('is_active', true)->orderBy('sort_order')->orderBy('created_at', 'desc')->get();
+    return view('projects', compact('projects'));
 })->name('projects');
 
-Route::get('/contact', function () {
-    return view('contact');
-})->name('contact');
+Route::get('/contact', [App\Http\Controllers\ContactController::class, 'index'])->name('contact');
+Route::post('/contact', [App\Http\Controllers\ContactController::class, 'store'])->name('contact.store');
 
 // Admin authentication routes (no middleware)
 Route::prefix('admin')->name('admin.')->group(function () {
@@ -66,4 +66,15 @@ Route::prefix('admin')->name('admin.')->middleware([IsAdmin::class])->group(func
 
     // Cat Stacks (JSON Section)
     Route::resource('cat-stacks', App\Http\Controllers\Admin\CatStackController::class);
+
+
+    // Projects
+    Route::resource('projects', App\Http\Controllers\Admin\ProjectController::class);
+
+    // Contact Settings
+    Route::get('/contact-settings', [App\Http\Controllers\Admin\ContactSettingController::class, 'edit'])->name('contact-settings.edit');
+    Route::put('/contact-settings', [App\Http\Controllers\Admin\ContactSettingController::class, 'update'])->name('contact-settings.update');
+
+    // Contact Submissions
+    Route::resource('contact-submissions', App\Http\Controllers\Admin\ContactSubmissionController::class);
 });
