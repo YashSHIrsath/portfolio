@@ -17,6 +17,7 @@ class ContactController extends Controller
                 ['name' => 'name', 'label' => 'Name', 'type' => 'text', 'required' => true],
                 ['name' => 'email', 'label' => 'Email', 'type' => 'email', 'required' => true],
                 ['name' => 'message', 'label' => 'Message', 'type' => 'textarea', 'required' => true],
+                ['name' => 'company', 'label' => 'Company', 'type' => 'text', 'required' => true],
             ];
         }
 

@@ -11,7 +11,7 @@
         @endif
 
         <div class="bg-white dark:bg-[#161b22] shadow rounded-lg p-6 border border-slate-200 dark:border-slate-800">
-            <form action="{{ route('admin.contact-settings.update') }}" method="POST" x-data="fieldManager({{ json_encode($contactConfig) }})">
+            <form action="{{ route('admin.contact-settings.update') }}" method="POST" x-data="fieldManager({{ json_encode($contactConfig) }})" @submit="validateAndSubmit">
                 @csrf
                 @method('PUT')
 
@@ -70,9 +70,12 @@
                                 </div>
 
                                 <!-- Remove -->
-                                <button type="button" @click="removeField(index)" class="mt-6 text-slate-400 hover:text-red-500 transition-colors" title="Remove Field">
+                                <button type="button" @click="removeField(index)" x-show="!isProtected(field)" class="mt-6 text-slate-400 hover:text-red-500 transition-colors" title="Remove Field">
                                     <i class="fa-solid fa-trash"></i>
                                 </button>
+                                <div x-show="isProtected(field)" class="mt-6 text-slate-300 cursor-not-allowed" title="Protected Field">
+                                    <i class="fa-solid fa-lock"></i>
+                                </div>
                             </div>
                         </template>
                     </div>
@@ -90,18 +93,46 @@
     <script>
         function fieldManager(initialFields) {
             return {
-                fields: initialFields || [],
+                fields: [],
+                protectedNames: ['name', 'email', 'message', 'company'],
+
+                init() {
+                    this.fields = (initialFields || []).map(field => {
+                        return {
+                            ...field,
+                            // Handle various truthy/falsy formats (boolean, string "1"/"0", int 1/0)
+                            required: field.required == true || field.required == 1 || field.required == '1',
+                            _protected: this.protectedNames.includes(field.name)
+                        };
+                    });
+                },
+
+                isProtected(field) {
+                    return field._protected;
+                },
                 
                 addField() {
+                    let newName = 'new_field';
+                    let counter = 1;
+                    while (this.fields.some(f => f.name === newName)) {
+                         newName = 'new_field_' + counter;
+                         counter++;
+                    }
+
                     this.fields.push({
                         label: 'New Field',
-                        name: 'new_field',
+                        name: newName,
                         type: 'text',
-                        required: false
+                        required: false,
+                        _protected: false
                     });
                 },
 
                 removeField(index) {
+                    if (this.fields[index]._protected) {
+                        alert("This field cannot be deleted.");
+                        return;
+                    }
                     if (this.fields.length <= 1) {
                         alert("You must have at least one field.");
                         return;
@@ -110,10 +141,39 @@
                 },
 
                 updateName(index) {
-                    // Simple slugify: lowercase, replace spaces with underscores, remove non-alphanumeric
+                    // Don't update name for protected fields
+                    if (this.fields[index]._protected) return;
+
                     let label = this.fields[index].label;
-                    let name = label.toLowerCase().replace(/ /g, '_').replace(/[^\w-]+/g, '');
+                    let baseName = label.toLowerCase().replace(/ /g, '_').replace(/[^\w-]+/g, '');
+                    
+                    if (!baseName) return;
+
+                    let name = baseName;
+                    let counter = 1;
+                    
+                    // Check for duplicates within other fields
+                    // AND check if the name is in the protected list (because even if not currently in fields, we shouldn't allow capturing a protected name)
+                    // Wait, if it IS in protected list, it WOULD be in fields because they are always there.
+                    // But just to be safe, we ensure unique name across all existing fields.
+                    
+                    while (this.fields.some((f, i) => i !== index && f.name === name)) {
+                         name = baseName + '_' + counter;
+                         counter++;
+                    }
+
                     this.fields[index].name = name;
+                },
+
+                validateAndSubmit(e) {
+                    // Double check for duplicates
+                    const names = this.fields.map(f => f.name);
+                    const uniqueNames = new Set(names);
+                    if (names.length !== uniqueNames.size) {
+                        e.preventDefault();
+                        alert("Field names must be unique. Please check your field labels.");
+                        return;
+                    }
                 }
             }
         }

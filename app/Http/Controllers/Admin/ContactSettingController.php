@@ -16,12 +16,28 @@ class ContactSettingController extends Controller
                 ['name' => 'name', 'label' => 'Name', 'type' => 'text', 'required' => true],
                 ['name' => 'email', 'label' => 'Email', 'type' => 'email', 'required' => true],
                 ['name' => 'message', 'label' => 'Message', 'type' => 'textarea', 'required' => true],
+                ['name' => 'company', 'label' => 'Company', 'type' => 'text', 'required' => true],
             ])]
         );
 
+        $fields = json_decode($contactConfig->value, true);
+        
+        // Ensure company field exists if it was created before this update
+        $hasCompany = false;
+        foreach ($fields as $field) {
+            if ($field['name'] === 'company') {
+                $hasCompany = true;
+                break;
+            }
+        }
+
+        if (!$hasCompany) {
+            $fields[] = ['name' => 'company', 'label' => 'Company', 'type' => 'text', 'required' => true];
+        }
+
         return view('admin.settings.contact', [
             'contactEmail' => $contactEmail->value,
-            'contactConfig' => json_decode($contactConfig->value, true),
+            'contactConfig' => $fields,
         ]);
     }
 
