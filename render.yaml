@@ -1,0 +1,51 @@
+databases:
+  - name: portfolio_db
+    databaseName: portfolio
+    user: portfolio_user
+    plan: free # Optional: Remove or change based on needs
+
+services:
+  - type: web
+    name: portfolio-app
+    runtime: docker
+    region: oregon # or frankfurt, etc.
+    plan: free # Optional: Remove or change based on needs
+    branch: main
+    envVars:
+      - key: APP_KEY
+        generateValue: true
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: false
+      - key: APP_URL
+        fromService:
+          type: web
+          name: portfolio-app
+          property: url
+      - key: DB_CONNECTION
+        value: pgsql
+      - key: DB_HOST
+        fromDatabase:
+          name: portfolio_db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: portfolio_db
+          property: port
+      - key: DB_DATABASE
+        fromDatabase:
+          name: portfolio_db
+          property: database
+      - key: DB_USERNAME
+        fromDatabase:
+          name: portfolio_db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: portfolio_db
+          property: password
+      - key: GITHUB_TOKEN
+        sync: false # You must set this manually in the Render Dashboard
+      - key: MAIL_MAILER
+        value: log # Or configure SMTP if needed
