@@ -26,6 +26,10 @@ php artisan cache:clear || true
 php artisan view:clear || true
 php artisan optimize:clear || true
 
+# Run database migrations
+echo "🗄️  Running database migrations..."
+php artisan migrate --force
+
 # Create storage link if it doesn't exist
 echo "🔗 Creating storage link..."
 php artisan storage:link || true
