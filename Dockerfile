@@ -1,4 +1,4 @@
-FROM php:8.2-fpm
+FROM php:8.4-fpm
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
@@ -10,15 +10,19 @@ RUN apt-get update && apt-get install -y \
     zip \
     unzip \
     libpq-dev \
-    nodejs \
-    npm \
-    nginx
+    default-mysql-client \
+    nginx \
+    supervisor
+
+# Install Node.js 20.x (Railway recommended)
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get install -y nodejs
 
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Install PHP extensions
-RUN docker-php-ext-install pdo_pgsql mbstring exif pcntl bcmath gd
+# Install PHP extensions (both MySQL and PostgreSQL support)
+RUN docker-php-ext-install pdo_mysql pdo_pgsql mbstring exif pcntl bcmath gd
 
 # Get latest Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
@@ -26,17 +30,30 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Set working directory
 WORKDIR /var/www
 
-# Copy existing application directory contents
-COPY . /var/www
+# Copy composer files first for better caching
+COPY composer.json composer.lock ./
 
 # Install composer dependencies
-RUN composer install --no-interaction --optimize-autoloader --no-dev
+RUN composer install --no-interaction --optimize-autoloader --no-dev --no-scripts
 
-# Install NPM dependencies and build artifacts
-RUN npm install && npm run build
+# Copy package files for better caching
+COPY package*.json ./
+
+# Install NPM dependencies
+RUN npm ci --omit=dev
+
+# Copy application code
+COPY . .
+
+# Build frontend assets
+RUN npm run build
+
+# Run composer scripts
+RUN composer dump-autoload --optimize
 
 # Set permissions
-RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
+RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache \
+    && chmod -R 775 /var/www/storage /var/www/bootstrap/cache
 
 # Move Nginx config
 COPY docker/nginx/conf.d/app.conf /etc/nginx/conf.d/default.conf
@@ -45,8 +62,8 @@ COPY docker/nginx/conf.d/app.conf /etc/nginx/conf.d/default.conf
 COPY scripts/00-laravel-deploy.sh /usr/local/bin/deploy.sh
 RUN chmod +x /usr/local/bin/deploy.sh
 
-# Expose port 80
-EXPOSE 80
+# Railway uses PORT environment variable
+EXPOSE ${PORT:-8080}
 
 # Run the deployment script
 CMD ["/usr/local/bin/deploy.sh"]
