@@ -8,7 +8,7 @@ export PORT=${PORT:-8080}
 
 # Replace PORT in nginx config
 echo "📝 Configuring Nginx for port $PORT..."
-envsubst '${PORT}' < /etc/nginx/conf.d/default.conf > /tmp/nginx.conf
+sed "s/PORT_PLACEHOLDER/$PORT/g" /etc/nginx/conf.d/default.conf > /tmp/nginx.conf
 mv /tmp/nginx.conf /etc/nginx/conf.d/default.conf
 
 # Create storage link if it doesn't exist
