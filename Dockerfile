@@ -12,7 +12,8 @@ RUN apt-get update && apt-get install -y \
     libpq-dev \
     default-mysql-client \
     nginx \
-    supervisor
+    supervisor \
+    gettext-base
 
 # Install Node.js 20.x (Railway recommended)
 RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
