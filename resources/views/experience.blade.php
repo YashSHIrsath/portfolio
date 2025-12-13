@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="title">Experience</x-slot>
 
-    <div class="w-full max-w-7xl mx-auto py-12 px-4 animate-fade-in">
+    <div class="w-full max-w-6xl mx-auto px-4 md:px-0 py-12 animate-fade-in">
         <!-- Header -->
         <div class="text-center mb-16">
             <h1 class="text-4xl md:text-5xl font-black text-slate-900 dark:text-white tracking-tighter mb-4">
@@ -13,7 +13,7 @@
         </div>
 
         <!-- Timeline Container -->
-        <div class="relative w-full max-w-5xl mx-auto min-h-[500px]" id="timeline-container">
+        <div class="relative w-full min-h-[500px]" id="timeline-container">
             
             <!-- Continuous Connector Path (SVG) -->
             <!-- Placed absolutely behind the content -->

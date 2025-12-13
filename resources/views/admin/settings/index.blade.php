@@ -8,12 +8,9 @@
             <p class="text-slate-500 dark:text-slate-400 mt-2">Manage your public profile details and resume.</p>
         </div>
 
-        @if (session('success'))
-            <div class="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 text-green-700 dark:text-green-300 px-6 py-4 rounded-2xl mb-8 flex items-center gap-3 animate-fade-in">
-                <i class="fa-solid fa-circle-check text-xl"></i>
-                <span class="font-medium">{{ session('success') }}</span>
-            </div>
-        @endif
+
+
+
 
         <form action="{{ route('admin.settings.update') }}" method="POST" enctype="multipart/form-data" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
             @csrf

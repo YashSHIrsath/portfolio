@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="title">Projects</x-slot>
 
-    <div class="animate-fade-in text-center">
+    <div class="w-full max-w-6xl mx-auto px-4 md:px-0 py-6 animate-fade-in text-center">
         <h1 class="text-2xl font-bold mb-2 text-slate-800 dark:text-slate-100">/projects</h1>
         <p class="text-xs text-slate-500 dark:text-slate-400 mb-8 max-w-md mx-auto">A selection of my recent work.</p>
 

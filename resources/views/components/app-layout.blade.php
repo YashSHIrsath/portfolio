@@ -36,7 +36,7 @@
     <!-- Navbar -->
     @include('components.navbar')
 
-    @props(['mainClass' => 'flex-grow flex flex-col justify-center container mx-auto px-6 py-12 max-w-3xl'])
+    @props(['mainClass' => 'flex-grow flex flex-col justify-center'])
 
     <!-- Main Content -->
     <main class="{{ $mainClass }}">

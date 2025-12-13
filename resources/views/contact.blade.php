@@ -13,13 +13,22 @@
             </header>
 
             @if (session('success'))
-                <div class="success-message" role="alert">
+                <div class="success-message" role="alert" id="success-message">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
                         <polyline points="22 4 12 14.01 9 11.01"></polyline>
                     </svg>
                     <span>{{ session('success') }}</span>
                 </div>
+                <script>
+                    setTimeout(() => {
+                        const msg = document.getElementById('success-message');
+                        if (msg) {
+                            msg.classList.add('fade-out');
+                            setTimeout(() => msg.remove(), 300);
+                        }
+                    }, 3000);
+                </script>
             @endif
 
             <form action="{{ route('contact.store') }}" method="POST" class="contact-form">
@@ -105,17 +114,22 @@
             font-family: var(--font-mono);
             background-color: transparent;
             color: var(--text-main);
-            /* Removed min-height: 100vh to prevent scrolling caused by parent padding */
             width: 100%;
+            max-width: 1152px;
+            margin: 0 auto;
+            padding: 3rem 1rem;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             position: relative;
             z-index: 1;
-            /* Negative margin to counteract app-layout py-12 (approx 3rem) */
-            margin-top: -2rem; 
-            margin-bottom: -1rem;
+        }
+        
+        @media (min-width: 768px) {
+            .contact-page-wrapper {
+                padding: 3rem 0;
+            }
         }
 
         /* Background Ambience */
@@ -221,16 +235,33 @@
         }
 
         .success-message {
-            background: var(--success-bg);
-            border: 1px solid rgba(34, 197, 94, 0.2);
-            color: var(--success-text);
-            padding: 0.75rem;
-            border-radius: var(--input-radius);
+            background: rgba(34, 197, 94, 0.1);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            color: #22c55e;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
             margin-bottom: 1rem;
             display: flex;
             align-items: center;
             gap: 0.5rem;
             font-size: 0.8rem;
+            animation: slideInFade 0.3s ease-out;
+        }
+        
+        @keyframes slideInFade {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .success-message.fade-out {
+            animation: slideOutFade 0.3s ease-in forwards;
+        }
+        
+        @keyframes slideOutFade {
+            from { opacity: 1; transform: translateY(0); }
+            to { opacity: 0; transform: translateY(-10px); }
         }
 
         /* Submit Button */

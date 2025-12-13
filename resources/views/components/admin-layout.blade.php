@@ -230,6 +230,9 @@
                 <!-- Background Decoration -->
                 <div class="absolute top-0 left-0 w-full h-96 bg-gradient-to-b from-blue-50/50 to-transparent dark:from-blue-900/5 dark:to-transparent pointer-events-none -z-10"></div>
                 
+                <!-- Flash Messages -->
+                <x-flash-message />
+                
                 {{ $slot }}
             </main>
         </div>
