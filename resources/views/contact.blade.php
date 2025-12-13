@@ -1,20 +1,21 @@
 <x-app-layout>
     <x-slot name="title">Contact</x-slot>
 
-    <!-- 
-      Wrapper: .contact-page-wrapper 
+    <x-page-header title="/contact"
+        description="Let's connect and discuss opportunities, collaborations, or just say hello." />
+
+    <!--
+      Wrapper: .contact-page-wrapper
       This wrapper centers the card and provides the dark backdrop.
     -->
     <div class="contact-page-wrapper">
         <div class="glass-card">
-            <header class="card-header">
-                <h1 class="form-title">Get in Touch</h1>
-                <p class="form-subtitle">We'd love to hear from you.</p>
-            </header>
+
 
             @if (session('success'))
                 <div class="success-message" role="alert" id="success-message">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2">
                         <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
                         <polyline points="22 4 12 14.01 9 11.01"></polyline>
                     </svg>
@@ -33,32 +34,22 @@
 
             <form action="{{ route('contact.store') }}" method="POST" class="contact-form">
                 @csrf
-                
-                @foreach($fields as $field)
+
+                @foreach ($fields as $field)
                     <div class="form-group">
                         <label for="{{ $field['name'] }}" class="form-label">
-                            {{ $field['label'] }} @if(!empty($field['required'])) <span class="required-mark" aria-hidden="true">*</span> @endif
+                            {{ $field['label'] }} @if (!empty($field['required']))
+                                <span class="required-mark" aria-hidden="true">*</span>
+                            @endif
                         </label>
-                        
-                        @if($field['type'] === 'textarea')
-                            <textarea 
-                                id="{{ $field['name'] }}" 
-                                name="{{ $field['name'] }}" 
-                                class="form-input textarea" 
-                                placeholder=" "
-                                {{ !empty($field['required']) ? 'required' : '' }}
-                                aria-label="{{ $field['label'] }}"
-                            ></textarea>
+
+                        @if ($field['type'] === 'textarea')
+                            <textarea id="{{ $field['name'] }}" name="{{ $field['name'] }}" class="form-input textarea" placeholder=" "
+                                {{ !empty($field['required']) ? 'required' : '' }} aria-label="{{ $field['label'] }}"></textarea>
                         @else
-                            <input 
-                                type="{{ $field['type'] }}" 
-                                id="{{ $field['name'] }}" 
-                                name="{{ $field['name'] }}" 
-                                class="form-input" 
-                                placeholder=" "
-                                {{ !empty($field['required']) ? 'required' : '' }}
-                                aria-label="{{ $field['label'] }}"
-                            >
+                            <input type="{{ $field['type'] }}" id="{{ $field['name'] }}" name="{{ $field['name'] }}"
+                                class="form-input" placeholder=" " {{ !empty($field['required']) ? 'required' : '' }}
+                                aria-label="{{ $field['label'] }}">
                         @endif
 
                         @error($field['name'])
@@ -69,7 +60,8 @@
 
                 <button type="submit" class="submit-btn">
                     <span>SEND MESSAGE</span>
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <line x1="22" y1="2" x2="11" y2="13"></line>
                         <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
                     </svg>
@@ -77,7 +69,7 @@
             </form>
         </div>
     </div>
-        <style>
+    <style>
         /* Theme Variables */
         :root {
             /* Fonts */
@@ -85,7 +77,8 @@
 
             /* Colors */
             --bg-dark: #050505;
-            --accent-primary: #3b82f6; /* Blue 500 */
+            --accent-primary: #3b82f6;
+            /* Blue 500 */
             --accent-glow: rgba(59, 130, 246, 0.5);
             --text-main: #ffffff;
             --text-muted: #94a3b8;
@@ -97,7 +90,7 @@
             --glass-bg: rgba(255, 255, 255, 0.03);
             --glass-border: rgba(255, 255, 255, 0.06);
             --input-bg: rgba(0, 0, 0, 0.3);
-            
+
             /* Dimensions - Compact */
             --card-radius: 12px;
             --input-radius: 8px;
@@ -125,10 +118,10 @@
             position: relative;
             z-index: 1;
         }
-        
+
         @media (min-width: 768px) {
             .contact-page-wrapper {
-                padding: 3rem 0;
+                padding: 0rem 0;
             }
         }
 
@@ -147,20 +140,23 @@
         .glass-card {
             width: 100%;
             max-width: var(--max-width);
-            background:transparent;
+            background: transparent;
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            padding: 1.5rem 1.5rem; /* Reduced Padding */
+            padding: 1.5rem 1.5rem;
+            /* Reduced Padding */
             animation: cardEnter 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
 
         .card-header {
             text-align: center;
-            margin-bottom: 1.25rem; /* Reduced Margin */
+            margin-bottom: 1.25rem;
+            /* Reduced Margin */
         }
 
         .form-title {
-            font-size: 1.5rem; /* Reduced Title */
+            font-size: 1.5rem;
+            /* Reduced Title */
             font-weight: 700;
             margin-bottom: 0.25rem;
             letter-spacing: -0.05em;
@@ -171,25 +167,29 @@
 
         .form-subtitle {
             color: var(--text-muted);
-            font-size: 0.8rem; /* Reduced Subtitle */
+            font-size: 0.8rem;
+            /* Reduced Subtitle */
         }
 
         /* Form Elements */
         .contact-form {
             display: flex;
             flex-direction: column;
-            gap: 0.75rem; /* Reduced Gap */
+            gap: 0.75rem;
+            /* Reduced Gap */
         }
 
         .form-group {
             display: flex;
             flex-direction: column;
-            gap: 0.25rem; /* Reduced Gap */
+            gap: 0.25rem;
+            /* Reduced Gap */
             position: relative;
         }
 
         .form-label {
-            font-size: 0.7rem; /* Reduced Label */
+            font-size: 0.7rem;
+            /* Reduced Label */
             text-transform: uppercase;
             letter-spacing: 0.05em;
             color: var(--text-muted);
@@ -209,13 +209,16 @@
             padding: var(--pad-input) 0.75rem;
             color: var(--text-main);
             font-family: var(--font-mono);
-            font-size: 0.85rem; /* Reduced Input Text */
+            font-size: 0.85rem;
+            /* Reduced Input Text */
             transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .form-input.textarea {
-            min-height: 80px; /* Reduced Textarea Height */
-            resize: none; /* Prevent resize scroll */
+            min-height: 80px;
+            /* Reduced Textarea Height */
+            resize: none;
+            /* Prevent resize scroll */
         }
 
         .form-input:focus {
@@ -249,26 +252,41 @@
             font-size: 0.8rem;
             animation: slideInFade 0.3s ease-out;
         }
-        
+
         @keyframes slideInFade {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
-        
+
         .success-message.fade-out {
             animation: slideOutFade 0.3s ease-in forwards;
         }
-        
+
         @keyframes slideOutFade {
-            from { opacity: 1; transform: translateY(0); }
-            to { opacity: 0; transform: translateY(-10px); }
+            from {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            to {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
         }
 
         /* Submit Button */
         .submit-btn {
             margin-top: 0.5rem;
             width: 100%;
-            padding: 0.8rem; /* Reduced Button Padding */
+            padding: 0.8rem;
+            /* Reduced Button Padding */
             border: none;
             border-radius: var(--input-radius);
             background: linear-gradient(135deg, #1e40af, #3b82f6);
@@ -299,8 +317,15 @@
 
         /* Animations */
         @keyframes cardEnter {
-            from { opacity: 0; transform: translateY(20px) scale(0.98); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
+            from {
+                opacity: 0;
+                transform: translateY(20px) scale(0.98);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
         }
 
         /* Responsiveness */
@@ -308,7 +333,7 @@
             .glass-card {
                 padding: 1.25rem 1rem;
             }
-            
+
             .form-title {
                 font-size: 1.25rem;
             }
@@ -316,7 +341,10 @@
 
         /* Reduced Motion */
         @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after {
+
+            *,
+            *::before,
+            *::after {
                 animation-duration: 0.01ms !important;
                 animation-iteration-count: 1 !important;
                 transition-duration: 0.01ms !important;

@@ -1,16 +1,12 @@
 <x-app-layout>
     <x-slot name="title">Experience</x-slot>
 
-    <div class="w-full max-w-6xl mx-auto px-4 md:px-0 py-12 animate-fade-in">
-        <!-- Header -->
-        <div class="text-center mb-16">
-            <h1 class="text-4xl md:text-5xl font-black text-slate-900 dark:text-white tracking-tighter mb-4">
-                /professional_journey
-            </h1>
-            <p class="text-slate-500 dark:text-slate-400 font-medium text-lg max-w-2xl mx-auto">
-                A timeline of my career, projects, and growth.
-            </p>
-        </div>
+    <x-page-header 
+        title="/professional_journey" 
+        description="A timeline of my career, projects, and growth." 
+    />
+
+    <div class="w-full max-w-6xl mx-auto px-4 md:px-0 pb-12 animate-fade-in">
 
         <!-- Timeline Container -->
         <div class="relative w-full min-h-[500px]" id="timeline-container">
