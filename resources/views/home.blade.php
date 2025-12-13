@@ -203,14 +203,15 @@
             <div class="md:col-span-8 flex flex-col gap-6">
                 <div
                     class="relative w-full bg-slate-50 dark:bg-[#161b22]/80 backdrop-blur-xl rounded-[2.5rem] border border-slate-200 dark:border-white/10 shadow-xl overflow-hidden p-8 md:p-10 flex flex-col gap-6">
-                    <div class="flex items-center gap-4">
+                    <a href="{{ route('about') }}" class="flex items-center gap-4 group cursor-pointer">
                         <div
-                            class="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center text-white shadow-lg shadow-blue-500/25">
+                            class="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center text-white shadow-lg shadow-blue-500/25 group-hover:scale-110 transition-transform">
                             <i class="fa-solid fa-user-astronaut text-xl"></i>
                         </div>
-                        <h4 class="text-sm font-bold text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em]">
+                        <h4
+                            class="text-sm font-bold text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em] group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                             About Me</h4>
-                    </div>
+                    </a>
 
                     <div
                         class="text-sm md:text-base text-slate-600 dark:text-slate-300 leading-relaxed font-light text-justify">
@@ -254,14 +255,15 @@
             <div class="md:col-span-4 flex flex-col h-full">
                 <div
                     class="relative w-full h-full bg-white dark:bg-[#161b22] rounded-[2.5rem] border border-slate-200 dark:border-white/10 shadow-xl p-8 md:p-10 overflow-hidden">
-                    <div class="flex items-center gap-4 mb-8">
+                    <a href="{{ route('experience') }}" class="flex items-center gap-4 mb-8 group cursor-pointer">
                         <div
-                            class="w-12 h-12 rounded-2xl bg-slate-100 dark:bg-white/5 flex items-center justify-center text-slate-900 dark:text-white border border-slate-200 dark:border-white/10">
+                            class="w-12 h-12 rounded-2xl bg-slate-100 dark:bg-white/5 flex items-center justify-center text-slate-900 dark:text-white border border-slate-200 dark:border-white/10 group-hover:scale-110 transition-transform">
                             <i class="fa-solid fa-briefcase text-xl"></i>
                         </div>
-                        <h4 class="text-sm font-bold text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em]">
+                        <h4
+                            class="text-sm font-bold text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em] group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                             Experience</h4>
-                    </div>
+                    </a>
 
                     <div class="space-y-8 relative">
                         <!-- Connecting Line -->
@@ -269,16 +271,19 @@
 
                         @if (isset($experiences) && $experiences->count() > 0)
                             @foreach ($experiences->take(2) as $exp)
-                                <div class="relative pl-8 group">
+                                <a href="{{ route('experience.show', $exp->id) }}"
+                                    class="relative pl-8 group block cursor-pointer transition-all">
                                     <!-- Dot -->
                                     <div
                                         class="absolute left-0 top-1.5 w-6 h-6 rounded-full bg-white dark:bg-[#161b22] border-4 border-blue-500 dark:border-blue-600 z-10 group-hover:scale-110 transition-transform">
                                     </div>
 
-                                    <h5 class="text-lg font-bold text-slate-900 dark:text-white leading-tight">
+                                    <h5
+                                        class="text-lg font-bold text-slate-900 dark:text-white leading-tight group-hover:text-slate-700 dark:group-hover:text-slate-200 transition-colors">
                                         {{ $exp->position }}</h5>
                                     @if ($exp->company)
-                                        <p class="text-sm font-semibold text-blue-600 dark:text-blue-400 mb-1">
+                                        <p
+                                            class="text-sm font-semibold text-blue-600 dark:text-blue-400 mb-1 group-hover:text-blue-500 dark:group-hover:text-blue-300 transition-colors">
                                             {{ $exp->company }}</p>
                                     @endif
                                     <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">
@@ -286,7 +291,7 @@
                                     <p class="text-sm text-slate-600 dark:text-slate-300 font-light leading-relaxed">
                                         {{ $exp->description }}
                                     </p>
-                                </div>
+                                </a>
                             @endforeach
 
                             @if ($experiences->count() > 2)
