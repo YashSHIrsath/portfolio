@@ -55,18 +55,20 @@
                         </div>
 
                         <!-- Right: Name + Typing -->
-                        <div class="flex-1 space-y-2">
-                            <p class="text-xs font-bold text-blue-600 dark:text-blue-500 tracking-[0.2em] uppercase">
+                        <div class="flex-1 space-y-2 mb-6">
+                            <p
+                                class="text-xs font-bold text-blue-600 dark:text-blue-500 tracking-[0.2em] uppercase mb-4">
                                 Hello, I'm</p>
 
-                            <h1
-                                class="text-3xl font-black tracking-tighter text-slate-900 dark:text-white leading-[1.2]">
-                                <span>{{ $firstName }}</span>
-                                <span class="ml-2">{{ $lastName }}</span>
+                            <h1 class="text-3xl font-black tracking-wider leading-[1.2] text-white dark:text-white mb-6"
+                                style="font-family: 'Playwrite DE Grund', cursive;">
+                                <span class="text-lg opacity-50"
+                                    style="text-transform: capitalize">{{ $firstName }}</span>
+                                <span class="ml-8" style="text-transform: capitalize">{{ $lastName }}</span>
                             </h1>
 
                             <div
-                                class="inline-flex items-center gap-2 px-3 py-1.5 bg-white/20 dark:bg-white/10 backdrop-blur-md border border-white/30 dark:border-white/20 rounded-full shadow-sm min-w-[8rem] max-w-xs min-h-[2rem]">
+                                class="inline-flex mt-4 items-center gap-2 px-3 py-1.5 bg-white/20 dark:bg-white/10 backdrop-blur-md border border-white/30 dark:border-white/20 rounded-full shadow-sm min-w-[8rem] max-w-xs min-h-[2rem]">
                                 <span
                                     class="text-sm font-medium text-slate-600 dark:text-slate-300 typing-text min-h-[1rem]">&nbsp;</span>
                                 <span class="typing-cursor w-0.5 h-3 bg-blue-500 hidden"></span>
@@ -108,16 +110,17 @@
                     class="relative bg-white/80 dark:bg-[#161b22]/80 backdrop-blur-md rounded-[2.5rem] border border-slate-200 dark:border-white/10 p-10 flex flex-col justify-center flex-grow shadow-lg hover:shadow-xl transition-all duration-300">
                     <div class="space-y-4">
                         <p
-                            class="text-xs font-bold text-blue-600 dark:text-blue-500 tracking-[0.3em] uppercase animate-slide-up">
+                            class="text-xs font-bold text-blue-600 dark:text-blue-500 tracking-[0.3em] uppercase animate-slide-up mb-4">
                             Hello, I'm</p>
 
-                        <h1
-                            class="text-6xl md:text-8xl lg:text-8xl font-black tracking-tighter text-slate-900 dark:text-white leading-[0.85] animate-slide-up delay-75">
-                            <span class="block">{{ $firstName }}</span>
-                            <span class="block mt-4">{{ $lastName }}</span>
+                        <h1 class="text-6xl md:text-8xl lg:text-8xl font-black tracking-wider leading-[0.85] animate-slide-up delay-75 text-white dark:text-white"
+                            style="font-family: 'Playwrite DE Grund', cursive;">
+                            <span class="block text-2xl md:text-4xl opacity-50"
+                                style="text-transform: capitalize">{{ $firstName }}</span>
+                            <span class="block mt-8" style="text-transform: capitalize">{{ $lastName }}</span>
                         </h1>
 
-                        <div class="flex items-center animate-slide-up delay-100">
+                        <div class="flex items-center animate-slide-up delay-100 mt-6">
                             <div
                                 class="inline-flex items-center gap-3 px-4 py-2 bg-white/20 dark:bg-white/10 backdrop-blur-md border border-white/30 dark:border-white/20 rounded-full shadow-lg min-w-[10rem] max-w-sm min-h-[2.9rem]">
                                 <span

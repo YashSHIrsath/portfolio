@@ -54,7 +54,12 @@ class SettingController extends Controller
         }
 
         if ($request->has('description')) {
-             Setting::updateOrCreate(['key' => 'description'], ['value' => $request->input('description')]);
+            $desc = $request->input('description');
+            // Normalize description: remove leading spaces/tabs on each line
+            if (!empty($desc)) {
+                $desc = preg_replace('/^[ \t]+/m', '', $desc);
+            }
+            Setting::updateOrCreate(['key' => 'description'], ['value' => $desc]);
         }
 
         if ($request->has('first_name')) {

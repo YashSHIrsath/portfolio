@@ -37,6 +37,11 @@ class BioController extends Controller
 
         $validated['is_active'] = $request->has('is_active');
 
+        // Normalize content: remove leading spaces/tabs on each line while preserving newlines
+        if (!empty($validated['content'])) {
+            $validated['content'] = preg_replace('/^[ \t]+/m', '', $validated['content']);
+        }
+
         Bio::create($validated);
 
         return redirect()->route('admin.bios.index')
@@ -62,6 +67,11 @@ class BioController extends Controller
         ]);
 
         $validated['is_active'] = $request->has('is_active');
+
+        // Normalize content: remove leading spaces/tabs on each line while preserving newlines
+        if (!empty($validated['content'])) {
+            $validated['content'] = preg_replace('/^[ \t]+/m', '', $validated['content']);
+        }
 
         $bio->update($validated);
 
