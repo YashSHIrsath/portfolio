@@ -66,7 +66,7 @@
                             </h1>
 
                             <div
-                                class="inline-flex items-center gap-2 px-3 py-1.5 bg-white/20 dark:bg-white/10 backdrop-blur-md border border-white/30 dark:border-white/20 rounded-full shadow-sm w-48 sm:w-52 min-h-[2rem]">
+                                class="inline-flex items-center gap-2 px-3 py-1.5 bg-white/20 dark:bg-white/10 backdrop-blur-md border border-white/30 dark:border-white/20 rounded-full shadow-sm min-w-[8rem] max-w-xs min-h-[2rem]">
                                 <span
                                     class="text-sm font-medium text-slate-600 dark:text-slate-300 typing-text min-h-[1rem]">&nbsp;</span>
                                 <span class="typing-cursor w-0.5 h-3 bg-blue-500 hidden"></span>
@@ -119,7 +119,7 @@
 
                         <div class="flex items-center animate-slide-up delay-100">
                             <div
-                                class="inline-flex items-center gap-3 px-4 py-2 bg-white/20 dark:bg-white/10 backdrop-blur-md border border-white/30 dark:border-white/20 rounded-full shadow-lg w-60 min-h-[2.9rem]">
+                                class="inline-flex items-center gap-3 px-4 py-2 bg-white/20 dark:bg-white/10 backdrop-blur-md border border-white/30 dark:border-white/20 rounded-full shadow-lg min-w-[10rem] max-w-sm min-h-[2.9rem]">
                                 <span
                                     class="text-lg font-medium text-slate-600 dark:text-slate-300 typing-text min-h-[1.3rem]"></span>
                                 <span class="typing-cursor w-0.5 h-4 bg-blue-500 hidden"></span>

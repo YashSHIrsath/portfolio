@@ -7,22 +7,53 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
             @forelse($projects as $project)
-            <a href="{{ $project->link ?? '#' }}" target="_blank" class="group block p-4 bg-white dark:bg-[#161b22] rounded-lg border border-slate-200 dark:border-slate-800 hover:border-blue-400 dark:hover:border-blue-500 hover:shadow-sm transition-all animate-slide-up" style="animation-delay: {{ $loop->index * 100 }}ms">
-                <div class="flex justify-between items-start mb-2 {{ $loop->first ? 'animate-pulse' : '' }}">
-                    <h3 class="text-sm font-bold text-slate-800 dark:text-slate-200 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{{ $project->title }}</h3>
-                    <svg class="w-4 h-4 text-slate-400 group-hover:text-blue-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+            <div class="relative" x-data="{ showModal: false }">
+                <div @click="showModal = true" class="block p-4 bg-white dark:bg-[#161b22] rounded-lg border border-slate-200 dark:border-slate-800 hover:border-blue-400 dark:hover:border-blue-500 hover:shadow-sm transition-all animate-slide-up h-full flex flex-col cursor-pointer" style="animation-delay: {{ $loop->index * 100 }}ms">
+                    <div class="flex justify-between items-start mb-2 {{ $loop->first ? 'animate-pulse' : '' }}">
+                        <h3 class="text-sm font-bold text-slate-800 dark:text-slate-200 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">{{ $project->title }}</h3>
+                        <svg class="w-4 h-4 text-slate-400 hover:text-blue-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                    </div>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mb-3 leading-relaxed flex-grow">
+                        {{ $project->description }}
+                    </p>
+                    <div class="flex gap-2 flex-wrap mt-auto">
+                        @if(!empty($project->tech_stack) && is_array($project->tech_stack))
+                            @foreach($project->tech_stack as $tech)
+                                <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400">{{ $tech }}</span>
+                            @endforeach
+                        @endif
+                    </div>
                 </div>
-                <p class="text-xs text-slate-500 dark:text-slate-400 mb-3 leading-relaxed">
-                    {{ $project->description }}
-                </p>
-                <div class="flex gap-2 flex-wrap">
-                    @if(!empty($project->tech_stack) && is_array($project->tech_stack))
-                        @foreach($project->tech_stack as $tech)
-                            <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400">{{ $tech }}</span>
-                        @endforeach
-                    @endif
+                
+                <!-- Fullscreen Backdrop Preview -->
+                <div x-show="showModal" x-cloak @click.self="showModal = false" @keydown.escape.window="showModal = false" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" class="fixed inset-0 z-50 flex items-center justify-center p-4" style="backdrop-filter: blur(8px); background: rgba(0, 0, 0, 0.4);">
+                    <div x-transition:enter="transition ease-out duration-300 delay-75" x-transition:enter-start="opacity-0 transform scale-95" x-transition:enter-end="opacity-100 transform scale-100" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100 transform scale-100" x-transition:leave-end="opacity-0 transform scale-95" class="bg-white/90 dark:bg-[#161b22]/90 backdrop-blur-xl rounded-3xl border border-white/20 dark:border-white/10 shadow-2xl p-8 max-w-2xl w-full max-h-[80vh] overflow-y-auto relative">
+                        <button @click="showModal = false" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 transition-colors">
+                            <i class="fa-solid fa-times text-sm"></i>
+                        </button>
+                        <div class="text-center mb-6">
+                            <div class="w-full h-48 bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900/20 dark:to-purple-900/20 rounded-2xl flex items-center justify-center mb-6">
+                                <i class="fa-solid fa-code text-6xl text-slate-400"></i>
+                            </div>
+                            <h2 class="text-2xl font-bold text-slate-800 dark:text-slate-200 mb-4">{{ $project->title }}</h2>
+                            <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-6">{{ $project->description }}</p>
+                            <div class="flex gap-2 flex-wrap justify-center mb-6">
+                                @if(!empty($project->tech_stack) && is_array($project->tech_stack))
+                                    @foreach($project->tech_stack as $tech)
+                                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400">{{ $tech }}</span>
+                                    @endforeach
+                                @endif
+                            </div>
+                            @if($project->link)
+                                <a href="{{ $project->link }}" target="_blank" class="inline-flex items-center gap-2 px-6 py-3 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-full font-semibold hover:scale-105 transition-all duration-300">
+                                    View Project
+                                    <i class="fa-solid fa-external-link text-sm"></i>
+                                </a>
+                            @endif
+                        </div>
+                    </div>
                 </div>
-            </a>
+            </div>
             @empty
             <div class="col-span-2 text-center py-10">
                 <p class="text-slate-500 dark:text-slate-400">No projects found.</p>

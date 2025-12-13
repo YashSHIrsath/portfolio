@@ -61,8 +61,8 @@
                             <p class="mb-3 font-bold">
                                 <span class="text-[#27c93f]">➜</span> <span class="text-[#58a6ff]">~</span> <span class="text-[#ffbd2e]">cat stack.json</span>
                             </p>
-                            <div class="pl-4 ml-1 bg-[#252526] p-6 rounded-xl border border-slate-700/50 shadow-inner">
-                                <pre class="text-[#a5d6ff] font-mono text-sm md:text-base leading-7">{
+                            <div class="pl-4 ml-1 bg-[#252526] p-6 rounded-xl border border-slate-700/50 shadow-inner overflow-x-auto">
+                                <pre class="text-[#a5d6ff] font-mono text-sm md:text-base leading-7 whitespace-pre-wrap break-words">{
 @foreach($catStacks as $stack)
   <span class="text-[#7ee787]">"{{ $stack->key }}"</span>: [
     <span class="text-[#ce9178]">{{ collect($stack->values)->map(fn($v) => '"'.$v.'"')->join(', ') }}</span>
