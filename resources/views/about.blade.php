@@ -47,8 +47,9 @@
                                 <span class="text-[#27c93f]">➜</span> <span class="text-[#58a6ff]">~</span> <span
                                     class="text-[#ffbd2e]">whoami</span>
                             </p>
-                            <div class="pl-6 border-l-2 border-slate-700 ml-1 text-slate-400 leading-8 text-base">
-{{ $bio->content ?? 'I am a dedicated full-stack developer crafting scalable web applications.' }}
+                            <div
+                                class="pl-6 border-l-2 border-slate-700 ml-1 text-slate-400 leading-relaxed text-base whitespace-pre-wrap break-words">
+                                {{ $bio->content ?? 'I am a dedicated full-stack developer crafting scalable web applications.' }}
                             </div>
                         </div>
 
