@@ -1,9 +1,15 @@
+@php
+    $settings = \App\Models\Setting::pluck('value', 'key');
+    $firstName = $settings['first_name'] ?? 'portfolio';
+    $lastName = $settings['last_name'] ?? 'owner';
+    $username = strtolower(str_replace(' ', '_', trim($firstName . '_' . $lastName)));
+@endphp
 <nav class="sticky top-0 z-50 bg-[#f9f9f9]/90 dark:bg-[#0d1117]/90 backdrop-blur-sm border-b border-slate-200 dark:border-slate-800 transition-colors duration-300">
     <div class="container mx-auto px-6 max-w-3xl">
         <div class="flex items-center justify-between h-14">
             <!-- Logo -->
             <a href="{{ route('home') }}" class="font-bold text-slate-800 dark:text-slate-100 hover:text-blue-600 dark:hover:text-blue-400 transition-colors text-sm">
-                ~/yash_shirsath
+                ~/{{ $username }}
             </a>
 
             <!-- Mobile Menu Button -->

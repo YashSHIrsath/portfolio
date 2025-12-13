@@ -72,9 +72,26 @@
                 </div>
             </div>
 
-            <!-- Right Column: Description -->
-            <div class="lg:col-span-2 animate-slide-up delay-100">
-                <div class="bg-white dark:bg-[#161b22] p-8 rounded-[2.5rem] border border-slate-200 dark:border-white/5 shadow-sm h-full flex flex-col">
+            <!-- Right Column: Name & Description -->
+            <div class="lg:col-span-2 animate-slide-up delay-100 space-y-8">
+                <!-- Name Settings Card -->
+                <div class="bg-white dark:bg-[#161b22] p-8 rounded-[2.5rem] border border-slate-200 dark:border-white/5 shadow-sm">
+                    <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-6">Personal Information</h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">First Name</label>
+                            <input type="text" name="first_name" value="{{ $settings['first_name'] ?? '' }}" class="w-full p-4 bg-slate-50 dark:bg-[#0d1117] border-2 border-transparent focus:border-blue-500/50 rounded-xl text-slate-700 dark:text-slate-300 placeholder-slate-400 focus:outline-none transition-all" placeholder="Enter first name">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Last Name</label>
+                            <input type="text" name="last_name" value="{{ $settings['last_name'] ?? '' }}" class="w-full p-4 bg-slate-50 dark:bg-[#0d1117] border-2 border-transparent focus:border-blue-500/50 rounded-xl text-slate-700 dark:text-slate-300 placeholder-slate-400 focus:outline-none transition-all" placeholder="Enter last name">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Description Card -->
+                <div class="bg-white dark:bg-[#161b22] p-8 rounded-[2.5rem] border border-slate-200 dark:border-white/5 shadow-sm flex flex-col">
                     <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-6">About Me Description</h3>
                     
                     <div class="flex-1">

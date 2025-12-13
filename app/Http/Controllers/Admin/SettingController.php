@@ -26,6 +26,8 @@ class SettingController extends Controller
         $request->validate([
             'profile_image' => 'nullable|image|max:2048',
             'description' => 'nullable|string',
+            'first_name' => 'nullable|string|max:255',
+            'last_name' => 'nullable|string|max:255',
             // Add other setting validations here as needed
         ]);
 
@@ -53,6 +55,14 @@ class SettingController extends Controller
 
         if ($request->has('description')) {
              Setting::updateOrCreate(['key' => 'description'], ['value' => $request->input('description')]);
+        }
+
+        if ($request->has('first_name')) {
+            Setting::updateOrCreate(['key' => 'first_name'], ['value' => $request->input('first_name')]);
+        }
+
+        if ($request->has('last_name')) {
+            Setting::updateOrCreate(['key' => 'last_name'], ['value' => $request->input('last_name')]);
         }
 
         return redirect()->route('admin.settings.index')

@@ -1,9 +1,15 @@
+@php
+    $settings = \App\Models\Setting::pluck('value', 'key');
+    $firstName = $settings['first_name'] ?? 'Portfolio';
+    $lastName = $settings['last_name'] ?? 'Owner';
+    $fullName = trim($firstName . ' ' . $lastName);
+@endphp
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Yash Shirsath - {{ $title ?? 'Portfolio' }}</title>
+    <title>{{ $fullName }} - {{ $title ?? 'Portfolio' }}</title>
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -39,7 +45,7 @@
 
     <!-- Footer -->
     <footer class="py-8 text-center text-xs text-slate-500 dark:text-slate-500">
-        <p class="mb-2">&copy; {{ date('Y') }} Yash Shirsath</p>
+        <p class="mb-2">&copy; {{ date('Y') }} {{ $fullName }}</p>
         <div class="flex justify-center gap-6">
             @if(isset($socialLinks))
                 @foreach($socialLinks as $link)

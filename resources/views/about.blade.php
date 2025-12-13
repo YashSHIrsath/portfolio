@@ -35,7 +35,12 @@
                             <div class="w-3 h-3 rounded-full bg-[#ffbd2e]"></div>
                             <div class="w-3 h-3 rounded-full bg-[#27c93f]"></div>
                         </div>
-                        <div class="ml-4 text-xs text-slate-500 font-mono">yash @ portfolio ~ </div>
+@php
+    $settings = \App\Models\Setting::pluck('value', 'key');
+    $firstName = $settings['first_name'] ?? 'user';
+    $username = strtolower($firstName);
+@endphp
+                        <div class="ml-4 text-xs text-slate-500 font-mono">{{ $username }} @ portfolio ~ </div>
                     </div>
 
                     <!-- Terminal Body -->

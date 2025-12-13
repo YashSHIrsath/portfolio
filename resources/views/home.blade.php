@@ -3,7 +3,10 @@
     // $socialLinks is shared via AppServiceProvider
     $typingTexts = \App\Models\TypingText::where('active', true)->orderBy('sort_order')->pluck('text');
     
-    $profileImage = isset($settings['profile_image']) ? Storage::url($settings['profile_image']) : 'https://ui-avatars.com/api/?name=Yash+Shirsath&background=random&size=200';
+    $firstName = $settings['first_name'] ?? 'John';
+    $lastName = $settings['last_name'] ?? 'Doe';
+    $fullName = trim($firstName . ' ' . $lastName);
+    $profileImage = isset($settings['profile_image']) ? Storage::url($settings['profile_image']) : 'https://ui-avatars.com/api/?name=' . urlencode($fullName) . '&background=random&size=200';
     $resumeUrl = isset($settings['resume']) ? Storage::url($settings['resume']) : null;
     $description = $settings['description'] ?? 'Building digital experiences with code and creativity. Focused on clean, efficient, and scalable web solutions.';
     
@@ -46,7 +49,7 @@
                         <p class="text-xs font-bold text-blue-600 dark:text-blue-500 tracking-[0.3em] uppercase animate-slide-up">Hello, I'm</p>
                         
                         <h1 class="text-5xl md:text-7xl font-black tracking-tighter text-slate-900 dark:text-white leading-[0.9] animate-slide-up delay-75">
-                            Yash<br>Shirsath
+                            {{ $firstName }}<br>{{ $lastName }}
                         </h1>
                         
                         <div class="h-8 flex items-center gap-3 animate-slide-up delay-100">
