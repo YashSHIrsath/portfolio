@@ -35,21 +35,21 @@
                 <div
                     class="relative bg-white/80 dark:bg-[#161b22]/80 backdrop-blur-md rounded-[2.5rem] border border-slate-200 dark:border-white/10 p-6 shadow-lg">
                     <div class="flex items-center gap-6">
-                        <!-- Left: Circular Image -->
-                        <div class="relative group w-20 h-20 flex-shrink-0">
+                        <!-- Left: Vertical rectangular image block (mobile) -->
+                        <div class="relative group w-28 md:w-36 flex-shrink-0">
                             <div
-                                class="absolute inset-0 bg-gradient-to-br from-blue-600/20 to-purple-600/20 blur-lg rounded-full">
+                                class="absolute inset-0 bg-gradient-to-br from-blue-600/20 to-purple-600/20 blur-lg rounded-[1.25rem]">
                             </div>
                             <div
-                                class="relative w-full h-full bg-white dark:bg-[#161b22] rounded-full border-3 border-white dark:border-slate-800 shadow-lg overflow-hidden group-hover:scale-105 transition-all duration-500">
+                                class="relative w-full h-40 md:h-64 bg-white dark:bg-[#161b22] rounded-[1.25rem] border border-white/10 shadow-lg overflow-hidden group-hover:scale-[1.02] transition-all duration-500">
                                 <img src="{{ $profileImage }}" alt="Profile"
-                                    class="w-full h-full object-cover filter grayscale contrast-125 group-hover:grayscale-0 transition-all duration-700">
+                                    class="w-full h-full object-cover group-hover:filter-none transition-all duration-700">
                                 <div
-                                    class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-60 group-hover:opacity-30 transition-opacity duration-500">
+                                    class="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-50 group-hover:opacity-30 transition-opacity duration-500 rounded-[1.25rem]">
                                 </div>
                             </div>
                             <div
-                                class="absolute -bottom-1 -right-1 w-6 h-6 bg-green-500 rounded-full flex items-center justify-center shadow-lg">
+                                class="absolute -bottom-2 -right-2 w-6 h-6 bg-green-500 rounded-full flex items-center justify-center shadow-lg">
                                 <span class="w-2 h-2 rounded-full bg-white animate-pulse"></span>
                             </div>
                         </div>
@@ -60,15 +60,16 @@
                                 class="text-xs font-bold text-blue-600 dark:text-blue-500 tracking-[0.2em] uppercase mb-4">
                                 Hello, I'm</p>
 
-                            <h1 class="text-3xl font-black tracking-wider leading-[1.2] text-white dark:text-white mb-6"
-                                style="font-family: 'Playwrite DE Grund', cursive;">
-                                <span class="text-lg opacity-50"
-                                    style="text-transform: capitalize">{{ $firstName }}</span>
-                                <span class="ml-8" style="text-transform: capitalize">{{ $lastName }}</span>
+                            <h1 class="text-3xl font-black tracking-wider leading-[1.2] text-slate-900 dark:text-white mb-3 md:mb-6"
+                                style="font-family: 'Borel', sans-serif;">
+                                <span class="block text-lg opacity-50 lowercase"
+                                    style="text-transform: lowercase;">{{ $firstName }}</span>
+                                <span class="block mt-1 md:mt-0 md:inline md:ml-8 text-3xl lowercase"
+                                    style="text-transform: lowercase;">{{ $lastName }}</span>
                             </h1>
 
                             <div
-                                class="inline-flex mt-4 items-center gap-2 px-3 py-1.5 bg-white/20 dark:bg-white/10 backdrop-blur-md border border-white/30 dark:border-white/20 rounded-full shadow-sm min-w-[8rem] max-w-xs min-h-[2rem]">
+                                class="inline-flex mt-2 md:mt-4 items-center gap-2 px-3 py-1.5 bg-white/20 dark:bg-white/10 backdrop-blur-md border border-white/30 dark:border-white/20 rounded-full shadow-sm min-w-[8rem] max-w-xs min-h-[2rem]">
                                 <span
                                     class="text-sm font-medium text-slate-600 dark:text-slate-300 typing-text min-h-[1rem]">&nbsp;</span>
                                 <span class="typing-cursor w-0.5 h-3 bg-blue-500 hidden"></span>
@@ -113,11 +114,12 @@
                             class="text-xs font-bold text-blue-600 dark:text-blue-500 tracking-[0.3em] uppercase animate-slide-up mb-4">
                             Hello, I'm</p>
 
-                        <h1 class="text-6xl md:text-8xl lg:text-8xl font-black tracking-wider leading-[0.85] animate-slide-up delay-75 text-white dark:text-white"
-                            style="font-family: 'Playwrite DE Grund', cursive;">
-                            <span class="block text-2xl md:text-4xl opacity-50"
-                                style="text-transform: capitalize">{{ $firstName }}</span>
-                            <span class="block mt-8" style="text-transform: capitalize">{{ $lastName }}</span>
+                        <h1 class="text-6xl md:text-8xl lg:text-8xl font-black tracking-wider leading-[0.85] animate-slide-up delay-75 text-slate-900 dark:text-white"
+                            style="font-family: 'Borel', sans-serif;">
+                            <span class="block text-2xl md:text-4xl opacity-50 lowercase translate-y-5"
+                                style="text-transform: lowercase">{{ $firstName }}</span>
+                            <span class="block mt-8 lowercase translate-y-10"
+                                style="text-transform: lowercase">{{ $lastName }}</span>
                         </h1>
 
                         <div class="flex items-center animate-slide-up delay-100 mt-6">
