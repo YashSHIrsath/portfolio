@@ -323,7 +323,7 @@
     <div id="reach-me-modal"
         class="fixed inset-0 z-[100] flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
         <div class="absolute inset-0 bg-slate-900/40 backdrop-blur-md" id="reach-me-backdrop"></div>
-        <div class="relative bg-white dark:bg-[#161b22] rounded-[2.5rem] shadow-2xl p-8 max-w-sm w-full mx-4 transform scale-95 transition-transform duration-300 border border-white/20"
+        <div class="relative bg-white dark:bg-[#161b22] rounded-[2.5rem] shadow-2xl p-10 max-w-lg w-full mx-4 transform scale-95 transition-transform duration-300 border border-white/20"
             id="reach-me-content">
             <button id="close-reach-me"
                 class="absolute top-6 right-6 w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 dark:bg-white/10 text-slate-400 hover:text-slate-600 dark:hover:text-white transition-colors">
