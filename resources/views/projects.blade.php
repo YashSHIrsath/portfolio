@@ -117,13 +117,38 @@
                                     x-transition:leave-end="opacity-0 transform scale-95"
                                     class="relative bg-white/90 dark:bg-[#161b22]/90 backdrop-blur-xl rounded-[2.5rem] shadow-2xl max-w-6xl w-full max-h-[90vh] overflow-hidden border border-white/20 dark:border-white/10">
 
-                                    <!-- Close Button -->
-                                    <button @click="showModal = false"
-                                        class="absolute top-6 right-6 z-20 w-12 h-12 bg-white/20 dark:bg-black/20 backdrop-blur-md rounded-full flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-white/30 dark:hover:bg-black/30 hover:text-slate-900 dark:hover:text-white transition-all duration-300 shadow-lg border border-white/30 dark:border-white/10">
-                                        <i class="fa-solid fa-times text-lg"></i>
-                                    </button>
+                                    <!-- Header Section -->
+                                    <div class="flex items-center justify-between p-6 border-b border-white/10 dark:border-white/5">
+                                        <h1 class="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white tracking-tight" style="font-family: 'Borel', sans-serif;">
+                                            {{ $project->title }}
+                                        </h1>
+                                        
+                                        <div class="flex items-center">
+                                            @if ($project->link)
+                                                <!-- Pill with Live Project + Close -->
+                                                <div class="flex items-center bg-white/20 dark:bg-black/20 backdrop-blur-md rounded-full border border-white/30 dark:border-white/10 shadow-lg">
+                                                    <a href="{{ $project->link }}" target="_blank"
+                                                        class="flex items-center gap-2 px-4 py-3 text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 font-medium text-sm">
+                                                        <i class="fa-solid fa-external-link"></i>
+                                                        <span>Live Project</span>
+                                                    </a>
+                                                    <div class="w-px h-6 bg-white/30 dark:bg-white/10"></div>
+                                                    <button @click="showModal = false"
+                                                        class="w-10 h-10 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-all duration-300">
+                                                        <i class="fa-solid fa-times"></i>
+                                                    </button>
+                                                </div>
+                                            @else
+                                                <!-- Just Close Circle -->
+                                                <button @click="showModal = false"
+                                                    class="w-12 h-12 bg-white/20 dark:bg-black/20 backdrop-blur-md rounded-full flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-white/30 dark:hover:bg-black/30 hover:text-slate-900 dark:hover:text-white transition-all duration-300 shadow-lg border border-white/30 dark:border-white/10">
+                                                    <i class="fa-solid fa-times text-lg"></i>
+                                                </button>
+                                            @endif
+                                        </div>
+                                    </div>
 
-                                    <div class="overflow-y-auto max-h-[90vh] p-6">
+                                    <div class="overflow-y-auto max-h-[calc(90vh-80px)] p-6">
                                         <!-- Stable Grid Layout -->
                                         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:items-start">
                                             
@@ -175,17 +200,14 @@
 
                                             <!-- Right: Content Cards -->
                                             <div class="lg:col-span-1 space-y-4">
-                                                <!-- Title & Description Card -->
+                                                <!-- Description Card -->
                                                 <div class="bg-white/60 dark:bg-white/5 backdrop-blur-md rounded-[2rem] p-6 border border-white/30 dark:border-white/10 shadow-lg">
-                                                    <h1 class="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-4 tracking-tight" style="font-family: 'Borel', sans-serif;">
-                                                        {{ $project->title }}
-                                                    </h1>
-                                                    <p class="text-slate-600 dark:text-slate-300 leading-relaxed">
+                                                    <p class="text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
                                                         {{ $project->description }}
                                                     </p>
                                                     
                                                     @if ($project->duration)
-                                                        <div class="mt-4 inline-flex items-center gap-2 px-3 py-1.5 bg-slate-100/60 dark:bg-slate-800/60 rounded-full text-sm font-medium text-slate-600 dark:text-slate-400">
+                                                        <div class="inline-flex items-center gap-2 px-3 py-1.5 bg-slate-100/60 dark:bg-slate-800/60 rounded-full text-sm font-medium text-slate-600 dark:text-slate-400">
                                                             <i class="fa-solid fa-clock text-xs"></i>
                                                             {{ $project->duration }}
                                                         </div>
@@ -244,23 +266,7 @@
                                                     </div>
                                                 @endif
 
-                                                <!-- Action Buttons Card -->
-                                                <div class="bg-white/60 dark:bg-white/5 backdrop-blur-md rounded-[2rem] p-6 border border-white/30 dark:border-white/10 shadow-lg">
-                                                    <div class="space-y-3">
-                                                        @if ($project->link)
-                                                            <a href="{{ $project->link }}" target="_blank"
-                                                                class="w-full inline-flex items-center justify-center gap-3 px-6 py-3 bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-semibold rounded-xl hover:scale-105 transition-all duration-300 shadow-lg">
-                                                                <i class="fa-solid fa-external-link"></i>
-                                                                <span>View Live Project</span>
-                                                            </a>
-                                                        @endif
-                                                        <button @click="showModal = false"
-                                                            class="w-full inline-flex items-center justify-center gap-3 px-6 py-3 bg-slate-100/60 dark:bg-slate-800/60 text-slate-700 dark:text-slate-300 font-semibold rounded-xl hover:bg-slate-200/60 dark:hover:bg-slate-700/60 transition-all duration-300">
-                                                            <i class="fa-solid fa-times"></i>
-                                                            <span>Close</span>
-                                                        </button>
-                                                    </div>
-                                                </div>
+
                                             </div>
                                         </div>
                                     </div>
