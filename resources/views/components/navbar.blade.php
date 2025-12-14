@@ -4,8 +4,7 @@
     $lastName = $settings['last_name'] ?? 'owner';
     $username = strtolower(str_replace(' ', '_', trim($firstName . '_' . $lastName)));
 @endphp
-<nav
-    class="sticky top-0 z-50 bg-[#f9f9f9]/90 dark:bg-[#0d1117]/90 backdrop-blur-sm border-b border-slate-200 dark:border-slate-800 transition-colors duration-300">
+<nav class="sticky top-0 z-50 bg-[#f9f9f9]/90 dark:bg-[#0d1117]/90 backdrop-blur-sm transition-colors duration-300">
     <div class="w-full max-w-6xl mx-auto px-4 md:px-0">
         <div class="flex items-center justify-between h-14">
             <!-- Logo -->
@@ -24,16 +23,26 @@
 
             <!-- Desktop Links -->
             <div class="hidden md:flex items-center gap-6 text-xs font-medium">
-                <a href="{{ route('home') }}"
-                    class="transition-colors duration-300" style="{{ request()->routeIs('home') ? 'color: #2563eb; text-shadow: 0 0 8px rgba(37, 99, 235, 0.6);' : '' }}" onmouseover="{{ !request()->routeIs('home') ? 'this.style.color=\"#2563eb\"; this.style.textShadow=\"0 0 6px rgba(37, 99, 235, 0.4)\";' : '' }}" onmouseout="{{ !request()->routeIs('home') ? 'this.style.color=\"\"; this.style.textShadow=\"\";' : '' }}">/home</a>
-                <a href="{{ route('about') }}"
-                    class="transition-colors duration-300" style="{{ request()->routeIs('about') ? 'color: #2563eb; text-shadow: 0 0 8px rgba(37, 99, 235, 0.6);' : '' }}" onmouseover="{{ !request()->routeIs('about') ? 'this.style.color=\"#2563eb\"; this.style.textShadow=\"0 0 6px rgba(37, 99, 235, 0.4)\";' : '' }}" onmouseout="{{ !request()->routeIs('about') ? 'this.style.color=\"\"; this.style.textShadow=\"\";' : '' }}">/about</a>
-                <a href="{{ route('experience') }}"
-                    class="transition-colors duration-300" style="{{ request()->routeIs('experience') ? 'color: #2563eb; text-shadow: 0 0 8px rgba(37, 99, 235, 0.6);' : '' }}" onmouseover="{{ !request()->routeIs('experience') ? 'this.style.color=\"#2563eb\"; this.style.textShadow=\"0 0 6px rgba(37, 99, 235, 0.4)\";' : '' }}" onmouseout="{{ !request()->routeIs('experience') ? 'this.style.color=\"\"; this.style.textShadow=\"\";' : '' }}">/experience</a>
-                <a href="{{ route('projects') }}"
-                    class="transition-colors duration-300" style="{{ request()->routeIs('projects') ? 'color: #2563eb; text-shadow: 0 0 8px rgba(37, 99, 235, 0.6);' : '' }}" onmouseover="{{ !request()->routeIs('projects') ? 'this.style.color=\"#2563eb\"; this.style.textShadow=\"0 0 6px rgba(37, 99, 235, 0.4)\";' : '' }}" onmouseout="{{ !request()->routeIs('projects') ? 'this.style.color=\"\"; this.style.textShadow=\"\";' : '' }}">/projects</a>
-                <a href="{{ route('contact') }}"
-                    class="transition-colors duration-300" style="{{ request()->routeIs('contact') ? 'color: #2563eb; text-shadow: 0 0 8px rgba(37, 99, 235, 0.6);' : '' }}" onmouseover="{{ !request()->routeIs('contact') ? 'this.style.color=\"#2563eb\"; this.style.textShadow=\"0 0 6px rgba(37, 99, 235, 0.4)\";' : '' }}" onmouseout="{{ !request()->routeIs('contact') ? 'this.style.color=\"\"; this.style.textShadow=\"\";' : '' }}">/contact</a>
+                <a href="{{ route('home') }}" class="transition-colors duration-300"
+                    style="{{ request()->routeIs('home') ? 'color: #2563eb; text-shadow: 0 0 8px rgba(37, 99, 235, 0.6);' : '' }}"
+                    onmouseover="{{ !request()->routeIs('home') ? 'this.style.color=\"#2563eb\"; this.style.textShadow=\"0 0 6px rgba(37, 99, 235, 0.4)\";' : '' }}"
+                    onmouseout="{{ !request()->routeIs('home') ? 'this.style.color=\"\"; this.style.textShadow=\"\";' : '' }}">/home</a>
+                <a href="{{ route('about') }}" class="transition-colors duration-300"
+                    style="{{ request()->routeIs('about') ? 'color: #2563eb; text-shadow: 0 0 8px rgba(37, 99, 235, 0.6);' : '' }}"
+                    onmouseover="{{ !request()->routeIs('about') ? 'this.style.color=\"#2563eb\"; this.style.textShadow=\"0 0 6px rgba(37, 99, 235, 0.4)\";' : '' }}"
+                    onmouseout="{{ !request()->routeIs('about') ? 'this.style.color=\"\"; this.style.textShadow=\"\";' : '' }}">/about</a>
+                <a href="{{ route('experience') }}" class="transition-colors duration-300"
+                    style="{{ request()->routeIs('experience') ? 'color: #2563eb; text-shadow: 0 0 8px rgba(37, 99, 235, 0.6);' : '' }}"
+                    onmouseover="{{ !request()->routeIs('experience') ? 'this.style.color=\"#2563eb\"; this.style.textShadow=\"0 0 6px rgba(37, 99, 235, 0.4)\";' : '' }}"
+                    onmouseout="{{ !request()->routeIs('experience') ? 'this.style.color=\"\"; this.style.textShadow=\"\";' : '' }}">/experience</a>
+                <a href="{{ route('projects') }}" class="transition-colors duration-300"
+                    style="{{ request()->routeIs('projects') ? 'color: #2563eb; text-shadow: 0 0 8px rgba(37, 99, 235, 0.6);' : '' }}"
+                    onmouseover="{{ !request()->routeIs('projects') ? 'this.style.color=\"#2563eb\"; this.style.textShadow=\"0 0 6px rgba(37, 99, 235, 0.4)\";' : '' }}"
+                    onmouseout="{{ !request()->routeIs('projects') ? 'this.style.color=\"\"; this.style.textShadow=\"\";' : '' }}">/projects</a>
+                <a href="{{ route('contact') }}" class="transition-colors duration-300"
+                    style="{{ request()->routeIs('contact') ? 'color: #2563eb; text-shadow: 0 0 8px rgba(37, 99, 235, 0.6);' : '' }}"
+                    onmouseover="{{ !request()->routeIs('contact') ? 'this.style.color=\"#2563eb\"; this.style.textShadow=\"0 0 6px rgba(37, 99, 235, 0.4)\";' : '' }}"
+                    onmouseout="{{ !request()->routeIs('contact') ? 'this.style.color=\"\"; this.style.textShadow=\"\";' : '' }}">/contact</a>
 
                 <!-- Theme Toggle -->
                 <button id="theme-toggle"
@@ -60,16 +69,26 @@
     <div id="mobile-menu"
         class="hidden md:hidden bg-[#f9f9f9] dark:bg-[#0d1117] border-t border-slate-200 dark:border-slate-800">
         <div class="flex flex-col px-6 py-4 space-y-2 text-sm">
-            <a href="{{ route('home') }}"
-                class="block py-2 transition-colors duration-300" style="{{ request()->routeIs('home') ? 'color: #2563eb; text-shadow: 0 0 8px rgba(37, 99, 235, 0.6);' : '' }}" onmouseover="{{ !request()->routeIs('home') ? 'this.style.color=\"#2563eb\"; this.style.textShadow=\"0 0 6px rgba(37, 99, 235, 0.4)\";' : '' }}" onmouseout="{{ !request()->routeIs('home') ? 'this.style.color=\"\"; this.style.textShadow=\"\";' : '' }}">/home</a>
-            <a href="{{ route('about') }}"
-                class="block py-2 transition-colors duration-300" style="{{ request()->routeIs('about') ? 'color: #2563eb; text-shadow: 0 0 8px rgba(37, 99, 235, 0.6);' : '' }}" onmouseover="{{ !request()->routeIs('about') ? 'this.style.color=\"#2563eb\"; this.style.textShadow=\"0 0 6px rgba(37, 99, 235, 0.4)\";' : '' }}" onmouseout="{{ !request()->routeIs('about') ? 'this.style.color=\"\"; this.style.textShadow=\"\";' : '' }}">/about</a>
-            <a href="{{ route('experience') }}"
-                class="block py-2 transition-colors duration-300" style="{{ request()->routeIs('experience') ? 'color: #2563eb; text-shadow: 0 0 8px rgba(37, 99, 235, 0.6);' : '' }}" onmouseover="{{ !request()->routeIs('experience') ? 'this.style.color=\"#2563eb\"; this.style.textShadow=\"0 0 6px rgba(37, 99, 235, 0.4)\";' : '' }}" onmouseout="{{ !request()->routeIs('experience') ? 'this.style.color=\"\"; this.style.textShadow=\"\";' : '' }}">/experience</a>
-            <a href="{{ route('projects') }}"
-                class="block py-2 transition-colors duration-300" style="{{ request()->routeIs('projects') ? 'color: #2563eb; text-shadow: 0 0 8px rgba(37, 99, 235, 0.6);' : '' }}" onmouseover="{{ !request()->routeIs('projects') ? 'this.style.color=\"#2563eb\"; this.style.textShadow=\"0 0 6px rgba(37, 99, 235, 0.4)\";' : '' }}" onmouseout="{{ !request()->routeIs('projects') ? 'this.style.color=\"\"; this.style.textShadow=\"\";' : '' }}">/projects</a>
-            <a href="{{ route('contact') }}"
-                class="block py-2 transition-colors duration-300" style="{{ request()->routeIs('contact') ? 'color: #2563eb; text-shadow: 0 0 8px rgba(37, 99, 235, 0.6);' : '' }}" onmouseover="{{ !request()->routeIs('contact') ? 'this.style.color=\"#2563eb\"; this.style.textShadow=\"0 0 6px rgba(37, 99, 235, 0.4)\";' : '' }}" onmouseout="{{ !request()->routeIs('contact') ? 'this.style.color=\"\"; this.style.textShadow=\"\";' : '' }}">/contact</a>
+            <a href="{{ route('home') }}" class="block py-2 transition-colors duration-300"
+                style="{{ request()->routeIs('home') ? 'color: #2563eb; text-shadow: 0 0 8px rgba(37, 99, 235, 0.6);' : '' }}"
+                onmouseover="{{ !request()->routeIs('home') ? 'this.style.color=\"#2563eb\"; this.style.textShadow=\"0 0 6px rgba(37, 99, 235, 0.4)\";' : '' }}"
+                onmouseout="{{ !request()->routeIs('home') ? 'this.style.color=\"\"; this.style.textShadow=\"\";' : '' }}">/home</a>
+            <a href="{{ route('about') }}" class="block py-2 transition-colors duration-300"
+                style="{{ request()->routeIs('about') ? 'color: #2563eb; text-shadow: 0 0 8px rgba(37, 99, 235, 0.6);' : '' }}"
+                onmouseover="{{ !request()->routeIs('about') ? 'this.style.color=\"#2563eb\"; this.style.textShadow=\"0 0 6px rgba(37, 99, 235, 0.4)\";' : '' }}"
+                onmouseout="{{ !request()->routeIs('about') ? 'this.style.color=\"\"; this.style.textShadow=\"\";' : '' }}">/about</a>
+            <a href="{{ route('experience') }}" class="block py-2 transition-colors duration-300"
+                style="{{ request()->routeIs('experience') ? 'color: #2563eb; text-shadow: 0 0 8px rgba(37, 99, 235, 0.6);' : '' }}"
+                onmouseover="{{ !request()->routeIs('experience') ? 'this.style.color=\"#2563eb\"; this.style.textShadow=\"0 0 6px rgba(37, 99, 235, 0.4)\";' : '' }}"
+                onmouseout="{{ !request()->routeIs('experience') ? 'this.style.color=\"\"; this.style.textShadow=\"\";' : '' }}">/experience</a>
+            <a href="{{ route('projects') }}" class="block py-2 transition-colors duration-300"
+                style="{{ request()->routeIs('projects') ? 'color: #2563eb; text-shadow: 0 0 8px rgba(37, 99, 235, 0.6);' : '' }}"
+                onmouseover="{{ !request()->routeIs('projects') ? 'this.style.color=\"#2563eb\"; this.style.textShadow=\"0 0 6px rgba(37, 99, 235, 0.4)\";' : '' }}"
+                onmouseout="{{ !request()->routeIs('projects') ? 'this.style.color=\"\"; this.style.textShadow=\"\";' : '' }}">/projects</a>
+            <a href="{{ route('contact') }}" class="block py-2 transition-colors duration-300"
+                style="{{ request()->routeIs('contact') ? 'color: #2563eb; text-shadow: 0 0 8px rgba(37, 99, 235, 0.6);' : '' }}"
+                onmouseover="{{ !request()->routeIs('contact') ? 'this.style.color=\"#2563eb\"; this.style.textShadow=\"0 0 6px rgba(37, 99, 235, 0.4)\";' : '' }}"
+                onmouseout="{{ !request()->routeIs('contact') ? 'this.style.color=\"\"; this.style.textShadow=\"\";' : '' }}">/contact</a>
 
             <div class="mt-4 pt-4 border-t border-slate-200 dark:border-slate-800">
                 <button id="mobile-theme-toggle"

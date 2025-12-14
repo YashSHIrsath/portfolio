@@ -107,7 +107,7 @@
                                 x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
                                 x-transition:leave="transition ease-in duration-200"
                                 x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
-                                class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-md">
+                                class="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-6 xl:p-8 bg-black/60 backdrop-blur-md">
 
                                 <div x-transition:enter="transition ease-out duration-300 delay-75"
                                     x-transition:enter-start="opacity-0 transform scale-95"
@@ -148,7 +148,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="overflow-y-auto max-h-[calc(90vh-80px)] p-6">
+                                    <div class="overflow-y-auto max-h-[calc(90vh-80px)] p-6 pb-8">
                                         <!-- Stable Grid Layout -->
                                         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:items-start">
                                             

@@ -84,7 +84,7 @@
 </head>
 
 <body
-    class="bg-[#f9f9f9] text-[#24292f] dark:bg-[#0d1117] dark:text-[#c9d1d9] transition-colors duration-300 font-mono min-h-screen flex flex-col antialiased selection:bg-blue-200 dark:selection:bg-blue-900">
+    class="bg-[#f9f9f9] text-[#24292f] dark:bg-[#0d1117] dark:text-[#c9d1d9] transition-colors duration-300 font-mono min-h-screen flex flex-col antialiased selection:bg-blue-200 dark:selection:bg-blue-900 px-4 md:px-6 xl:px-8">
     <!-- Navbar -->
     @include('components.navbar')
 
