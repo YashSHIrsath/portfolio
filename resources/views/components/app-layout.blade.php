@@ -91,7 +91,7 @@
     @props(['mainClass' => 'flex-grow flex flex-col justify-center'])
 
     <!-- Main Content -->
-    <main class="{{ $mainClass }}">
+    <main class="{{ $mainClass }} pt-8">
         {{ $slot }}
     </main>
 

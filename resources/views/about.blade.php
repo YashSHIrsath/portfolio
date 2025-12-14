@@ -12,7 +12,7 @@
         description="Get to know me better through my journey, skills, and passion for technology." />
 
     <div
-        class="w-full max-w-6xl mx-auto px-4 md:px-0 pb-12 animate-fade-in relative z-10 flex flex-col justify-center gap-6">
+        class="w-full max-w-6xl mx-auto px-4 md:px-0 pt-8 pb-12 animate-fade-in relative z-10 flex flex-col justify-center gap-6">
 
         <!-- Vertical Stack Layout -->
         <div class="flex flex-col gap-8 w-full">

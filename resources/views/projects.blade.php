@@ -8,7 +8,7 @@
         description="A curated collection of my recent work, showcasing innovation and technical excellence." />
 
     <!-- Projects Grid -->
-    <div class="relative pb-12">
+    <div class="relative pt-8 pb-12">
         <div class="max-w-6xl mx-auto px-4 md:px-0">
             @if ($projects->count() > 0)
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
