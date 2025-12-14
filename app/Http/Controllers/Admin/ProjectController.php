@@ -34,11 +34,16 @@ class ProjectController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
+            'work_done' => 'nullable|array',
+            'work_done.*' => 'nullable|string|max:255',
+            'bullet_type' => 'nullable|string|in:circle,square,arrow,check,star',
             'link' => 'nullable|url',
             'tech_stack' => 'nullable|string',
             'sort_order' => 'nullable|integer',
             'is_active' => 'boolean',
             'image' => 'nullable|image|max:2048',
+            'images' => 'nullable|array',
+            'images.*' => 'image|max:2048',
             'duration' => 'nullable|string|max:255',
             'experience_ids' => 'nullable|array',
             'experience_ids.*' => 'exists:experiences,id',
@@ -53,8 +58,24 @@ class ProjectController extends Controller
              $validated['tech_stack'] = [];
         }
 
+        if ($request->has('work_done') && is_array($request->work_done)) {
+            $validated['work_done'] = array_filter(array_map('trim', $request->work_done));
+        } else {
+            $validated['work_done'] = [];
+        }
+
+        $validated['bullet_type'] = $request->input('bullet_type', 'circle');
+
         if ($request->hasFile('image')) {
             $validated['image_path'] = $request->file('image')->store('projects', 'public');
+        }
+
+        if ($request->hasFile('images')) {
+            $imagePaths = [];
+            foreach ($request->file('images') as $image) {
+                $imagePaths[] = $image->store('projects', 'public');
+            }
+            $validated['images'] = $imagePaths;
         }
 
         $project = \App\Models\Project::create($validated);
@@ -92,11 +113,16 @@ class ProjectController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
+            'work_done' => 'nullable|array',
+            'work_done.*' => 'nullable|string|max:255',
+            'bullet_type' => 'nullable|string|in:circle,square,arrow,check,star',
             'link' => 'nullable|url',
             'tech_stack' => 'nullable|string',
             'sort_order' => 'nullable|integer',
             'is_active' => 'boolean',
             'image' => 'nullable|image|max:2048',
+            'images' => 'nullable|array',
+            'images.*' => 'image|max:2048',
             'duration' => 'nullable|string|max:255',
             'experience_ids' => 'nullable|array',
             'experience_ids.*' => 'exists:experiences,id',
@@ -111,8 +137,24 @@ class ProjectController extends Controller
              $validated['tech_stack'] = [];
         }
 
+        if ($request->has('work_done') && is_array($request->work_done)) {
+            $validated['work_done'] = array_filter(array_map('trim', $request->work_done));
+        } else {
+            $validated['work_done'] = [];
+        }
+
+        $validated['bullet_type'] = $request->input('bullet_type', 'circle');
+
         if ($request->hasFile('image')) {
             $validated['image_path'] = $request->file('image')->store('projects', 'public');
+        }
+
+        if ($request->hasFile('images')) {
+            $imagePaths = [];
+            foreach ($request->file('images') as $image) {
+                $imagePaths[] = $image->store('projects', 'public');
+            }
+            $validated['images'] = $imagePaths;
         }
 
         $project->update($validated);

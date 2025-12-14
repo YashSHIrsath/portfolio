@@ -35,6 +35,54 @@
                     </div>
 
                     <div>
+                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-3">Work Done</label>
+                        <div id="work-done-container" class="space-y-2">
+                            <div class="work-done-item flex gap-2">
+                                <input type="text" name="work_done[]" class="flex-1 rounded-md border-slate-300 dark:border-slate-700 dark:bg-[#0d1117] dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" placeholder="Enter work accomplished...">
+                                <button type="button" onclick="removeWorkItem(this)" class="px-3 py-2 bg-red-500 hover:bg-red-600 text-white rounded-md text-sm">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <button type="button" onclick="addWorkItem()" class="mt-3 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-md text-sm font-medium">
+                            <i class="fa-solid fa-plus mr-2"></i>Add Work Item
+                        </button>
+                    </div>
+
+                    <script>
+                        function addWorkItem() {
+                            const container = document.getElementById('work-done-container');
+                            const newItem = document.createElement('div');
+                            newItem.className = 'work-done-item flex gap-2';
+                            newItem.innerHTML = `
+                                <input type="text" name="work_done[]" class="flex-1 rounded-md border-slate-300 dark:border-slate-700 dark:bg-[#0d1117] dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" placeholder="Enter work accomplished...">
+                                <button type="button" onclick="removeWorkItem(this)" class="px-3 py-2 bg-red-500 hover:bg-red-600 text-white rounded-md text-sm">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            `;
+                            container.appendChild(newItem);
+                        }
+
+                        function removeWorkItem(button) {
+                            const container = document.getElementById('work-done-container');
+                            if (container.children.length > 1) {
+                                button.parentElement.remove();
+                            }
+                        }
+                    </script>
+
+                    <div>
+                        <label for="bullet_type" class="block text-sm font-medium text-slate-700 dark:text-slate-300">Bullet Point Style</label>
+                        <select name="bullet_type" id="bullet_type" class="mt-1 block w-full rounded-md border-slate-300 dark:border-slate-700 dark:bg-[#0d1117] dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                            <option value="circle">● Circle</option>
+                            <option value="square">■ Square</option>
+                            <option value="arrow">→ Arrow</option>
+                            <option value="check">✓ Check</option>
+                            <option value="star">★ Star</option>
+                        </select>
+                    </div>
+
+                    <div>
                         <label for="link" class="block text-sm font-medium text-slate-700 dark:text-slate-300">Link</label>
                         <input type="url" name="link" id="link" class="mt-1 block w-full rounded-md border-slate-300 dark:border-slate-700 dark:bg-[#0d1117] dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" placeholder="https://example.com">
                     </div>
@@ -45,8 +93,14 @@
                     </div>
 
                     <div>
-                        <label for="image" class="block text-sm font-medium text-slate-700 dark:text-slate-300">Project Image</label>
+                        <label for="image" class="block text-sm font-medium text-slate-700 dark:text-slate-300">Main Project Image</label>
                         <input type="file" name="image" id="image" class="mt-1 block w-full text-slate-500 dark:text-slate-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100">
+                    </div>
+
+                    <div>
+                        <label for="images" class="block text-sm font-medium text-slate-700 dark:text-slate-300">Additional Images (for carousel)</label>
+                        <input type="file" name="images[]" id="images" multiple class="mt-1 block w-full text-slate-500 dark:text-slate-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100">
+                        <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">Select multiple images for the project carousel.</p>
                     </div>
 
                     <div>

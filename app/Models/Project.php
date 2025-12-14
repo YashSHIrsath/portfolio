@@ -12,16 +12,21 @@ class Project extends Model
     protected $fillable = [
         'title',
         'description',
+        'work_done',
+        'bullet_type',
         'link',
         'tech_stack',
         'sort_order',
         'is_active',
         'image_path',
+        'images',
         'duration',
     ];
 
     protected $casts = [
         'tech_stack' => 'array',
+        'images' => 'array',
+        'work_done' => 'array',
         'is_active' => 'boolean',
     ];
 

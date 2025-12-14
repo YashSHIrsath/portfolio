@@ -1,10 +1,11 @@
 <x-app-layout>
     <x-slot name="title">Projects</x-slot>
 
-    <x-page-header 
-        title="/projects" 
-        description="A curated collection of my recent work, showcasing innovation and technical excellence." 
-    />
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+    <x-page-header title="/projects"
+        description="A curated collection of my recent work, showcasing innovation and technical excellence." />
 
     <!-- Projects Grid -->
     <div class="relative pb-12">
@@ -20,7 +21,17 @@
                                 <!-- Project Image/Preview -->
                                 <div
                                     class="relative h-64 md:h-80 bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-800 dark:to-slate-900 overflow-hidden">
-                                    @if ($project->image_path)
+                                    @if ($project->images && count($project->images) > 0)
+                                        <img src="{{ Storage::url($project->images[0]) }}" alt="{{ $project->title }}"
+                                            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                            onerror="this.parentElement.innerHTML='<div class=\'w-full h-full bg-gradient-to-br from-blue-500/10 to-purple-500/10 flex items-center justify-center\'><div class=\'text-center space-y-4\'><i class=\'fa-solid fa-code text-4xl text-slate-400\'></i><p class=\'text-sm font-medium text-slate-500\'>{{ $project->title }}</p></div></div>'">
+                                        @if (count($project->images) > 1)
+                                            <div
+                                                class="absolute top-4 right-4 bg-black/60 text-white px-2 py-1 rounded-full text-xs font-medium">
+                                                +{{ count($project->images) - 1 }} more
+                                            </div>
+                                        @endif
+                                    @elseif ($project->image_path)
                                         <img src="{{ Storage::url($project->image_path) }}" alt="{{ $project->title }}"
                                             class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                                             onerror="this.parentElement.innerHTML='<div class=\'w-full h-full bg-gradient-to-br from-blue-500/10 to-purple-500/10 flex items-center justify-center\'><div class=\'text-center space-y-4\'><i class=\'fa-solid fa-code text-4xl text-slate-400\'></i><p class=\'text-sm font-medium text-slate-500\'>{{ $project->title }}</p></div></div>'">
@@ -89,7 +100,7 @@
                                 </div>
                             </div>
 
-                            <!-- Premium Modal -->
+                            <!-- Bento Grid Modal -->
                             <div x-show="showModal" x-cloak @click.self="showModal = false"
                                 @keydown.escape.window="showModal = false"
                                 x-transition:enter="transition ease-out duration-300"
@@ -104,78 +115,152 @@
                                     x-transition:leave="transition ease-in duration-200"
                                     x-transition:leave-start="opacity-100 transform scale-100"
                                     x-transition:leave-end="opacity-0 transform scale-95"
-                                    class="relative bg-white dark:bg-[#161b22] rounded-3xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden">
+                                    class="relative bg-white/90 dark:bg-[#161b22]/90 backdrop-blur-xl rounded-[2.5rem] shadow-2xl max-w-6xl w-full max-h-[90vh] overflow-hidden border border-white/20 dark:border-white/10">
 
                                     <!-- Close Button -->
                                     <button @click="showModal = false"
-                                        class="absolute top-6 right-6 z-10 w-10 h-10 bg-white/90 dark:bg-black/80 backdrop-blur-sm rounded-full flex items-center justify-center text-slate-500 hover:text-slate-700 dark:hover:text-white transition-colors shadow-lg">
-                                        <i class="fa-solid fa-times"></i>
+                                        class="absolute top-6 right-6 z-20 w-12 h-12 bg-white/20 dark:bg-black/20 backdrop-blur-md rounded-full flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-white/30 dark:hover:bg-black/30 hover:text-slate-900 dark:hover:text-white transition-all duration-300 shadow-lg border border-white/30 dark:border-white/10">
+                                        <i class="fa-solid fa-times text-lg"></i>
                                     </button>
 
-                                    <div class="overflow-y-auto max-h-[90vh]">
-                                        <!-- Modal Image -->
-                                        <div class="relative max-w-xl mx-auto mb-3 mt-3">
-                                            @if ($project->image_path)
-                                                <div
-                                                    class="relative bg-slate-100 dark:bg-slate-800 rounded-2xl overflow-hidden">
-                                                    <img src="{{ Storage::url($project->image_path) }}"
-                                                        alt="{{ $project->title }}"
-                                                        class="w-full h-auto object-contain">
+                                    <div class="overflow-y-auto max-h-[90vh] p-6">
+                                        <!-- Stable Grid Layout -->
+                                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:items-start">
+                                            
+                                            <!-- Left: Image Carousel -->
+                                            <div class="lg:col-span-2 flex">
+                                                <!-- Image Section -->
+                                                <div class="bg-white/60 dark:bg-white/5 backdrop-blur-md rounded-[2rem] p-6 border border-white/30 dark:border-white/10 shadow-lg min-h-96 w-full flex flex-col">
+                                                    @if ($project->images && count($project->images) > 0)
+                                                        <div class="relative flex items-center gap-4 h-full">
+                                                            <button class="carousel-prev-{{ $project->id }} w-10 h-10 rounded-full bg-white/20 dark:bg-white/10 backdrop-blur-md border border-white/30 dark:border-white/20 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-white/40 dark:hover:bg-white/20 hover:text-blue-500 dark:hover:text-blue-400 transition-all duration-300">
+                                                                <i class="fa-solid fa-chevron-left text-sm"></i>
+                                                            </button>
+                                                            
+                                                            <div class="swiper project-swiper-{{ $project->id }} flex-1 h-full">
+                                                                <div class="swiper-wrapper">
+                                                                    @foreach ($project->images as $imagePath)
+                                                                        <div class="swiper-slide">
+                                                                            <div class="relative rounded-xl overflow-hidden h-full flex items-center justify-center">
+                                                                                <img src="{{ Storage::url($imagePath) }}"
+                                                                                    alt="{{ $project->title }}"
+                                                                                    class="max-w-full max-h-full object-contain">
+                                                                            </div>
+                                                                        </div>
+                                                                    @endforeach
+                                                                </div>
+                                                                <div class="swiper-pagination"></div>
+                                                            </div>
+                                                            
+                                                            <button class="carousel-next-{{ $project->id }} w-10 h-10 rounded-full bg-white/20 dark:bg-white/10 backdrop-blur-md border border-white/30 dark:border-white/20 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-white/40 dark:hover:bg-white/20 hover:text-blue-500 dark:hover:text-blue-400 transition-all duration-300">
+                                                                <i class="fa-solid fa-chevron-right text-sm"></i>
+                                                            </button>
+                                                        </div>
+                                                    @elseif ($project->image_path)
+                                                        <div class="relative rounded-xl overflow-hidden h-full flex items-center justify-center">
+                                                            <img src="{{ Storage::url($project->image_path) }}"
+                                                                alt="{{ $project->title }}"
+                                                                class="max-w-full max-h-full object-contain">
+                                                        </div>
+                                                    @else
+                                                        <div class="w-full h-full bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-xl flex items-center justify-center">
+                                                            <div class="text-center space-y-4">
+                                                                <i class="fa-solid fa-code text-4xl text-slate-400"></i>
+                                                                <p class="text-lg font-semibold text-slate-600 dark:text-slate-300">{{ $project->title }}</p>
+                                                            </div>
+                                                        </div>
+                                                    @endif
                                                 </div>
-                                            @else
-                                                <div
-                                                    class="w-full h-64 bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-2xl flex items-center justify-center">
-                                                    <div class="text-center space-y-6">
-                                                        <i class="fa-solid fa-code text-6xl text-slate-400"></i>
-                                                        <p
-                                                            class="text-xl font-semibold text-slate-600 dark:text-slate-300">
-                                                            {{ $project->title }}</p>
-                                                    </div>
-                                                </div>
-                                            @endif
-                                        </div>
-
-                                        <!-- Modal Content -->
-                                        <div class="p-8 md:p-12 space-y-8">
-                                            <div class="space-y-6">
-                                                <h1
-                                                    class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white tracking-tight">
-                                                    {{ $project->title }}
-                                                </h1>
-                                                <p class="text-lg text-slate-600 dark:text-slate-300 leading-relaxed">
-                                                    {{ $project->description }}
-                                                </p>
                                             </div>
 
-                                            <!-- Full Tech Stack -->
-                                            @if (!empty($project->tech_stack) && is_array($project->tech_stack))
-                                                <div class="space-y-4">
-                                                    <h3 class="text-lg font-semibold text-slate-900 dark:text-white">
-                                                        Technologies Used</h3>
-                                                    <div class="flex flex-wrap gap-3">
-                                                        @foreach ($project->tech_stack as $tech)
-                                                            <span
-                                                                class="inline-flex items-center px-4 py-2 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-medium rounded-xl border border-slate-200 dark:border-slate-700">
-                                                                {{ $tech }}
-                                                            </span>
-                                                        @endforeach
+                                            <!-- Right: Content Cards -->
+                                            <div class="lg:col-span-1 space-y-4">
+                                                <!-- Title & Description Card -->
+                                                <div class="bg-white/60 dark:bg-white/5 backdrop-blur-md rounded-[2rem] p-6 border border-white/30 dark:border-white/10 shadow-lg">
+                                                    <h1 class="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-4 tracking-tight" style="font-family: 'Borel', sans-serif;">
+                                                        {{ $project->title }}
+                                                    </h1>
+                                                    <p class="text-slate-600 dark:text-slate-300 leading-relaxed">
+                                                        {{ $project->description }}
+                                                    </p>
+                                                    
+                                                    @if ($project->duration)
+                                                        <div class="mt-4 inline-flex items-center gap-2 px-3 py-1.5 bg-slate-100/60 dark:bg-slate-800/60 rounded-full text-sm font-medium text-slate-600 dark:text-slate-400">
+                                                            <i class="fa-solid fa-clock text-xs"></i>
+                                                            {{ $project->duration }}
+                                                        </div>
+                                                    @endif
+                                                </div>
+
+                                                <!-- Work Done Card -->
+                                                @if (!empty($project->work_done) && is_array($project->work_done))
+                                                    <div class="bg-gradient-to-br from-green-500/10 to-emerald-500/10 dark:from-green-600/20 dark:to-emerald-600/20 backdrop-blur-md rounded-[2rem] p-6 border border-green-200/30 dark:border-green-500/20">
+                                                        <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+                                                            <i class="fa-solid fa-check-circle text-green-500"></i>
+                                                            Accomplishments
+                                                        </h3>
+                                                        <ul class="space-y-3">
+                                                            @foreach ($project->work_done as $work)
+                                                                <li class="flex items-start gap-3 text-slate-600 dark:text-slate-300">
+                                                                    <span class="text-green-500 dark:text-green-400 mt-0.5 flex-shrink-0">
+                                                                        @switch($project->bullet_type ?? 'circle')
+                                                                            @case('square')
+                                                                                ■
+                                                                                @break
+                                                                            @case('arrow')
+                                                                                →
+                                                                                @break
+                                                                            @case('check')
+                                                                                ✓
+                                                                                @break
+                                                                            @case('star')
+                                                                                ★
+                                                                                @break
+                                                                            @default
+                                                                                ●
+                                                                        @endswitch
+                                                                    </span>
+                                                                    <span class="text-sm leading-relaxed">{{ $work }}</span>
+                                                                </li>
+                                                            @endforeach
+                                                        </ul>
+                                                    </div>
+                                                @endif
+
+                                                <!-- Tech Stack Card -->
+                                                @if (!empty($project->tech_stack) && is_array($project->tech_stack))
+                                                    <div class="bg-gradient-to-br from-blue-500/10 to-purple-500/10 dark:from-blue-600/20 dark:to-purple-600/20 backdrop-blur-md rounded-[2rem] p-6 border border-blue-200/30 dark:border-blue-500/20">
+                                                        <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+                                                            <i class="fa-solid fa-layer-group text-blue-500"></i>
+                                                            Tech Stack
+                                                        </h3>
+                                                        <div class="flex flex-wrap gap-2">
+                                                            @foreach ($project->tech_stack as $tech)
+                                                                <span class="inline-flex items-center px-3 py-1.5 bg-white/60 dark:bg-white/10 text-slate-700 dark:text-slate-300 text-sm font-medium rounded-full border border-white/40 dark:border-white/20 backdrop-blur-sm">
+                                                                    {{ $tech }}
+                                                                </span>
+                                                            @endforeach
+                                                        </div>
+                                                    </div>
+                                                @endif
+
+                                                <!-- Action Buttons Card -->
+                                                <div class="bg-white/60 dark:bg-white/5 backdrop-blur-md rounded-[2rem] p-6 border border-white/30 dark:border-white/10 shadow-lg">
+                                                    <div class="space-y-3">
+                                                        @if ($project->link)
+                                                            <a href="{{ $project->link }}" target="_blank"
+                                                                class="w-full inline-flex items-center justify-center gap-3 px-6 py-3 bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-semibold rounded-xl hover:scale-105 transition-all duration-300 shadow-lg">
+                                                                <i class="fa-solid fa-external-link"></i>
+                                                                <span>View Live Project</span>
+                                                            </a>
+                                                        @endif
+                                                        <button @click="showModal = false"
+                                                            class="w-full inline-flex items-center justify-center gap-3 px-6 py-3 bg-slate-100/60 dark:bg-slate-800/60 text-slate-700 dark:text-slate-300 font-semibold rounded-xl hover:bg-slate-200/60 dark:hover:bg-slate-700/60 transition-all duration-300">
+                                                            <i class="fa-solid fa-times"></i>
+                                                            <span>Close</span>
+                                                        </button>
                                                     </div>
                                                 </div>
-                                            @endif
-
-                                            <!-- Action Buttons -->
-                                            <div class="flex flex-col sm:flex-row gap-4 pt-6">
-                                                @if ($project->link)
-                                                    <a href="{{ $project->link }}" target="_blank"
-                                                        class="inline-flex items-center justify-center gap-3 px-8 py-4 bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-semibold rounded-2xl hover:bg-slate-800 dark:hover:bg-slate-100 transform hover:scale-105 transition-all duration-300 shadow-lg">
-                                                        <span>View Live Project</span>
-                                                        <i class="fa-solid fa-external-link"></i>
-                                                    </a>
-                                                @endif
-                                                <button @click="showModal = false"
-                                                    class="inline-flex items-center justify-center gap-3 px-8 py-4 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-semibold rounded-2xl hover:bg-slate-200 dark:hover:bg-slate-700 transition-all duration-300">
-                                                    <span>Close</span>
-                                                </button>
                                             </div>
                                         </div>
                                     </div>
@@ -278,4 +363,91 @@
             </div>
         </div>
     @endif
+
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize Swiper for each project
+            @foreach ($projects as $project)
+                @if ($project->images && count($project->images) > 0)
+                    new Swiper('.project-swiper-{{ $project->id }}', {
+                        loop: true,
+                        pagination: {
+                            el: '.swiper-pagination',
+                            clickable: true,
+                        },
+                        navigation: {
+                            nextEl: '.carousel-next-{{ $project->id }}',
+                            prevEl: '.carousel-prev-{{ $project->id }}',
+                        },
+                        autoplay: {
+                            delay: 3000,
+                            disableOnInteraction: false,
+                        },
+                    });
+                @endif
+            @endforeach
+        });
+    </script>
+
+    <style>
+        .swiper {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+        
+        .swiper-slide {
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: transparent;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .swiper-wrapper {
+            height: 100%;
+        }
+        
+        .swiper-pagination {
+            position: absolute !important;
+            bottom: 20px !important;
+            left: 50% !important;
+            transform: translateX(-50%) !important;
+            width: auto !important;
+        }
+        
+        .swiper-pagination-bullet {
+            background: rgba(148, 163, 184, 0.6) !important;
+            opacity: 1 !important;
+            transition: all 0.3s ease !important;
+        }
+        
+        .swiper-pagination-bullet-active {
+            background: #3b82f6 !important;
+            transform: scale(1.2) !important;
+        }
+        
+        .dark .swiper-pagination-bullet {
+            background: rgba(148, 163, 184, 0.4) !important;
+        }
+        
+        .dark .swiper-pagination-bullet-active {
+            background: #60a5fa !important;
+        }
+        
+        /* Match heights between left and right columns */
+        @media (min-width: 1024px) {
+            .grid.lg\:grid-cols-3 {
+                align-items: stretch;
+            }
+            
+            .lg\:col-span-2 {
+                display: flex;
+            }
+        }
+    </style>
 </x-app-layout>
