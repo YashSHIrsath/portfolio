@@ -11,7 +11,8 @@
 
 
 
-        <div class="bg-white dark:bg-[#161b22] shadow rounded-lg overflow-hidden border border-slate-200 dark:border-slate-800">
+        <!-- Desktop Table -->
+        <div class="hidden lg:block bg-white dark:bg-[#161b22] shadow rounded-lg overflow-hidden border border-slate-200 dark:border-slate-800">
             <table class="min-w-full divide-y divide-slate-200 dark:divide-slate-700">
                 <thead class="bg-slate-50 dark:bg-[#0d1117]">
                     <tr>
@@ -24,9 +25,7 @@
                 <tbody class="bg-white dark:bg-[#161b22] divide-y divide-slate-200 dark:divide-slate-700">
                     @forelse($stacks as $stack)
                         <tr>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-bold text-slate-900 dark:text-slate-100">
-                                {{ $stack->key }}
-                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-bold text-slate-900 dark:text-slate-100">{{ $stack->key }}</td>
                             <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-300">
                                 <div class="flex flex-wrap gap-1">
                                     @foreach($stack->values as $val)
@@ -50,13 +49,48 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="4" class="px-6 py-10 text-center text-sm text-slate-500 dark:text-slate-400">
-                                No stack groups found. Click "Add New Stack Group" to create one.
-                            </td>
+                            <td colspan="4" class="px-6 py-10 text-center text-sm text-slate-500 dark:text-slate-400">No stack groups found. Click "Add New Stack Group" to create one.</td>
                         </tr>
                     @endforelse
                 </tbody>
             </table>
+        </div>
+
+        <!-- Mobile Cards -->
+        <div class="lg:hidden space-y-4">
+            @forelse($stacks as $stack)
+                <div class="bg-white dark:bg-[#161b22] rounded-lg border border-slate-200 dark:border-slate-800 p-4 shadow">
+                    <div class="flex justify-between items-start mb-3">
+                        <div class="flex-1">
+                            <h3 class="font-bold text-slate-900 dark:text-slate-100">{{ $stack->key }}</h3>
+                        </div>
+                        <span class="ml-3 px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $stack->is_active ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200' }}">
+                            {{ $stack->is_active ? 'Active' : 'Inactive' }}
+                        </span>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <div class="flex flex-wrap gap-1">
+                            @foreach($stack->values as $val)
+                                <span class="bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 px-2 py-0.5 rounded text-xs border border-slate-200 dark:border-slate-700">{{ $val }}</span>
+                            @endforeach
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-end gap-3 text-sm">
+                        <a href="{{ route('admin.cat-stacks.edit', $stack) }}" class="text-indigo-600 dark:text-indigo-400 hover:text-indigo-900">Edit</a>
+                        <form action="{{ route('admin.cat-stacks.destroy', $stack) }}" method="POST" class="inline-block" onsubmit="return confirm('Are you sure you want to delete this stack?');">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="text-red-600 dark:text-red-400 hover:text-red-900">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            @empty
+                <div class="bg-white dark:bg-[#161b22] rounded-lg border border-slate-200 dark:border-slate-800 p-8 text-center">
+                    <p class="text-sm text-slate-500 dark:text-slate-400">No stack groups found. Click "Add New Stack Group" to create one.</p>
+                </div>
+            @endforelse
         </div>
     </div>
 </x-admin-layout>

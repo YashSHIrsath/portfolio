@@ -75,6 +75,10 @@ Route::prefix('admin')->name('admin.')->middleware([IsAdmin::class])->group(func
 
     // Projects
     Route::resource('projects', App\Http\Controllers\Admin\ProjectController::class);
+    
+    // GitHub Projects
+    Route::get('/github-projects', [App\Http\Controllers\Admin\GitHubSettingController::class, 'githubProjects'])->name('github-projects.index');
+    Route::put('/github-projects/{id}', [App\Http\Controllers\Admin\GitHubSettingController::class, 'updateRepository'])->name('github-projects.update');
 
     // Contact Settings
     Route::get('/contact-settings', [App\Http\Controllers\Admin\ContactSettingController::class, 'edit'])->name('contact-settings.edit');
@@ -86,4 +90,6 @@ Route::prefix('admin')->name('admin.')->middleware([IsAdmin::class])->group(func
     // GitHub Settings
     Route::get('/github-settings', [App\Http\Controllers\Admin\GitHubSettingController::class, 'edit'])->name('github-settings.edit');
     Route::put('/github-settings', [App\Http\Controllers\Admin\GitHubSettingController::class, 'update'])->name('github-settings.update');
+    Route::post('/github-settings/sync', [App\Http\Controllers\Admin\GitHubSettingController::class, 'syncRepositories'])->name('github-settings.sync');
+    Route::put('/github-repositories/{id}', [App\Http\Controllers\Admin\GitHubSettingController::class, 'updateRepository'])->name('github-repositories.update');
 });

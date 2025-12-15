@@ -59,22 +59,24 @@
             </form>
 
             <!-- List Existing Links -->
-            <ul class="space-y-2">
+            <div class="space-y-2">
                 @foreach($socialLinks as $link)
-                    <li class="flex items-center justify-between bg-slate-50 dark:bg-[#0d1117] p-3 rounded-md border border-slate-200 dark:border-slate-700">
-                        <div class="flex items-center gap-4">
-                            <span class="font-medium text-slate-700 dark:text-slate-200">{{ $link->platform }}</span>
-                            <a href="{{ $link->url }}" target="_blank" class="text-sm text-blue-600 hover:underline truncate max-w-xs">{{ $link->url }}</a>
-                            <span class="text-xs text-slate-500">Sort: {{ $link->sort_order }}</span>
+                    <div class="bg-slate-50 dark:bg-[#0d1117] p-3 rounded-md border border-slate-200 dark:border-slate-700">
+                        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                            <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 flex-1 min-w-0">
+                                <span class="font-medium text-slate-700 dark:text-slate-200">{{ $link->platform }}</span>
+                                <a href="{{ $link->url }}" target="_blank" class="text-sm text-blue-600 hover:underline truncate">{{ $link->url }}</a>
+                                <span class="text-xs text-slate-500">Sort: {{ $link->sort_order }}</span>
+                            </div>
+                            <form action="{{ route('admin.social-links.destroy', $link->id) }}" method="POST" onsubmit="return confirm('Are you sure?');" class="flex-shrink-0">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="text-red-600 hover:text-red-800 text-sm font-semibold">Delete</button>
+                            </form>
                         </div>
-                        <form action="{{ route('admin.social-links.destroy', $link->id) }}" method="POST" onsubmit="return confirm('Are you sure?');">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="text-red-600 hover:text-red-800 text-sm font-semibold">Delete</button>
-                        </form>
-                    </li>
+                    </div>
                 @endforeach
-            </ul>
+            </div>
         </div>
     </div>
 </x-app-layout>

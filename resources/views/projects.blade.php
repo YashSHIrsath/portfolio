@@ -294,74 +294,241 @@
     </div>
 
     <!-- GitHub Repositories Section -->
-    @if (!empty($githubRepos))
+    @if ($githubRepos->count() > 0)
         <div class="relative py-24 bg-slate-50/50 dark:bg-[#0d1117]/50">
             <div class="max-w-7xl mx-auto px-6 lg:px-8">
                 <div class="text-center space-y-8 mb-16">
-                    <div
-                        class="inline-flex items-center gap-3 px-4 py-2 bg-white/60 dark:bg-white/5 backdrop-blur-sm border border-white/40 dark:border-white/10 rounded-full shadow-lg">
+                    <div class="inline-flex items-center gap-3 px-4 py-2 bg-white/60 dark:bg-white/5 backdrop-blur-sm border border-white/40 dark:border-white/10 rounded-full shadow-lg">
                         <i class="fa-brands fa-github text-slate-600 dark:text-slate-300"></i>
-                        <span class="text-sm font-semibold text-slate-600 dark:text-slate-300 tracking-wide">OPEN
-                            SOURCE</span>
+                        <span class="text-sm font-semibold text-slate-600 dark:text-slate-300 tracking-wide">OPEN SOURCE</span>
                     </div>
                     <div class="space-y-4">
-                        <h2 class="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white tracking-tight">
-                            GitHub Repositories
-                        </h2>
-                        <p class="text-lg text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
-                            Explore my open-source contributions and personal projects on GitHub.
-                        </p>
+                        <h2 class="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white tracking-tight">GitHub Repositories</h2>
+                        <p class="text-lg text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">Explore my open-source contributions and personal projects on GitHub.</p>
                     </div>
                 </div>
 
                 <div x-data="{ showAll: false }" class="space-y-8">
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         @foreach ($githubRepos as $index => $repo)
-                            <a href="{{ $repo['html_url'] }}" target="_blank"
-                                class="group block p-6 bg-white dark:bg-[#161b22] rounded-2xl border border-slate-200 dark:border-slate-800 shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
-                                @if ($index >= 6) x-show="showAll" x-cloak x-transition @endif>
-
-                                <div class="space-y-4">
-                                    <div class="flex items-start justify-between">
-                                        <h3
-                                            class="text-lg font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors font-mono">
-                                            {{ $repo['name'] }}
-                                        </h3>
-                                        <div class="flex items-center gap-1 text-sm text-slate-500">
+                            <article class="group relative h-full" x-data="{ showModal: false }" @if ($index >= 6) x-show="showAll" x-cloak x-transition @endif>
+                                <div @click="showModal = true" class="cursor-pointer h-full flex flex-col p-6 bg-white dark:bg-[#161b22] rounded-2xl border border-slate-200 dark:border-slate-800 shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                                    <div class="flex items-start justify-between mb-4">
+                                        <h3 class="text-lg font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors font-mono line-clamp-2">{{ $repo->name }}</h3>
+                                        <div class="flex items-center gap-1 text-sm text-slate-500 ml-2 flex-shrink-0">
                                             <i class="fa-regular fa-star"></i>
-                                            <span>{{ $repo['stargazers_count'] }}</span>
+                                            <span>{{ $repo->stargazers_count }}</span>
                                         </div>
                                     </div>
-
-                                    <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed line-clamp-3">
-                                        {{ $repo['description'] ?? 'No description available.' }}
-                                    </p>
-
-                                    <div class="flex items-center justify-between pt-2">
-                                        @if ($repo['language'])
-                                            <span
-                                                class="inline-flex items-center px-2.5 py-1 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-xs font-medium rounded-full">
-                                                {{ $repo['language'] }}
-                                            </span>
+                                    <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed flex-1 mb-4" style="display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">{{ $repo->description ?? 'No description available.' }}</p>
+                                    <div class="flex items-center justify-between mt-auto">
+                                        @if ($repo->language)
+                                            <span class="inline-flex items-center px-2.5 py-1 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-xs font-medium rounded-full">{{ $repo->language }}</span>
                                         @else
                                             <span></span>
                                         @endif
-                                        <span class="text-xs text-slate-400">
-                                            {{ \Carbon\Carbon::parse($repo['updated_at'])->diffForHumans() }}
-                                        </span>
+                                        <span class="text-xs text-slate-400">{{ $repo->updated_at->diffForHumans() }}</span>
                                     </div>
                                 </div>
-                            </a>
+
+                                <!-- GitHub Repository Modal -->
+                                <div x-show="showModal" x-cloak @click.self="showModal = false" @keydown.escape.window="showModal = false" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" class="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-6 xl:p-8 bg-black/60 backdrop-blur-md">
+                                    <div x-transition:enter="transition ease-out duration-300 delay-75" x-transition:enter-start="opacity-0 transform scale-95" x-transition:enter-end="opacity-100 transform scale-100" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100 transform scale-100" x-transition:leave-end="opacity-0 transform scale-95" class="relative bg-white/90 dark:bg-[#161b22]/90 backdrop-blur-xl rounded-[2.5rem] shadow-2xl max-w-7xl w-full max-h-[95vh] overflow-hidden border border-white/20 dark:border-white/10">
+                                        
+                                        <!-- Header -->
+                                        <div class="flex items-center justify-between p-6 border-b border-white/10 dark:border-white/5">
+                                            <div class="flex items-center gap-4">
+                                                <h1 class="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white tracking-tight font-mono">{{ $repo->name }}</h1>
+                                                @if ($repo->private)
+                                                    <span class="px-2 py-1 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-300 text-xs font-medium rounded-full border border-yellow-200 dark:border-yellow-700">
+                                                        Private
+                                                    </span>
+                                                @else
+                                                    <span class="px-2 py-1 bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 text-xs font-medium rounded-full border border-green-200 dark:border-green-700">
+                                                        Public
+                                                    </span>
+                                                @endif
+                                            </div>
+                                            <div class="flex items-center">
+                                                @if ($repo->live_url)
+                                                    <div class="flex items-center bg-white/20 dark:bg-black/20 backdrop-blur-md rounded-full border border-white/30 dark:border-white/10 shadow-lg">
+                                                        <a href="{{ $repo->live_url }}" target="_blank" class="flex items-center gap-2 px-4 py-3 text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 font-medium text-sm">
+                                                            <i class="fa-solid fa-external-link"></i>
+                                                            <span>Live Demo</span>
+                                                        </a>
+                                                        <div class="w-px h-6 bg-white/30 dark:bg-white/10"></div>
+                                                        <a href="{{ $repo->html_url }}" target="_blank" class="flex items-center gap-2 px-4 py-3 text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 font-medium text-sm">
+                                                            <i class="fa-brands fa-github"></i>
+                                                            <span>GitHub</span>
+                                                        </a>
+                                                        <div class="w-px h-6 bg-white/30 dark:bg-white/10"></div>
+                                                        <button @click="showModal = false" class="w-10 h-10 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-all duration-300">
+                                                            <i class="fa-solid fa-times"></i>
+                                                        </button>
+                                                    </div>
+                                                @else
+                                                    <div class="flex items-center bg-white/20 dark:bg-black/20 backdrop-blur-md rounded-full border border-white/30 dark:border-white/10 shadow-lg">
+                                                        <a href="{{ $repo->html_url }}" target="_blank" class="flex items-center gap-2 px-4 py-3 text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 font-medium text-sm">
+                                                            <i class="fa-brands fa-github"></i>
+                                                            <span>GitHub</span>
+                                                        </a>
+                                                        <div class="w-px h-6 bg-white/30 dark:bg-white/10"></div>
+                                                        <button @click="showModal = false" class="w-10 h-10 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-all duration-300">
+                                                            <i class="fa-solid fa-times"></i>
+                                                        </button>
+                                                    </div>
+                                                @endif
+                                            </div>
+                                        </div>
+
+                                        <div class="overflow-y-auto max-h-[calc(95vh-80px)] p-6 pb-8">
+                                            <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+                                                
+                                                <!-- Left: Image Section -->
+                                                <div class="xl:col-span-1">
+                                                    <div class="bg-white/60 dark:bg-white/5 backdrop-blur-md rounded-[2rem] p-6 border border-white/30 dark:border-white/10 shadow-lg h-full">
+                                                        @if ($repo->image)
+                                                            <img src="{{ Storage::url($repo->image) }}" alt="{{ $repo->name }}" class="w-full h-64 object-cover rounded-xl mb-4">
+                                                        @else
+                                                            <div class="w-full h-64 bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-xl flex items-center justify-center mb-4">
+                                                                <div class="text-center space-y-4">
+                                                                    <i class="fa-brands fa-github text-4xl text-slate-400"></i>
+                                                                    <p class="text-lg font-semibold text-slate-600 dark:text-slate-300">{{ $repo->name }}</p>
+                                                                </div>
+                                                            </div>
+                                                        @endif
+                                                        
+                                                        <!-- Repository Stats -->
+                                                        <div class="grid grid-cols-2 gap-4">
+                                                            <div class="text-center p-3 bg-white/40 dark:bg-white/5 rounded-xl">
+                                                                <div class="text-lg font-bold text-slate-900 dark:text-white">{{ $repo->stargazers_count }}</div>
+                                                                <div class="text-xs text-slate-500 dark:text-slate-400">Stars</div>
+                                                            </div>
+                                                            <div class="text-center p-3 bg-white/40 dark:bg-white/5 rounded-xl">
+                                                                <div class="text-lg font-bold text-slate-900 dark:text-white">{{ $repo->forks_count ?? 0 }}</div>
+                                                                <div class="text-xs text-slate-500 dark:text-slate-400">Forks</div>
+                                                            </div>
+                                                            <div class="text-center p-3 bg-white/40 dark:bg-white/5 rounded-xl">
+                                                                <div class="text-lg font-bold text-slate-900 dark:text-white">{{ $repo->open_issues_count ?? 0 }}</div>
+                                                                <div class="text-xs text-slate-500 dark:text-slate-400">Issues</div>
+                                                            </div>
+                                                            <div class="text-center p-3 bg-white/40 dark:bg-white/5 rounded-xl">
+                                                                <div class="text-lg font-bold text-slate-900 dark:text-white">{{ $repo->size ? number_format($repo->size) . ' KB' : 'N/A' }}</div>
+                                                                <div class="text-xs text-slate-500 dark:text-slate-400">Size</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Right: Content Section -->
+                                                <div class="xl:col-span-2 space-y-6">
+                                                    <!-- Description & Details -->
+                                                    <div class="bg-white/60 dark:bg-white/5 backdrop-blur-md rounded-[2rem] p-6 border border-white/30 dark:border-white/10 shadow-lg">
+                                                        <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+                                                            <i class="fa-solid fa-info-circle text-blue-500"></i>
+                                                            About
+                                                        </h3>
+                                                        <p class="text-slate-600 dark:text-slate-300 leading-relaxed mb-4">{{ $repo->description ?? 'No description available.' }}</p>
+                                                        
+                                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                                                            <div class="flex items-center gap-2">
+                                                                <i class="fa-solid fa-code text-slate-400"></i>
+                                                                <span class="text-slate-600 dark:text-slate-300">Primary Language:</span>
+                                                                <span class="font-medium text-slate-900 dark:text-white">{{ $repo->language ?? 'Not specified' }}</span>
+                                                            </div>
+                                                            <div class="flex items-center gap-2">
+                                                                <i class="fa-solid fa-calendar text-slate-400"></i>
+                                                                <span class="text-slate-600 dark:text-slate-300">Created:</span>
+                                                                <span class="font-medium text-slate-900 dark:text-white">{{ $repo->created_at ? $repo->created_at->format('M j, Y') : 'Unknown' }}</span>
+                                                            </div>
+                                                            <div class="flex items-center gap-2">
+                                                                <i class="fa-solid fa-clock text-slate-400"></i>
+                                                                <span class="text-slate-600 dark:text-slate-300">Last Updated:</span>
+                                                                <span class="font-medium text-slate-900 dark:text-white">{{ $repo->updated_at->diffForHumans() }}</span>
+                                                            </div>
+                                                            <div class="flex items-center gap-2">
+                                                                <i class="fa-solid fa-branch text-slate-400"></i>
+                                                                <span class="text-slate-600 dark:text-slate-300">Default Branch:</span>
+                                                                <span class="font-medium text-slate-900 dark:text-white font-mono">{{ $repo->default_branch ?? 'main' }}</span>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        @if ($repo->topics && is_array($repo->topics) && count($repo->topics) > 0)
+                                                            <div class="mt-4">
+                                                                <h4 class="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Topics:</h4>
+                                                                <div class="flex flex-wrap gap-2">
+                                                                    @foreach ($repo->topics as $topic)
+                                                                        <span class="px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 text-xs font-medium rounded-full">
+                                                                            {{ $topic }}
+                                                                        </span>
+                                                                    @endforeach
+                                                                </div>
+                                                            </div>
+                                                        @endif
+                                                    </div>
+
+                                                    <!-- Languages Breakdown -->
+                                                    @if ($repo->languages && is_array($repo->languages))
+                                                        <div class="bg-gradient-to-br from-blue-500/10 to-purple-500/10 dark:from-blue-600/20 dark:to-purple-600/20 backdrop-blur-md rounded-[2rem] p-6 border border-blue-200/30 dark:border-blue-500/20">
+                                                            <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+                                                                <i class="fa-solid fa-code text-blue-500"></i>
+                                                                Languages Breakdown
+                                                            </h3>
+                                                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                                                @foreach ($repo->languages as $language => $percentage)
+                                                                    <div class="space-y-2">
+                                                                        <div class="flex items-center justify-between">
+                                                                            <span class="text-sm font-medium text-slate-700 dark:text-slate-300">{{ $language }}</span>
+                                                                            <span class="text-sm text-slate-500">{{ number_format($percentage, 1) }}%</span>
+                                                                        </div>
+                                                                        <div class="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2">
+                                                                            <div class="bg-gradient-to-r from-blue-500 to-purple-500 h-2 rounded-full transition-all duration-500" style="width: {{ $percentage }}%"></div>
+                                                                        </div>
+                                                                    </div>
+                                                                @endforeach
+                                                            </div>
+                                                        </div>
+                                                    @endif
+
+                                                    <!-- Additional Info -->
+                                                    @if ($repo->license || $repo->homepage)
+                                                        <div class="bg-gradient-to-br from-green-500/10 to-emerald-500/10 dark:from-green-600/20 dark:to-emerald-600/20 backdrop-blur-md rounded-[2rem] p-6 border border-green-200/30 dark:border-green-500/20">
+                                                            <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+                                                                <i class="fa-solid fa-info text-green-500"></i>
+                                                                Additional Information
+                                                            </h3>
+                                                            <div class="space-y-3">
+                                                                @if ($repo->license)
+                                                                    <div class="flex items-center gap-2">
+                                                                        <i class="fa-solid fa-balance-scale text-slate-400"></i>
+                                                                        <span class="text-slate-600 dark:text-slate-300">License:</span>
+                                                                        <span class="font-medium text-slate-900 dark:text-white">{{ is_array($repo->license) ? ($repo->license['name'] ?? 'Unknown') : $repo->license }}</span>
+                                                                    </div>
+                                                                @endif
+                                                                @if ($repo->homepage)
+                                                                    <div class="flex items-center gap-2">
+                                                                        <i class="fa-solid fa-globe text-slate-400"></i>
+                                                                        <span class="text-slate-600 dark:text-slate-300">Homepage:</span>
+                                                                        <a href="{{ $repo->homepage }}" target="_blank" class="font-medium text-blue-600 dark:text-blue-400 hover:underline break-all">{{ $repo->homepage }}</a>
+                                                                    </div>
+                                                                @endif
+                                                            </div>
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
                         @endforeach
                     </div>
 
-                    @if (count($githubRepos) > 6)
+                    @if ($githubRepos->count() > 6)
                         <div class="text-center pt-8">
-                            <button @click="showAll = !showAll"
-                                class="inline-flex items-center gap-3 px-8 py-4 bg-white dark:bg-[#161b22] border border-slate-200 dark:border-slate-700 rounded-2xl font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all duration-300 shadow-lg">
+                            <button @click="showAll = !showAll" class="inline-flex items-center gap-3 px-8 py-4 bg-white dark:bg-[#161b22] border border-slate-200 dark:border-slate-700 rounded-2xl font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all duration-300 shadow-lg">
                                 <span x-text="showAll ? 'Show Less' : 'Show More'"></span>
-                                <i class="fa-solid fa-chevron-down transition-transform duration-300"
-                                    :class="{ 'rotate-180': showAll }"></i>
+                                <i class="fa-solid fa-chevron-down transition-transform duration-300" :class="{ 'rotate-180': showAll }"></i>
                             </button>
                         </div>
                     @endif

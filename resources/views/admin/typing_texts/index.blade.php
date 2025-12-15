@@ -15,7 +15,8 @@
             </div>
         @endif
 
-        <div class="bg-white dark:bg-[#161b22] shadow rounded-lg overflow-hidden border border-slate-200 dark:border-slate-800">
+        <!-- Desktop Table -->
+        <div class="hidden lg:block bg-white dark:bg-[#161b22] shadow rounded-lg overflow-hidden border border-slate-200 dark:border-slate-800">
             <table class="min-w-full divide-y divide-slate-200 dark:divide-slate-700">
                 <thead class="bg-slate-50 dark:bg-[#0d1117]">
                     <tr>
@@ -57,6 +58,36 @@
                     @endforelse
                 </tbody>
             </table>
+        </div>
+
+        <!-- Mobile Cards -->
+        <div class="lg:hidden space-y-4">
+            @forelse($typingTexts as $text)
+                <div class="bg-white dark:bg-[#161b22] rounded-lg border border-slate-200 dark:border-slate-800 p-4 shadow">
+                    <div class="flex justify-between items-start mb-3">
+                        <div class="flex-1">
+                            <h3 class="font-medium text-slate-900 dark:text-slate-100 mb-1">{{ $text->text }}</h3>
+                            <span class="text-xs text-slate-500 dark:text-slate-400">Sort: {{ $text->sort_order }}</span>
+                        </div>
+                        <span class="ml-3 px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $text->active ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400' : 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400' }}">
+                            {{ $text->active ? 'Active' : 'Inactive' }}
+                        </span>
+                    </div>
+                    
+                    <div class="flex justify-end gap-3 text-sm">
+                        <a href="{{ route('admin.typing-texts.edit', $text) }}" class="text-indigo-600 dark:text-indigo-400 hover:text-indigo-900">Edit</a>
+                        <form action="{{ route('admin.typing-texts.destroy', $text) }}" method="POST" class="inline-block" onsubmit="return confirm('Are you sure?');">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="text-red-600 dark:text-red-400 hover:text-red-900">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            @empty
+                <div class="bg-white dark:bg-[#161b22] rounded-lg border border-slate-200 dark:border-slate-800 p-8 text-center">
+                    <p class="text-sm text-slate-500 dark:text-slate-400">No texts found. Click "Add New Text" to create one.</p>
+                </div>
+            @endforelse
         </div>
     </div>
 </x-admin-layout>
