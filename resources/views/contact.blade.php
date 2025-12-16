@@ -4,352 +4,208 @@
     <x-page-header title="/contact"
         description="Let's connect and discuss opportunities, collaborations, or just say hello." />
 
-    <!--
-      Wrapper: .contact-page-wrapper
-      This wrapper centers the card and provides the dark backdrop.
-    -->
-    <div class="contact-page-wrapper">
-        <div class="glass-card">
 
 
+    <!-- Modern Glassmorphic Contact Section -->
+    <div class="relative pt-8 pb-16 min-h-screen flex items-center">
+        <div class="max-w-7xl mx-auto px-4 md:px-0 w-full">
+            
+            <!-- Success Message -->
             @if (session('success'))
-                <div class="success-message" role="alert" id="success-message">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                        stroke-width="2">
-                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
-                    </svg>
-                    <span>{{ session('success') }}</span>
+                <div class="fixed top-8 right-8 z-50 bg-emerald-500/20 dark:bg-emerald-400/20 backdrop-blur-2xl border border-emerald-500/30 dark:border-emerald-400/30 text-emerald-600 dark:text-emerald-400 px-8 py-4 rounded-full shadow-2xl animate-bounce" role="alert" id="success-message">
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 bg-gradient-to-r from-emerald-500 to-green-500 rounded-full flex items-center justify-center shadow-lg">
+                            <i class="fa-solid fa-check text-white text-sm"></i>
+                        </div>
+                        <span class="font-bold text-lg">{{ session('success') }}</span>
+                    </div>
                 </div>
                 <script>
                     setTimeout(() => {
                         const msg = document.getElementById('success-message');
                         if (msg) {
-                            msg.classList.add('fade-out');
+                            msg.style.transform = 'translateX(400px)';
+                            msg.style.opacity = '0';
                             setTimeout(() => msg.remove(), 300);
                         }
-                    }, 3000);
+                    }, 5000);
                 </script>
             @endif
 
-            <form action="{{ route('contact.store') }}" method="POST" class="contact-form">
-                @csrf
-
-                @foreach ($fields as $field)
-                    <div class="form-group">
-                        <label for="{{ $field['name'] }}" class="form-label">
-                            {{ $field['label'] }} @if (!empty($field['required']))
-                                <span class="required-mark" aria-hidden="true">*</span>
-                            @endif
-                        </label>
-
-                        @if ($field['type'] === 'textarea')
-                            <textarea id="{{ $field['name'] }}" name="{{ $field['name'] }}" class="form-input textarea" placeholder=" "
-                                {{ !empty($field['required']) ? 'required' : '' }} aria-label="{{ $field['label'] }}"></textarea>
-                        @else
-                            <input type="{{ $field['type'] }}" id="{{ $field['name'] }}" name="{{ $field['name'] }}"
-                                class="form-input" placeholder=" " {{ !empty($field['required']) ? 'required' : '' }}
-                                aria-label="{{ $field['label'] }}">
-                        @endif
-
-                        @error($field['name'])
-                            <span class="error-message" role="alert">{{ $message }}</span>
-                        @enderror
+            <!-- Main Contact Container -->
+            <div class="grid grid-cols-1 xl:grid-cols-2 gap-16 items-center">
+                
+                <!-- Left Side - Contact Info -->
+                <div class="space-y-10">
+                    <!-- Header -->
+                    <div class="space-y-8">
+                        <div class="inline-flex items-center gap-4 px-6 py-3 bg-gradient-to-r from-blue-500/10 to-blue-600/10 backdrop-blur-2xl border border-white/20 dark:border-white/10 rounded-full shadow-2xl">
+                            <div class="w-3 h-3 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full shadow-lg"></div>
+                            <span class="text-blue-600 dark:text-blue-400 font-bold text-sm">Available for opportunities</span>
+                        </div>
+                        
+                        <h1 class="text-3xl lg:text-4xl font-black text-slate-900 dark:text-white leading-tight">
+                            Let's create something
+                            <span class="bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">extraordinary</span>
+                            together
+                        </h1>
+                        
+                        <p class="text-lg text-slate-600 dark:text-slate-300 leading-relaxed font-medium">
+                            Ready to bring your vision to life? Let's connect and make something incredible happen.
+                        </p>
                     </div>
-                @endforeach
 
-                <button type="submit" class="submit-btn">
-                    <span>SEND MESSAGE</span>
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="22" y1="2" x2="11" y2="13"></line>
-                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-                    </svg>
-                </button>
-            </form>
+                    <!-- Dynamic Contact Methods -->
+                    @php
+                        $contactInfos = \App\Models\ContactInfo::where('active', true)->orderBy('sort_order')->get();
+                        $colors = ['blue', 'emerald', 'purple', 'orange', 'pink', 'cyan', 'indigo', 'rose'];
+                    @endphp
+                    
+                    <div class="grid gap-6">
+                        @forelse($contactInfos as $index => $contact)
+                            @php
+                                $color = $colors[$index % count($colors)];
+                            @endphp
+                            <div class="group relative">
+                                @if($contact->link)
+                                    <a href="{{ $contact->type === 'email' ? 'mailto:' . $contact->value : $contact->link }}" target="_blank" class="flex items-center gap-6 p-6 bg-white/10 dark:bg-white/5 backdrop-blur-2xl border border-white/20 dark:border-white/10 rounded-3xl hover:bg-white/20 dark:hover:bg-white/10 transition-all duration-500 group-hover:scale-105 group-hover:shadow-2xl group-hover:shadow-{{ $color }}-500/25">
+                                @else
+                                    <div class="flex items-center gap-6 p-6 bg-white/10 dark:bg-white/5 backdrop-blur-2xl border border-white/20 dark:border-white/10 rounded-3xl hover:bg-white/20 dark:hover:bg-white/10 transition-all duration-500 group-hover:scale-105 group-hover:shadow-2xl group-hover:shadow-{{ $color }}-500/25">
+                                @endif
+                                    <div class="w-16 h-16 bg-gradient-to-br from-{{ $color }}-500/20 to-{{ $color }}-600/30 backdrop-blur-xl rounded-2xl flex items-center justify-center group-hover:from-{{ $color }}-500/40 group-hover:to-{{ $color }}-600/50 transition-all duration-500 shadow-lg">
+                                        <i class="{{ $contact->icon_class }} text-{{ $color }}-600 dark:text-{{ $color }}-400 text-2xl"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <p class="font-bold text-lg text-slate-900 dark:text-white mb-1">{{ $contact->label }}</p>
+                                        <p class="text-slate-600 dark:text-slate-400 text-sm font-medium">{{ $contact->value }}</p>
+                                    </div>
+                                    @if($contact->link)
+                                        <div class="w-8 h-8 bg-white/20 dark:bg-white/10 backdrop-blur-xl rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
+                                            <i class="fa-solid fa-external-link text-{{ $color }}-600 dark:text-{{ $color }}-400 text-sm"></i>
+                                        </div>
+                                    @endif
+                                @if($contact->link)
+                                    </a>
+                                @else
+                                    </div>
+                                @endif
+                            </div>
+                        @empty
+                            <!-- Fallback contact info -->
+                            <div class="flex items-center gap-6 p-6 bg-white/10 dark:bg-white/5 backdrop-blur-2xl border border-white/20 dark:border-white/10 rounded-3xl">
+                                <div class="w-16 h-16 bg-gradient-to-br from-blue-500/20 to-blue-600/30 backdrop-blur-xl rounded-2xl flex items-center justify-center">
+                                    <i class="fa-solid fa-envelope text-blue-600 dark:text-blue-400 text-2xl"></i>
+                                </div>
+                                <div>
+                                    <p class="font-bold text-lg text-slate-900 dark:text-white mb-1">Email</p>
+                                    <p class="text-slate-600 dark:text-slate-400 text-sm">contact@example.com</p>
+                                </div>
+                            </div>
+                        @endforelse
+                    </div>
+                </div>
+
+                <!-- Right Side - Contact Form -->
+                <div class="relative">
+                    <!-- Glassmorphic Form Container -->
+                    <div class="relative bg-black dark:bg-black border border-slate-800 rounded-[3rem] p-8 shadow-2xl">
+                        <!-- Noise Texture Overlay -->
+                        <div class="absolute inset-0 rounded-[3rem] opacity-30 mix-blend-overlay" style="background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)" opacity="0.4"/%3E%3C/svg%3E');"></div>
+                        
+                        <form action="{{ route('contact.store') }}" method="POST" class="relative z-10 space-y-8">
+                            @csrf
+
+                            <!-- Dynamic Form Fields -->
+                            <div class="grid gap-6">
+                                @foreach ($fields as $field)
+                                    <div class="space-y-3">
+                                        <label for="{{ $field['name'] }}" class="block text-sm font-bold text-slate-300 ml-4">
+                                            {{ $field['label'] }} 
+                                            @if (!empty($field['required']))
+                                                <span class="text-red-500 text-sm">*</span>
+                                            @endif
+                                        </label>
+
+                                        @if ($field['type'] === 'textarea')
+                                            <textarea 
+                                                id="{{ $field['name'] }}" 
+                                                name="{{ $field['name'] }}" 
+                                                class="w-full px-4 py-3 bg-slate-900 border border-slate-700 rounded-2xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-300 resize-none h-24 text-sm" 
+                                                placeholder="Share your thoughts..." 
+                                                {{ !empty($field['required']) ? 'required' : '' }}
+                                            ></textarea>
+                                        @else
+                                            <input 
+                                                type="{{ $field['type'] }}" 
+                                                id="{{ $field['name'] }}" 
+                                                name="{{ $field['name'] }}" 
+                                                class="w-full px-4 py-3 bg-slate-900 border border-slate-700 rounded-full text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-300 text-sm" 
+                                                placeholder="Enter your {{ strtolower($field['label']) }}..." 
+                                                {{ !empty($field['required']) ? 'required' : '' }}
+                                            >
+                                        @endif
+
+                                        @error($field['name'])
+                                            <p class="text-red-500 text-sm ml-4 flex items-center gap-2 font-semibold">
+                                                <i class="fa-solid fa-exclamation-triangle"></i>
+                                                {{ $message }}
+                                            </p>
+                                        @enderror
+                                    </div>
+                                @endforeach
+                            </div>
+
+                            <!-- Submit Button -->
+                            <button type="submit" class="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold py-4 px-8 rounded-full transition-all duration-300 transform hover:scale-105 hover:shadow-xl hover:shadow-blue-500/50 flex items-center justify-center gap-3 group text-sm">
+                                <span>Send Message</span>
+                                <i class="fa-solid fa-paper-plane group-hover:translate-x-1 transition-all duration-300 text-sm"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <style>
-        /* Theme Variables */
-        :root {
-            /* Fonts */
-            --font-mono: 'JetBrains Mono', monospace;
-
-            /* Colors */
-            --bg-dark: #050505;
-            --accent-primary: #3b82f6;
-            /* Blue 500 */
-            --accent-glow: rgba(59, 130, 246, 0.5);
-            --text-main: #ffffff;
-            --text-muted: #94a3b8;
-            --danger: #ef4444;
-            --success-bg: rgba(34, 197, 94, 0.1);
-            --success-text: #4ade80;
-
-            /* Glass Card */
-            --glass-bg: rgba(255, 255, 255, 0.03);
-            --glass-border: rgba(255, 255, 255, 0.06);
-            --input-bg: rgba(0, 0, 0, 0.3);
-
-            /* Dimensions - Compact */
-            --card-radius: 12px;
-            --input-radius: 8px;
-            --pad-section: 12px;
-            --pad-input: 10px;
-            --max-width: 550px;
+        /* Enhanced glassmorphic effects */
+        .backdrop-blur-2xl {
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
         }
-
-        /* Import JetBrains Mono */
-        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap');
-
-        /* Layout & Reset Overrides for this component */
-        .contact-page-wrapper {
-            font-family: var(--font-mono);
-            background-color: transparent;
-            color: var(--text-main);
-            width: 100%;
-            max-width: 1152px;
-            margin: 0 auto;
-            padding: 3rem 1rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            z-index: 1;
+        
+        /* Success message animation */
+        #success-message {
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
+        
 
-        @media (min-width: 768px) {
-            .contact-page-wrapper {
-                padding: 0rem 0;
+        
+        /* Button enhanced glow */
+        button[type="submit"]:hover {
+            box-shadow: 0 25px 50px -12px rgba(147, 51, 234, 0.6), 0 0 0 1px rgba(147, 51, 234, 0.3);
+        }
+        
+        /* Animated background gradients */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+        
+        .animate-pulse {
+            animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        
+        /* Responsive grid adjustments */
+        @media (max-width: 1280px) {
+            .grid.xl\:grid-cols-2 {
+                grid-template-columns: 1fr;
+                gap: 3rem;
             }
         }
-
-        /* Background Ambience */
-        .contact-page-wrapper::before {
-            content: '';
-            position: absolute;
-            width: 80%;
-            height: 80%;
-            background: radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.08), transparent 70%);
-            z-index: -1;
-            pointer-events: none;
-        }
-
-        /* Glass Card */
-        .glass-card {
-            width: 100%;
-            max-width: var(--max-width);
-            background: transparent;
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            padding: 1.5rem 1.5rem;
-            /* Reduced Padding */
-            animation: cardEnter 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
-        }
-
-        .card-header {
-            text-align: center;
-            margin-bottom: 1.25rem;
-            /* Reduced Margin */
-        }
-
-        .form-title {
-            font-size: 1.5rem;
-            /* Reduced Title */
-            font-weight: 700;
-            margin-bottom: 0.25rem;
-            letter-spacing: -0.05em;
-            background: linear-gradient(to right, #fff, #94a3b8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .form-subtitle {
-            color: var(--text-muted);
-            font-size: 0.8rem;
-            /* Reduced Subtitle */
-        }
-
-        /* Form Elements */
-        .contact-form {
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-            /* Reduced Gap */
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 0.25rem;
-            /* Reduced Gap */
-            position: relative;
-        }
-
-        .form-label {
-            font-size: 0.7rem;
-            /* Reduced Label */
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: var(--text-muted);
-            margin-left: 0.25rem;
-            font-weight: 500;
-        }
-
-        .required-mark {
-            color: var(--danger);
-        }
-
-        .form-input {
-            width: 100%;
-            background: var(--input-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: var(--input-radius);
-            padding: var(--pad-input) 0.75rem;
-            color: var(--text-main);
-            font-family: var(--font-mono);
-            font-size: 0.85rem;
-            /* Reduced Input Text */
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .form-input.textarea {
-            min-height: 80px;
-            /* Reduced Textarea Height */
-            resize: none;
-            /* Prevent resize scroll */
-        }
-
-        .form-input:focus {
-            outline: none;
-            border-color: var(--accent-primary);
-            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
-            background: rgba(0, 0, 0, 0.5);
-            transform: translateY(-1px);
-        }
-
-        /* Error & Success Messages */
-        .error-message {
-            color: var(--danger);
-            font-size: 0.7rem;
-            margin-left: 0.5rem;
-            margin-top: 0.1rem;
-        }
-
-        .success-message {
-            background: rgba(34, 197, 94, 0.1);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(34, 197, 94, 0.3);
-            color: #22c55e;
-            padding: 0.75rem 1.5rem;
-            border-radius: 50px;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.8rem;
-            animation: slideInFade 0.3s ease-out;
-        }
-
-        @keyframes slideInFade {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .success-message.fade-out {
-            animation: slideOutFade 0.3s ease-in forwards;
-        }
-
-        @keyframes slideOutFade {
-            from {
-                opacity: 1;
-                transform: translateY(0);
-            }
-
-            to {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-        }
-
-        /* Submit Button */
-        .submit-btn {
-            margin-top: 0.5rem;
-            width: 100%;
-            padding: 0.8rem;
-            /* Reduced Button Padding */
-            border: none;
-            border-radius: var(--input-radius);
-            background: linear-gradient(135deg, #1e40af, #3b82f6);
-            color: white;
-            font-family: var(--font-mono);
-            font-weight: 700;
-            font-size: 0.9rem;
-            letter-spacing: 0.1em;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px -5px var(--accent-glow);
-            filter: brightness(1.1);
-        }
-
-        .submit-btn:active {
-            transform: translateY(0);
-        }
-
-        /* Animations */
-        @keyframes cardEnter {
-            from {
-                opacity: 0;
-                transform: translateY(20px) scale(0.98);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-
-        /* Responsiveness */
-        @media (max-width: 640px) {
-            .glass-card {
-                padding: 1.25rem 1rem;
-            }
-
-            .form-title {
-                font-size: 1.25rem;
-            }
-        }
-
-        /* Reduced Motion */
-        @media (prefers-reduced-motion: reduce) {
-
-            *,
-            *::before,
-            *::after {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-                scroll-behavior: auto !important;
-            }
+        
+        /* Enhanced noise texture */
+        .mix-blend-overlay {
+            mix-blend-mode: overlay;
         }
     </style>
 </x-app-layout>

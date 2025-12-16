@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Experience;
+use App\Models\GitHubRepository;
 use Illuminate\Http\Request;
 
 class ExperienceController extends Controller
@@ -22,6 +23,15 @@ class ExperienceController extends Controller
             ->orderBy('sort_order')
             ->get();
 
-        return view('experience.show', compact('experience', 'projects'));
+        // Get only the GitHub repositories selected for this experience
+        $githubRepos = collect();
+        if (is_array($experience->github_repos) && count($experience->github_repos) > 0) {
+            $repoNames = collect($experience->github_repos)->pluck('name');
+            $githubRepos = GitHubRepository::whereIn('name', $repoNames)
+                ->orderBy('stargazers_count', 'desc')
+                ->get();
+        }
+
+        return view('experience.show', compact('experience', 'projects', 'githubRepos'));
     }
 }
