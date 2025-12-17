@@ -154,14 +154,14 @@
         const repoData = {
             @foreach($githubRepos as $repo)
                 {{ $repo->id }}: {
-                    name: '{{ addslashes($repo->name) }}',
-                    description: '{{ addslashes($repo->description ?? 'No description available.') }}',
+                    name: @json($repo->name),
+                    description: @json($repo->description ?? 'No description available.'),
                     image: @if($repo->image) '{{ Storage::url($repo->image) }}' @else null @endif,
                     stars: {{ $repo->stargazers_count }},
                     language: @if($repo->language) '{{ $repo->language }}' @else null @endif,
                     updated: '{{ $repo->updated_at->diffForHumans() }}',
-                    github_url: '{{ $repo->html_url }}',
-                    live_url: @if($repo->live_url) '{{ $repo->live_url }}' @else null @endif
+                    github_url: @json($repo->html_url),
+                    live_url: @json($repo->live_url)
                 },
             @endforeach
         };
@@ -169,15 +169,15 @@
         const projectData = {
             @foreach($projects as $project)
                 {{ $project->id }}: {
-                    title: '{{ addslashes($project->title) }}',
-                    description: '{{ addslashes($project->description) }}',
+                    title: @json($project->title),
+                    description: @json($project->description),
                     duration: @if($project->duration) '{{ $project->duration }}' @else null @endif,
                     tech_stack: @json($project->tech_stack ?? []),
                     work_done: @json($project->work_done ?? []),
                     bullet_type: '{{ $project->bullet_type ?? 'circle' }}',
                     images: @json($project->images ?? []),
                     image_path: @if($project->image_path) '{{ Storage::url($project->image_path) }}' @else null @endif,
-                    live_url: @if($project->link) '{{ $project->link }}' @else null @endif
+                    live_url: @json($project->link)
                 },
             @endforeach
         };
