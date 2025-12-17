@@ -44,10 +44,10 @@
                     <!-- Project Tabs -->
                     <div class="flex justify-center mb-8">
                         <div class="bg-white/60 dark:bg-white/5 backdrop-blur-md rounded-2xl p-2 border border-white/30 dark:border-white/10 shadow-lg">
-                            <button onclick="switchTab('portfolio')" id="portfolio-tab" class="px-6 py-3 rounded-xl text-sm font-medium transition-all duration-300 bg-blue-500 text-white shadow-lg">
+                            <button onclick="window.switchTab('portfolio')" id="portfolio-tab" class="px-6 py-3 rounded-xl text-sm font-medium transition-all duration-300 bg-blue-500 text-white shadow-lg">
                                 <i class="fa-solid fa-briefcase mr-2"></i>Portfolio Projects
                             </button>
-                            <button onclick="switchTab('github')" id="github-tab" class="px-6 py-3 rounded-xl text-sm font-medium transition-all duration-300 text-slate-600 dark:text-slate-300 hover:bg-white/20 dark:hover:bg-white/10">
+                            <button onclick="window.switchTab('github')" id="github-tab" class="px-6 py-3 rounded-xl text-sm font-medium transition-all duration-300 text-slate-600 dark:text-slate-300 hover:bg-white/20 dark:hover:bg-white/10">
                                 <i class="fa-brands fa-github mr-2"></i>GitHub Projects
                             </button>
                         </div>
@@ -468,7 +468,7 @@
 
         
         // Tab switching function
-        function switchTab(tab) {
+        window.switchTab = function(tab) {
             const portfolioTab = document.getElementById('portfolio-tab');
             const githubTab = document.getElementById('github-tab');
             
