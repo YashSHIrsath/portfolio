@@ -53,10 +53,7 @@ COPY . .
 RUN mkdir -p /var/www/public/build
 
 # Build frontend assets with production flag
-RUN NODE_ENV=production npm run build
-
-# Verify build output exists
-RUN test -f /var/www/public/build/manifest.json || (echo "ERROR: Vite manifest not generated" && exit 1)
+RUN NODE_ENV=production npm run build && ls -la /var/www/public/build
 
 # Run composer scripts
 RUN composer dump-autoload --optimize

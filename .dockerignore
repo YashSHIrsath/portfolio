@@ -8,14 +8,7 @@ storage/logs/*
 storage/framework/cache/*
 storage/framework/sessions/*
 storage/framework/views/*
-.vscode
-.idea
-*.log
+.phpunit.result.cache
 .DS_Store
 Thumbs.db
-tests
-phpunit.xml
-.editorconfig
-.gitignore
-.gitattributes
-README.md
+*.log
