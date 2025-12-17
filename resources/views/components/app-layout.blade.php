@@ -86,6 +86,26 @@
     <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 
     <script>
+        // Define switchTab globally before page loads
+        window.switchTab = function(tab) {
+            const portfolioTab = document.getElementById('portfolio-tab');
+            const githubTab = document.getElementById('github-tab');
+            
+            if (!portfolioTab || !githubTab) return;
+            
+            if (tab === 'portfolio') {
+                portfolioTab.className = 'px-6 py-3 rounded-xl text-sm font-medium transition-all duration-300 bg-blue-500 text-white shadow-lg';
+                githubTab.className = 'px-6 py-3 rounded-xl text-sm font-medium transition-all duration-300 text-slate-600 dark:text-slate-300 hover:bg-white/20 dark:hover:bg-white/10';
+                if (window.projectSwiper) window.projectSwiper.slideTo(0);
+            } else {
+                githubTab.className = 'px-6 py-3 rounded-xl text-sm font-medium transition-all duration-300 bg-blue-500 text-white shadow-lg';
+                portfolioTab.className = 'px-6 py-3 rounded-xl text-sm font-medium transition-all duration-300 text-slate-600 dark:text-slate-300 hover:bg-white/20 dark:hover:bg-white/10';
+                if (window.projectSwiper) window.projectSwiper.slideTo(1);
+            }
+        };
+    </script>
+
+    <script>
         if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia(
                 '(prefers-color-scheme: dark)').matches)) {
             document.documentElement.classList.add('dark');

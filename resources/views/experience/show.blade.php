@@ -456,32 +456,13 @@
         }
         
         // Initialize Swiper for project tabs
-        let projectSwiper;
         document.addEventListener('DOMContentLoaded', function() {
-            projectSwiper = new Swiper('.project-tabs-swiper', {
+            window.projectSwiper = new Swiper('.project-tabs-swiper', {
                 allowTouchMove: false,
                 speed: 500,
                 effect: 'slide'
             });
         });
-        
-
-        
-        // Tab switching function
-        window.switchTab = function(tab) {
-            const portfolioTab = document.getElementById('portfolio-tab');
-            const githubTab = document.getElementById('github-tab');
-            
-            if (tab === 'portfolio') {
-                portfolioTab.className = 'px-6 py-3 rounded-xl text-sm font-medium transition-all duration-300 bg-blue-500 text-white shadow-lg';
-                githubTab.className = 'px-6 py-3 rounded-xl text-sm font-medium transition-all duration-300 text-slate-600 dark:text-slate-300 hover:bg-white/20 dark:hover:bg-white/10';
-                projectSwiper.slideTo(0);
-            } else {
-                githubTab.className = 'px-6 py-3 rounded-xl text-sm font-medium transition-all duration-300 bg-blue-500 text-white shadow-lg';
-                portfolioTab.className = 'px-6 py-3 rounded-xl text-sm font-medium transition-all duration-300 text-slate-600 dark:text-slate-300 hover:bg-white/20 dark:hover:bg-white/10';
-                projectSwiper.slideTo(1);
-            }
-        }
     </script>
     
     <style>
