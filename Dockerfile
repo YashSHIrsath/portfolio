@@ -46,15 +46,25 @@ RUN npm ci
 # Copy application code
 COPY . .
 
+# Ensure public/build directory exists
+RUN mkdir -p /var/www/public/build
+
 # Build frontend assets
 RUN npm run build
+
+# Verify build output
+RUN ls -la /var/www/public/build || echo "Build directory empty"
 
 # Run composer scripts
 RUN composer dump-autoload --optimize
 
 # Set permissions
-RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache /var/www/public/build \
-    && chmod -R 775 /var/www/storage /var/www/bootstrap/cache \
+RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache \
+    && chmod -R 775 /var/www/storage /var/www/bootstrap/cache
+
+# Ensure public/build exists and has correct permissions
+RUN mkdir -p /var/www/public/build \
+    && chown -R www-data:www-data /var/www/public/build \
     && chmod -R 755 /var/www/public/build
 
 # Move Nginx config

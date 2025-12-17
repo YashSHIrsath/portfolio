@@ -24,7 +24,14 @@ echo "🧹 Clearing caches..."
 php artisan config:clear || true
 php artisan cache:clear || true
 php artisan view:clear || true
+php artisan route:clear || true
 php artisan optimize:clear || true
+
+# Cache config for production
+echo "⚡ Optimizing for production..."
+php artisan config:cache
+php artisan route:cache
+php artisan view:cache
 
 # Run database migrations
 echo "🗄️  Running database migrations..."
