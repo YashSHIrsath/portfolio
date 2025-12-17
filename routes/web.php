@@ -35,7 +35,7 @@ Route::post('/contact', [App\Http\Controllers\ContactController::class, 'store']
 // Admin authentication routes (no middleware)
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/login', [AdminAuthController::class, 'showLoginForm'])->name('login');
-    Route::post('/login', [AdminAuthController::class, 'login'])->name('login');
+    Route::post('/login', [AdminAuthController::class, 'login']);
     Route::post('/logout', [AdminAuthController::class, 'logout'])->name('logout');
 });
 
