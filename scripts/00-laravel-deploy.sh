@@ -40,15 +40,6 @@ php artisan migrate --force
 echo "🔗 Creating storage link..."
 php artisan storage:link || true
 
-# Check if Vite manifest exists
-if [ ! -f /var/www/public/build/manifest.json ]; then
-    echo "⚠️  WARNING: Vite manifest not found at /var/www/public/build/manifest.json"
-    echo "📁 Listing public directory:"
-    ls -la /var/www/public/
-    echo "📁 Listing build directory (if exists):"
-    ls -la /var/www/public/build/ || echo "Build directory does not exist"
-fi
-
 # Start PHP-FPM in background
 echo "🐘 Starting PHP-FPM..."
 php-fpm -D

@@ -37,41 +37,15 @@ COPY composer.json composer.lock ./
 # Install composer dependencies
 RUN composer install --no-interaction --optimize-autoloader --no-dev --no-scripts
 
-# Copy package files for better caching
-COPY package*.json ./
-
-# Install NPM dependencies (including dev for build)
-RUN npm ci --include=dev
-
-# Verify critical packages are installed
-RUN npm list vite laravel-vite-plugin || echo "Warning: Vite packages check"
-
 # Copy application code
 COPY . .
-
-# Debug: Check if vite.config.js exists
-RUN ls -la /var/www/vite.config.js
-
-# Ensure public/build directory exists
-RUN mkdir -p /var/www/public/build
-
-# Build frontend assets
-RUN npm run build 2>&1 | tee /tmp/build.log && echo "=== Build Output ===" && cat /tmp/build.log && echo "=== Checking build directory ===" && ls -laR /var/www/public/ || echo "Build failed"
 
 # Run composer scripts
 RUN composer dump-autoload --optimize
 
-# Final check for manifest
-RUN if [ ! -f /var/www/public/build/manifest.json ]; then echo "WARNING: Vite manifest not found, creating empty build directory"; mkdir -p /var/www/public/build; fi
-
 # Set permissions
 RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache \
     && chmod -R 775 /var/www/storage /var/www/bootstrap/cache
-
-# Ensure public/build exists and has correct permissions
-RUN mkdir -p /var/www/public/build \
-    && chown -R www-data:www-data /var/www/public/build \
-    && chmod -R 755 /var/www/public/build
 
 # Move Nginx config
 COPY docker/nginx/conf.d/app.conf /etc/nginx/conf.d/default.conf
