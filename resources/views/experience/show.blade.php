@@ -156,10 +156,10 @@
                 {{ $repo->id }}: {
                     name: @json($repo->name),
                     description: @json($repo->description ?? 'No description available.'),
-                    image: @if($repo->image) '{{ Storage::url($repo->image) }}' @else null @endif,
+                    image: @json($repo->image ? Storage::url($repo->image) : null),
                     stars: {{ $repo->stargazers_count }},
-                    language: @if($repo->language) '{{ $repo->language }}' @else null @endif,
-                    updated: '{{ $repo->updated_at->diffForHumans() }}',
+                    language: @json($repo->language),
+                    updated: @json($repo->updated_at->diffForHumans()),
                     github_url: @json($repo->html_url),
                     live_url: @json($repo->live_url)
                 },
@@ -171,12 +171,12 @@
                 {{ $project->id }}: {
                     title: @json($project->title),
                     description: @json($project->description),
-                    duration: @if($project->duration) '{{ $project->duration }}' @else null @endif,
+                    duration: @json($project->duration),
                     tech_stack: @json($project->tech_stack ?? []),
                     work_done: @json($project->work_done ?? []),
-                    bullet_type: '{{ $project->bullet_type ?? 'circle' }}',
+                    bullet_type: @json($project->bullet_type ?? 'circle'),
                     images: @json($project->images ?? []),
-                    image_path: @if($project->image_path) '{{ Storage::url($project->image_path) }}' @else null @endif,
+                    image_path: @json($project->image_path ? Storage::url($project->image_path) : null),
                     live_url: @json($project->link)
                 },
             @endforeach
