@@ -184,8 +184,8 @@
         const portfolioData = {
             @foreach($projects as $project)
                 {{ $project->id }}: {
-                    title: '{{ addslashes($project->title) }}',
-                    description: '{{ addslashes($project->description) }}',
+                    title: @json($project->title),
+                    description: @json($project->description),
                     images: [
                         @if($project->images && count($project->images) > 0)
                             @foreach($project->images as $image)
@@ -197,9 +197,9 @@
                     ],
                     tech_stack: @json($project->tech_stack ?? []),
                     work_done: @json($project->work_done ?? []),
-                    duration: @if($project->duration) '{{ $project->duration }}' @else null @endif,
-                    link: @if($project->link) '{{ $project->link }}' @else null @endif,
-                    bullet_type: '{{ $project->bullet_type ?? 'circle' }}'
+                    duration: @json($project->duration),
+                    link: @json($project->link),
+                    bullet_type: @json($project->bullet_type ?? 'circle')
                 },
             @endforeach
         };
@@ -384,14 +384,14 @@
         const repoData = {
             @foreach($githubRepos as $repo)
                 {{ $repo->id }}: {
-                    name: '{{ addslashes($repo->name) }}',
-                    description: '{{ addslashes($repo->description ?? 'No description available.') }}',
-                    image: @if($repo->image) '{{ Storage::url($repo->image) }}' @else null @endif,
+                    name: @json($repo->name),
+                    description: @json($repo->description ?? 'No description available.'),
+                    image: @json($repo->image ? Storage::url($repo->image) : null),
                     stars: {{ $repo->stargazers_count }},
-                    language: @if($repo->language) '{{ $repo->language }}' @else null @endif,
-                    updated: '{{ $repo->updated_at->diffForHumans() }}',
-                    github_url: '{{ $repo->html_url }}',
-                    live_url: @if($repo->live_url) '{{ $repo->live_url }}' @else null @endif
+                    language: @json($repo->language),
+                    updated: @json($repo->updated_at->diffForHumans()),
+                    github_url: @json($repo->html_url),
+                    live_url: @json($repo->live_url)
                 },
             @endforeach
         };
@@ -498,7 +498,7 @@
         });
         
         // Tab switching function
-        function switchTab(tab) {
+        window.switchTab = function(tab) {
             const portfolioTab = document.getElementById('portfolio-tab');
             const githubTab = document.getElementById('github-tab');
             
