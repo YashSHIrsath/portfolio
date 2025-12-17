@@ -41,7 +41,10 @@ RUN composer install --no-interaction --optimize-autoloader --no-dev --no-script
 COPY package*.json ./
 
 # Install NPM dependencies (including dev for build)
-RUN npm ci
+RUN npm ci --include=dev
+
+# Verify critical packages are installed
+RUN npm list vite laravel-vite-plugin || echo "Warning: Vite packages check"
 
 # Copy application code
 COPY . .
@@ -49,11 +52,11 @@ COPY . .
 # Ensure public/build directory exists
 RUN mkdir -p /var/www/public/build
 
-# Build frontend assets
-RUN npm run build
+# Build frontend assets with production flag
+RUN NODE_ENV=production npm run build
 
-# Verify build output
-RUN ls -la /var/www/public/build || echo "Build directory empty"
+# Verify build output exists
+RUN test -f /var/www/public/build/manifest.json || (echo "ERROR: Vite manifest not generated" && exit 1)
 
 # Run composer scripts
 RUN composer dump-autoload --optimize
