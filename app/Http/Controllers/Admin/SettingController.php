@@ -70,6 +70,10 @@ class SettingController extends Controller
             Setting::updateOrCreate(['key' => 'last_name'], ['value' => $request->input('last_name')]);
         }
 
+        if ($request->has('contact_description')) {
+            Setting::updateOrCreate(['key' => 'contact_description'], ['value' => $request->input('contact_description')]);
+        }
+
         return redirect()->route('admin.settings.index')
             ->with('success', 'Settings updated successfully.');
     }

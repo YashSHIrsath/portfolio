@@ -61,11 +61,11 @@
                                 Hello, I'm</p>
 
                             <h1 class="text-3xl font-black tracking-wider leading-[1.2] text-slate-900 dark:text-white mb-3 md:mb-6"
-                                style="font-family: 'Borel', sans-serif;">
-                                <span class="block text-lg opacity-50 lowercase"
-                                    style="text-transform: lowercase;">{{ $firstName }}</span>
-                                <span class="block mt-1 md:mt-0 md:inline md:ml-8 text-3xl lowercase"
-                                    style="text-transform: lowercase;">{{ $lastName }}</span>
+                                style="font-family: 'Kaushan Script', cursive;">
+                                <span class="block text-lg opacity-50 "
+                                    style="text-transform: capitalize;">{{ $firstName }}</span>
+                                <span class="block mt-1 md:mt-0 md:inline md:ml-8 text-3xl "
+                                    style="text-transform: capitalize;">{{ $lastName }}</span>
                             </h1>
 
                             <div
@@ -115,11 +115,11 @@
                             Hello, I'm</p>
 
                         <h1 class="text-6xl md:text-8xl lg:text-8xl font-black tracking-wider leading-[0.85] animate-slide-up delay-75 text-slate-900 dark:text-white"
-                            style="font-family: 'Borel', sans-serif;">
-                            <span class="block text-2xl md:text-4xl opacity-50 lowercase translate-y-5"
-                                style="text-transform: lowercase">{{ $firstName }}</span>
-                            <span class="block mt-8 lowercase translate-y-10"
-                                style="text-transform: lowercase">{{ $lastName }}</span>
+                            style="font-family: 'Kaushan Script', cursive;">
+                            <span class="block text-2xl md:text-4xl opacity-50 capitalize translate-y-5"
+                                style="text-transform: capitalize">{{ $firstName }}</span>
+                            <span class="block mt-8 capitalize "
+                                style="text-transform: capitalize">{{ $lastName }}</span>
                         </h1>
 
                         <div class="flex items-center animate-slide-up delay-100 mt-6">
@@ -358,6 +358,13 @@
                         </div>
                     @endforeach
                 @endif
+            </div>
+            <div class="mt-6 pt-4 border-t border-slate-200 dark:border-slate-700">
+                <a href="{{ route('contact') }}"
+                    class="w-full flex items-center justify-center gap-2 px-6 py-3 rounded-2xl bg-white/20 dark:bg-white/10 backdrop-blur-md border border-white/30 dark:border-white/20 text-slate-900 dark:text-white font-semibold transition-all duration-300 hover:bg-white/30 dark:hover:bg-white/20 shadow-lg">
+                    <i class="fa-solid fa-paper-plane"></i>
+                    Send Message
+                </a>
             </div>
         </div>
     </div>

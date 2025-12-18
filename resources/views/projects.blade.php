@@ -12,7 +12,7 @@
         <div class="max-w-6xl mx-auto px-4 md:px-0">
             @if ($projects->count() > 0 || $githubRepos->count() > 0)
                 <!-- Project Tabs -->
-                <div class="flex justify-center mb-12">
+                <div class="flex justify-center mb-12 animate-slide-up delay-100">
                     <div class="bg-white/60 dark:bg-white/5 backdrop-blur-md rounded-2xl p-2 border border-white/30 dark:border-white/10 shadow-lg">
                         <button onclick="switchTab('portfolio')" id="portfolio-tab" class="px-6 py-3 rounded-xl text-sm font-medium transition-all duration-300 bg-blue-500 text-white shadow-lg">
                             <i class="fa-solid fa-briefcase mr-2"></i>Portfolio Projects
@@ -24,12 +24,12 @@
                 </div>
 
                 <!-- Swiper Container -->
-                <div class="swiper project-tabs-swiper">
+                <div class="swiper project-tabs-swiper animate-slide-up delay-200">
                     <div class="swiper-wrapper">
                         <!-- Portfolio Projects Slide -->
                         <div class="swiper-slide portfolio-slide">
                             @if ($projects->count() > 0)
-                                <div class="flex flex-wrap justify-between gap-y-8">
+                                <div class="flex flex-wrap justify-between gap-y-12 p-4 stagger-children">
                     @foreach ($projects as $project)
                         <article class="group relative w-[45%]">
                             <!-- Project Card -->
@@ -121,7 +121,7 @@
                         <!-- GitHub Projects Slide -->
                         <div class="swiper-slide">
                             @if ($githubRepos->count() > 0)
-                                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 p-4">
                                     @foreach($githubRepos as $index => $repo)
                                         <article class="group relative h-full">
                                             <div onclick="showRepoModal({{ $repo->id }})" class="cursor-pointer h-full flex flex-col p-6 bg-white dark:bg-[#161b22] rounded-2xl border border-slate-200 dark:border-slate-800 shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300">

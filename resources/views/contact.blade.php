@@ -4,20 +4,17 @@
     <x-page-header title="/contact"
         description="Let's connect and discuss opportunities, collaborations, or just say hello." />
 
+    <!-- Contact Section -->
+    <div class="relative pt-16 pb-24 min-h-screen">
+        <div class="max-w-6xl mx-auto px-4">
 
-
-    <!-- Modern Glassmorphic Contact Section -->
-    <div class="relative pt-8 pb-16 min-h-screen flex items-center">
-        <div class="max-w-7xl mx-auto px-4 md:px-0 w-full">
-            
             <!-- Success Message -->
             @if (session('success'))
-                <div class="fixed top-8 right-8 z-50 bg-emerald-500/20 dark:bg-emerald-400/20 backdrop-blur-2xl border border-emerald-500/30 dark:border-emerald-400/30 text-emerald-600 dark:text-emerald-400 px-8 py-4 rounded-full shadow-2xl animate-bounce" role="alert" id="success-message">
+                <div class="fixed top-8 right-8 z-50 bg-green-500 text-white px-6 py-4 rounded-lg shadow-lg animate-bounce"
+                    role="alert" id="success-message">
                     <div class="flex items-center gap-3">
-                        <div class="w-8 h-8 bg-gradient-to-r from-emerald-500 to-green-500 rounded-full flex items-center justify-center shadow-lg">
-                            <i class="fa-solid fa-check text-white text-sm"></i>
-                        </div>
-                        <span class="font-bold text-lg">{{ session('success') }}</span>
+                        <i class="fa-solid fa-check"></i>
+                        <span class="font-medium">{{ session('success') }}</span>
                     </div>
                 </div>
                 <script>
@@ -33,179 +30,227 @@
             @endif
 
             <!-- Main Contact Container -->
-            <div class="grid grid-cols-1 xl:grid-cols-2 gap-16 items-center">
-                
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+
                 <!-- Left Side - Contact Info -->
-                <div class="space-y-10">
+                <div class="space-y-12 contact-info">
                     <!-- Header -->
-                    <div class="space-y-8">
-                        <div class="inline-flex items-center gap-4 px-6 py-3 bg-gradient-to-r from-blue-500/10 to-blue-600/10 backdrop-blur-2xl border border-white/20 dark:border-white/10 rounded-full shadow-2xl">
-                            <div class="w-3 h-3 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full shadow-lg"></div>
-                            <span class="text-blue-600 dark:text-blue-400 font-bold text-sm">Available for opportunities</span>
+                    <div class="space-y-6">
+                        <div
+                            class="inline-flex items-center gap-3 px-4 py-2 bg-slate-100 dark:bg-slate-800 rounded-full">
+                            <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                            <span class="text-slate-700 dark:text-slate-300 font-medium text-sm">Available for
+                                opportunities</span>
                         </div>
-                        
-                        <h1 class="text-3xl lg:text-4xl font-black text-slate-900 dark:text-white leading-tight">
-                            Let's create something
-                            <span class="bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">extraordinary</span>
-                            together
+
+                        <h1 class="text-4xl lg:text-5xl font-black text-slate-900 dark:text-white leading-tight">
+                            Let's work
+                            <span class="text-slate-600 dark:text-slate-400">together</span>
                         </h1>
-                        
-                        <p class="text-lg text-slate-600 dark:text-slate-300 leading-relaxed font-medium">
-                            Ready to bring your vision to life? Let's connect and make something incredible happen.
+
+                        <p class="text-lg text-slate-600 dark:text-slate-400 leading-relaxed">
+                            {{ \App\Models\Setting::where('key', 'contact_description')->value('value') ?? 'Ready to bring your vision to life? Let\'s connect and create something amazing.' }}
                         </p>
                     </div>
 
-                    <!-- Dynamic Contact Methods -->
+                    <!-- Contact Methods -->
                     @php
                         $contactInfos = \App\Models\ContactInfo::where('active', true)->orderBy('sort_order')->get();
-                        $colors = ['blue', 'emerald', 'purple', 'orange', 'pink', 'cyan', 'indigo', 'rose'];
                     @endphp
-                    
-                    <div class="grid gap-6">
-                        @forelse($contactInfos as $index => $contact)
-                            @php
-                                $color = $colors[$index % count($colors)];
-                            @endphp
-                            <div class="group relative">
-                                @if($contact->link)
-                                    <a href="{{ $contact->type === 'email' ? 'mailto:' . $contact->value : $contact->link }}" target="_blank" class="flex items-center gap-6 p-6 bg-white/10 dark:bg-white/5 backdrop-blur-2xl border border-white/20 dark:border-white/10 rounded-3xl hover:bg-white/20 dark:hover:bg-white/10 transition-all duration-500 group-hover:scale-105 group-hover:shadow-2xl group-hover:shadow-{{ $color }}-500/25">
-                                @else
-                                    <div class="flex items-center gap-6 p-6 bg-white/10 dark:bg-white/5 backdrop-blur-2xl border border-white/20 dark:border-white/10 rounded-3xl hover:bg-white/20 dark:hover:bg-white/10 transition-all duration-500 group-hover:scale-105 group-hover:shadow-2xl group-hover:shadow-{{ $color }}-500/25">
+
+                    <div class="space-y-4">
+                        @forelse($contactInfos as $contact)
+                            <div class="contact-item group">
+                                @if ($contact->type === 'email' || $contact->link)
+                                    <a href="#" {{ $contact->type !== 'email' ? 'target="_blank"' : '' }}
+                                        class="flex items-center gap-4 p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 transition-all duration-300 hover:shadow-lg">
+                                    @else
+                                        <div
+                                            class="flex items-center gap-4 p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700">
                                 @endif
-                                    <div class="w-16 h-16 bg-gradient-to-br from-{{ $color }}-500/20 to-{{ $color }}-600/30 backdrop-blur-xl rounded-2xl flex items-center justify-center group-hover:from-{{ $color }}-500/40 group-hover:to-{{ $color }}-600/50 transition-all duration-500 shadow-lg">
-                                        <i class="{{ $contact->icon_class }} text-{{ $color }}-600 dark:text-{{ $color }}-400 text-2xl"></i>
-                                    </div>
-                                    <div class="flex-1">
-                                        <p class="font-bold text-lg text-slate-900 dark:text-white mb-1">{{ $contact->label }}</p>
-                                        <p class="text-slate-600 dark:text-slate-400 text-sm font-medium">{{ $contact->value }}</p>
-                                    </div>
-                                    @if($contact->link)
-                                        <div class="w-8 h-8 bg-white/20 dark:bg-white/10 backdrop-blur-xl rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
-                                            <i class="fa-solid fa-external-link text-{{ $color }}-600 dark:text-{{ $color }}-400 text-sm"></i>
-                                        </div>
-                                    @endif
-                                @if($contact->link)
+                                <div
+                                    class="w-12 h-12 bg-slate-100 dark:bg-slate-700 rounded-lg flex items-center justify-center group-hover:bg-slate-200 dark:group-hover:bg-slate-600 transition-colors duration-300">
+                                    <i
+                                        class="{{ $contact->icon_class }} text-slate-600 dark:text-slate-400 text-lg"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="font-semibold text-slate-900 dark:text-white">{{ $contact->label }}</p>
+                                    <p class="text-slate-600 dark:text-slate-400 text-sm">{{ $contact->value }}</p>
+                                </div>
+
+                                @if ($contact->type === 'email' || $contact->link)
                                     </a>
                                 @else
-                                    </div>
-                                @endif
                             </div>
-                        @empty
-                            <!-- Fallback contact info -->
-                            <div class="flex items-center gap-6 p-6 bg-white/10 dark:bg-white/5 backdrop-blur-2xl border border-white/20 dark:border-white/10 rounded-3xl">
-                                <div class="w-16 h-16 bg-gradient-to-br from-blue-500/20 to-blue-600/30 backdrop-blur-xl rounded-2xl flex items-center justify-center">
-                                    <i class="fa-solid fa-envelope text-blue-600 dark:text-blue-400 text-2xl"></i>
-                                </div>
-                                <div>
-                                    <p class="font-bold text-lg text-slate-900 dark:text-white mb-1">Email</p>
-                                    <p class="text-slate-600 dark:text-slate-400 text-sm">contact@example.com</p>
-                                </div>
-                            </div>
-                        @endforelse
+                        @endif
                     </div>
+                @empty
+                    <div
+                        class="flex items-center gap-4 p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700">
+                        <div
+                            class="w-12 h-12 bg-slate-100 dark:bg-slate-700 rounded-lg flex items-center justify-center">
+                            <i class="fa-solid fa-envelope text-slate-600 dark:text-slate-400 text-lg"></i>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-slate-900 dark:text-white">Email</p>
+                            <p class="text-slate-600 dark:text-slate-400 text-sm">contact@example.com</p>
+                        </div>
+                    </div>
+                    @endforelse
                 </div>
+            </div>
 
-                <!-- Right Side - Contact Form -->
-                <div class="relative">
-                    <!-- Glassmorphic Form Container -->
-                    <div class="relative bg-black dark:bg-black border border-slate-800 rounded-[3rem] p-8 shadow-2xl">
-                        <!-- Noise Texture Overlay -->
-                        <div class="absolute inset-0 rounded-[3rem] opacity-30 mix-blend-overlay" style="background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)" opacity="0.4"/%3E%3C/svg%3E');"></div>
-                        
-                        <form action="{{ route('contact.store') }}" method="POST" class="relative z-10 space-y-8">
-                            @csrf
+            <!-- Right Side - Contact Form -->
+            <div class="contact-form">
+                <div
+                    class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-8 shadow-xl">
+                    <form action="{{ route('contact.store') }}" method="POST" class="space-y-6">
+                        @csrf
 
-                            <!-- Dynamic Form Fields -->
-                            <div class="grid gap-6">
-                                @foreach ($fields as $field)
-                                    <div class="space-y-3">
-                                        <label for="{{ $field['name'] }}" class="block text-sm font-bold text-slate-300 ml-4">
-                                            {{ $field['label'] }} 
-                                            @if (!empty($field['required']))
-                                                <span class="text-red-500 text-sm">*</span>
-                                            @endif
-                                        </label>
+                        @foreach ($fields as $field)
+                            <div class="form-group">
+                                <label for="{{ $field['name'] }}"
+                                    class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
+                                    {{ $field['label'] }}
+                                    @if (!empty($field['required']))
+                                        <span class="text-red-500">*</span>
+                                    @endif
+                                </label>
 
-                                        @if ($field['type'] === 'textarea')
-                                            <textarea 
-                                                id="{{ $field['name'] }}" 
-                                                name="{{ $field['name'] }}" 
-                                                class="w-full px-4 py-3 bg-slate-900 border border-slate-700 rounded-2xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-300 resize-none h-24 text-sm" 
-                                                placeholder="Share your thoughts..." 
-                                                {{ !empty($field['required']) ? 'required' : '' }}
-                                            ></textarea>
-                                        @else
-                                            <input 
-                                                type="{{ $field['type'] }}" 
-                                                id="{{ $field['name'] }}" 
-                                                name="{{ $field['name'] }}" 
-                                                class="w-full px-4 py-3 bg-slate-900 border border-slate-700 rounded-full text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-300 text-sm" 
-                                                placeholder="Enter your {{ strtolower($field['label']) }}..." 
-                                                {{ !empty($field['required']) ? 'required' : '' }}
-                                            >
-                                        @endif
+                                @if ($field['type'] === 'textarea')
+                                    <textarea id="{{ $field['name'] }}" name="{{ $field['name'] }}"
+                                        class="form-input w-full px-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white placeholder-slate-500 dark:placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent transition-all duration-300 resize-none h-32"
+                                        placeholder="Your message..." {{ !empty($field['required']) ? 'required' : '' }}></textarea>
+                                @else
+                                    <input type="{{ $field['type'] }}" id="{{ $field['name'] }}"
+                                        name="{{ $field['name'] }}"
+                                        class="form-input w-full px-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white placeholder-slate-500 dark:placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent transition-all duration-300"
+                                        placeholder="Enter your {{ strtolower($field['label']) }}..."
+                                        {{ !empty($field['required']) ? 'required' : '' }}>
+                                @endif
 
-                                        @error($field['name'])
-                                            <p class="text-red-500 text-sm ml-4 flex items-center gap-2 font-semibold">
-                                                <i class="fa-solid fa-exclamation-triangle"></i>
-                                                {{ $message }}
-                                            </p>
-                                        @enderror
-                                    </div>
-                                @endforeach
+                                @error($field['name'])
+                                    <p class="text-red-500 text-sm mt-1 flex items-center gap-2">
+                                        <i class="fa-solid fa-exclamation-triangle"></i>
+                                        {{ $message }}
+                                    </p>
+                                @enderror
                             </div>
+                        @endforeach
 
-                            <!-- Submit Button -->
-                            <button type="submit" class="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold py-4 px-8 rounded-full transition-all duration-300 transform hover:scale-105 hover:shadow-xl hover:shadow-blue-500/50 flex items-center justify-center gap-3 group text-sm">
-                                <span>Send Message</span>
-                                <i class="fa-solid fa-paper-plane group-hover:translate-x-1 transition-all duration-300 text-sm"></i>
-                            </button>
-                        </form>
-                    </div>
+                        <button type="submit"
+                            class="submit-btn w-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-semibold py-4 px-6 rounded-lg hover:bg-slate-800 dark:hover:bg-slate-100 transition-all duration-300 flex items-center justify-center gap-3 group">
+                            <span>Send Message</span>
+                            <i
+                                class="fa-solid fa-paper-plane group-hover:translate-x-1 transition-transform duration-300"></i>
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
-    <style>
-        /* Enhanced glassmorphic effects */
-        .backdrop-blur-2xl {
-            backdrop-filter: blur(40px);
-            -webkit-backdrop-filter: blur(40px);
-        }
-        
-        /* Success message animation */
-        #success-message {
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
+    </div>
 
-        
-        /* Button enhanced glow */
-        button[type="submit"]:hover {
-            box-shadow: 0 25px 50px -12px rgba(147, 51, 234, 0.6), 0 0 0 1px rgba(147, 51, 234, 0.3);
-        }
-        
-        /* Animated background gradients */
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(180deg); }
-        }
-        
-        .animate-pulse {
-            animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-        }
-        
-        /* Responsive grid adjustments */
-        @media (max-width: 1280px) {
-            .grid.xl\:grid-cols-2 {
-                grid-template-columns: 1fr;
-                gap: 3rem;
+    <style>
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
             }
         }
-        
-        /* Enhanced noise texture */
-        .mix-blend-overlay {
-            mix-blend-mode: overlay;
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .contact-info {
+            animation: slideInLeft 0.8s ease-out;
+        }
+
+        .contact-form {
+            animation: slideInRight 0.8s ease-out;
+        }
+
+        .contact-item {
+            animation: fadeInUp 0.6s ease-out;
+            animation-fill-mode: both;
+        }
+
+        .contact-item:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .contact-item:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .contact-item:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .contact-item:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+
+        .form-group {
+            animation: fadeInUp 0.6s ease-out;
+            animation-fill-mode: both;
+        }
+
+        .form-group:nth-child(2) {
+            animation-delay: 0.1s;
+        }
+
+        .form-group:nth-child(3) {
+            animation-delay: 0.2s;
+        }
+
+        .form-group:nth-child(4) {
+            animation-delay: 0.3s;
+        }
+
+        .form-group:nth-child(5) {
+            animation-delay: 0.4s;
+        }
+
+        .submit-btn {
+            animation: fadeInUp 0.6s ease-out 0.5s;
+            animation-fill-mode: both;
+        }
+
+        .form-input:focus {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
         }
     </style>
 </x-app-layout>

@@ -18,19 +18,19 @@
                     <div>
                         <label for="key" class="block text-sm font-medium text-slate-700 dark:text-slate-300">Key Name</label>
                         <p class="text-xs text-slate-500 mb-2">This is the JSON key (e.g. "frontend", "tools").</p>
-                        <input type="text" name="key" id="key" value="{{ old('key', $catStack->key) }}" class="w-full px-3 py-2 border rounded-md dark:bg-[#0d1117] dark:border-slate-700 dark:text-slate-100 focus:ring-blue-500 focus:border-blue-500" required>
+                        <input type="text" name="key" id="key" value="{{ old('key', $catStack->key) }}" class="mt-1 block w-full px-3 py-2 rounded-md border-slate-300 dark:border-slate-700 dark:bg-[#0d1117] dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" required>
                     </div>
 
                     <div>
                         <label for="values" class="block text-sm font-medium text-slate-700 dark:text-slate-300">Values (Comma Separated)</label>
                         <p class="text-xs text-slate-500 mb-2">List items separated by commas.</p>
-                        <textarea name="values" id="values" rows="4" class="w-full px-3 py-2 border rounded-md dark:bg-[#0d1117] dark:border-slate-700 dark:text-slate-100 focus:ring-blue-500 focus:border-blue-500 font-mono" required>{{ old('values', implode(', ', $catStack->values ?? [])) }}</textarea>
+                        <textarea name="values" id="values" rows="4" class="mt-1 block w-full px-3 py-2 rounded-md border-slate-300 dark:border-slate-700 dark:bg-[#0d1117] dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm font-mono" required>{{ old('values', implode(', ', $catStack->values ?? [])) }}</textarea>
                     </div>
 
                      <div class="flex justify-between gap-4">
                         <div class="flex-1">
                              <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Sort Order</label>
-                             <input type="number" name="sort_order" value="{{ old('sort_order', $catStack->sort_order) }}" class="w-full px-3 py-2 border rounded-md dark:bg-[#0d1117] dark:border-slate-700 dark:text-slate-100">
+                             <input type="number" name="sort_order" value="{{ old('sort_order', $catStack->sort_order) }}" class="mt-1 block w-full px-3 py-2 rounded-md border-slate-300 dark:border-slate-700 dark:bg-[#0d1117] dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                         </div>
                         <div class="flex-1 flex items-center pt-6">
                             <input type="checkbox" name="is_active" id="is_active" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-slate-300 rounded" value="1" {{ $catStack->is_active ? 'checked' : '' }}>
@@ -42,7 +42,7 @@
                 </div>
 
                 <div class="mt-6 flex justify-end">
-                    <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors">
+                    <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors">
                         Update Stack Group
                     </button>
                 </div>

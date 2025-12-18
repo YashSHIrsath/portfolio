@@ -99,11 +99,31 @@
                         </p>
                         
                         <div class="relative group">
-                            <textarea name="description" rows="12" class="w-full p-6 bg-slate-50 dark:bg-[#0d1117] border-2 border-transparent focus:border-blue-500/50 rounded-2xl text-slate-700 dark:text-slate-300 placeholder-slate-400 focus:outline-none focus:ring-0 transition-all resize-none shadow-inner leading-relaxed" placeholder="Write something amazing about yourself...">{{ $settings['description'] ?? '' }}</textarea>
+                            <textarea name="description" rows="8" class="w-full p-6 bg-slate-50 dark:bg-[#0d1117] border-2 border-transparent focus:border-blue-500/50 rounded-2xl text-slate-700 dark:text-slate-300 placeholder-slate-400 focus:outline-none focus:ring-0 transition-all resize-none shadow-inner leading-relaxed" placeholder="Write something amazing about yourself...">{{ $settings['description'] ?? '' }}</textarea>
                             
                             <!-- Character Count or Icon decoration -->
                             <div class="absolute bottom-4 right-4 text-xs text-slate-400 pointer-events-none">
                                 <i class="fa-solid fa-pen-nib"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Contact Description Card -->
+                <div class="bg-white dark:bg-[#161b22] p-8 rounded-[2.5rem] border border-slate-200 dark:border-white/5 shadow-sm flex flex-col">
+                    <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-6">Contact Page Description</h3>
+                    
+                    <div class="flex-1">
+                        <p class="text-sm text-slate-500 dark:text-slate-400 mb-4">
+                            This description appears on the contact page below the main heading.
+                        </p>
+                        
+                        <div class="relative group">
+                            <textarea name="contact_description" rows="4" class="w-full p-6 bg-slate-50 dark:bg-[#0d1117] border-2 border-transparent focus:border-blue-500/50 rounded-2xl text-slate-700 dark:text-slate-300 placeholder-slate-400 focus:outline-none focus:ring-0 transition-all resize-none shadow-inner leading-relaxed" placeholder="Enter contact page description...">{{ $settings['contact_description'] ?? '' }}</textarea>
+                            
+                            <!-- Character Count or Icon decoration -->
+                            <div class="absolute bottom-4 right-4 text-xs text-slate-400 pointer-events-none">
+                                <i class="fa-solid fa-envelope"></i>
                             </div>
                         </div>
                     </div>
@@ -115,6 +135,7 @@
                             </span>
                         </button>
                     </div>
+                </div>
                 </div>
             </div>
         </form>

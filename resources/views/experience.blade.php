@@ -9,7 +9,7 @@
     <div class="w-full max-w-6xl mx-auto px-4 md:px-0 pt-8 pb-12 animate-fade-in">
 
         <!-- Timeline Container -->
-        <div class="relative w-full min-h-[500px]" id="timeline-container">
+        <div class="relative w-full min-h-[500px] animate-slide-up delay-100" id="timeline-container">
             
             <!-- Continuous Connector Path (SVG) -->
             <!-- Placed absolutely behind the content -->
@@ -19,6 +19,7 @@
 
             <!-- Experience Items List -->
             <!-- Relative z-10 to sit above the SVG -->
+            <div class="stagger-children">
                 @forelse($experiences as $index => $exp)
                     
                     <!-- Unified Grid Row -->
@@ -104,11 +105,12 @@
 
                     </div>
                 @empty
-                    <div class="text-center text-slate-400 py-12">
+                    <div class="text-center text-slate-400 py-12 animate-fade-in">
                         No experience entries found.
                     </div>
                 @endforelse
             </div>
+        </div>
         </div>
         
     </div>

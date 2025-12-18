@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Route;
 
 // Public routes
 Route::get('/', function () {
-    $experiences = \App\Models\Experience::where('is_active', true)->orderBy('sort_order')->orderBy('created_at', 'desc')->get();
+    $experiences = \App\Models\Experience::where('is_active', true)->orderBy('sort_order')->get();
     $stats = \App\Models\KeyValue::where('is_active', true)->where('type', 'stat')->orderBy('sort_order')->get();
     $techStacks = \App\Models\TechStack::where('active', true)->orderBy('sort_order')->get();
     $contactInfos = \App\Models\ContactInfo::where('active', true)->orderBy('sort_order')->get();
@@ -22,7 +22,7 @@ Route::get('/about', function () {
 Route::get('/projects', [App\Http\Controllers\ProjectController::class, 'index'])->name('projects');
 
 Route::get('/experience', function () {
-    $experiences = \App\Models\Experience::where('is_active', true)->orderBy('sort_order')->orderBy('created_at', 'desc')->get();
+    $experiences = \App\Models\Experience::where('is_active', true)->orderBy('sort_order')->get();
     return view('experience', compact('experiences'));
 })->name('experience');
 

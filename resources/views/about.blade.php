@@ -20,11 +20,11 @@
 
 
             <!-- Section 1: Terminal (Bio & Stack) - Full Width -->
-            <div class="w-full">
+            <div class="w-full animate-slide-up delay-100">
                 <div
                     class="relative w-full bg-[#1e1e1e] rounded-[1.5rem] border border-slate-800 shadow-2xl overflow-hidden transform hover:scale-[1.005] transition-all duration-500">
                     <!-- Terminal Header -->
-                    <div class="flex items-center px-6 py-4 bg-[#252526] border-b border-[#3e3e42]">
+                    <div class="flex items-center px-6 py-4 bg-[#252526] border-b border-[#3e3e42] animate-slide-in-left delay-200">
                         <div class="flex gap-2">
                             <div class="w-3 h-3 rounded-full bg-[#ff5f56]"></div>
                             <div class="w-3 h-3 rounded-full bg-[#ffbd2e]"></div>
@@ -42,7 +42,7 @@
                     <div class="p-8 font-mono text-sm leading-relaxed text-slate-300">
 
                         <!-- Command 1: whoami -->
-                        <div class="mb-10">
+                        <div class="mb-10 animate-slide-up delay-300">
                             <p class="mb-3 font-bold">
                                 <span class="text-[#27c93f]">➜</span> <span class="text-[#58a6ff]">~</span> <span
                                     class="text-[#ffbd2e]">whoami</span>
@@ -54,7 +54,7 @@
                         </div>
 
                         <!-- Command 2: cat stack.json -->
-                        <div>
+                        <div class="animate-slide-up delay-400">
                             <p class="mb-3 font-bold">
                                 <span class="text-[#27c93f]">➜</span> <span class="text-[#58a6ff]">~</span> <span
                                     class="text-[#ffbd2e]">cat stack.json</span>

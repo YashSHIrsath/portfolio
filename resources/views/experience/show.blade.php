@@ -59,7 +59,7 @@
                             <!-- Portfolio Projects Slide -->
                             <div class="swiper-slide">
                                 @if($projects->count() > 0)
-                                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 p-4">
                                         @foreach($projects as $project)
                                             <article class="group relative h-full">
                                                 <div onclick="showProjectModal({{ $project->id }})" class="cursor-pointer h-full flex flex-col p-6 bg-white dark:bg-[#161b22] rounded-2xl border border-slate-200 dark:border-slate-800 shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
@@ -97,7 +97,7 @@
                             <!-- GitHub Projects Slide -->
                             <div class="swiper-slide">
                                 @if($githubRepos->count() > 0)
-                                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 p-4">
                                         @foreach($githubRepos as $index => $repo)
                                             <article class="group relative h-full">
                                                 <div onclick="showRepoModal({{ $repo->id }})" class="cursor-pointer h-full flex flex-col p-6 bg-white dark:bg-[#161b22] rounded-2xl border border-slate-200 dark:border-slate-800 shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300">

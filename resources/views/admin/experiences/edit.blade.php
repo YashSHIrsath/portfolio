@@ -17,22 +17,88 @@
                 <div class="space-y-4">
                     <div>
                         <label for="position" class="block text-sm font-medium text-slate-700 dark:text-slate-300">Position</label>
-                        <input type="text" name="position" id="position" value="{{ old('position', $experience->position) }}" class="mt-1 block w-full rounded-md border-slate-300 dark:border-slate-700 dark:bg-[#0d1117] dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" required>
+                        <input type="text" name="position" id="position" value="{{ old('position', $experience->position) }}" class="mt-1 block w-full px-3 py-2 rounded-md border-slate-300 dark:border-slate-700 dark:bg-[#0d1117] dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" required>
                     </div>
 
                     <div>
                         <label for="company" class="block text-sm font-medium text-slate-700 dark:text-slate-300">Company</label>
-                        <input type="text" name="company" id="company" value="{{ old('company', $experience->company) }}" class="mt-1 block w-full rounded-md border-slate-300 dark:border-slate-700 dark:bg-[#0d1117] dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                        <input type="text" name="company" id="company" value="{{ old('company', $experience->company) }}" class="mt-1 block w-full px-3 py-2 rounded-md border-slate-300 dark:border-slate-700 dark:bg-[#0d1117] dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                     </div>
 
-                    <div>
-                        <label for="duration" class="block text-sm font-medium text-slate-700 dark:text-slate-300">Duration</label>
-                        <input type="text" name="duration" id="duration" value="{{ old('duration', $experience->duration) }}" class="mt-1 block w-full rounded-md border-slate-300 dark:border-slate-700 dark:bg-[#0d1117] dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" required>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Start Date</label>
+                            <div class="grid grid-cols-3 gap-2">
+                                <select name="start_day" id="start_day" class="px-3 py-2 rounded-md border-slate-300 dark:border-slate-700 dark:bg-[#0d1117] dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" required>
+                                    <option value="">Day</option>
+                                    @for($i = 1; $i <= 31; $i++)
+                                        <option value="{{ $i }}" {{ old('start_day', $experience->start_date?->day) == $i ? 'selected' : '' }}>{{ $i }}</option>
+                                    @endfor
+                                </select>
+                                <select name="start_month" id="start_month" class="px-3 py-2 rounded-md border-slate-300 dark:border-slate-700 dark:bg-[#0d1117] dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" required>
+                                    <option value="">Month</option>
+                                    <option value="1" {{ old('start_month', $experience->start_date?->month) == 1 ? 'selected' : '' }}>January</option>
+                                    <option value="2" {{ old('start_month', $experience->start_date?->month) == 2 ? 'selected' : '' }}>February</option>
+                                    <option value="3" {{ old('start_month', $experience->start_date?->month) == 3 ? 'selected' : '' }}>March</option>
+                                    <option value="4" {{ old('start_month', $experience->start_date?->month) == 4 ? 'selected' : '' }}>April</option>
+                                    <option value="5" {{ old('start_month', $experience->start_date?->month) == 5 ? 'selected' : '' }}>May</option>
+                                    <option value="6" {{ old('start_month', $experience->start_date?->month) == 6 ? 'selected' : '' }}>June</option>
+                                    <option value="7" {{ old('start_month', $experience->start_date?->month) == 7 ? 'selected' : '' }}>July</option>
+                                    <option value="8" {{ old('start_month', $experience->start_date?->month) == 8 ? 'selected' : '' }}>August</option>
+                                    <option value="9" {{ old('start_month', $experience->start_date?->month) == 9 ? 'selected' : '' }}>September</option>
+                                    <option value="10" {{ old('start_month', $experience->start_date?->month) == 10 ? 'selected' : '' }}>October</option>
+                                    <option value="11" {{ old('start_month', $experience->start_date?->month) == 11 ? 'selected' : '' }}>November</option>
+                                    <option value="12" {{ old('start_month', $experience->start_date?->month) == 12 ? 'selected' : '' }}>December</option>
+                                </select>
+                                <select name="start_year" id="start_year" class="px-3 py-2 rounded-md border-slate-300 dark:border-slate-700 dark:bg-[#0d1117] dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" required>
+                                    <option value="">Year</option>
+                                    @for($i = date('Y'); $i >= 1990; $i--)
+                                        <option value="{{ $i }}" {{ old('start_year', $experience->start_date?->year) == $i ? 'selected' : '' }}>{{ $i }}</option>
+                                    @endfor
+                                </select>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">End Date</label>
+                            <div class="grid grid-cols-3 gap-2">
+                                <select name="end_day" id="end_day" class="px-3 py-2 rounded-md border-slate-300 dark:border-slate-700 dark:bg-[#0d1117] dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                    <option value="">Day</option>
+                                    @for($i = 1; $i <= 31; $i++)
+                                        <option value="{{ $i }}" {{ old('end_day', $experience->end_date?->day) == $i ? 'selected' : '' }}>{{ $i }}</option>
+                                    @endfor
+                                </select>
+                                <select name="end_month" id="end_month" class="px-3 py-2 rounded-md border-slate-300 dark:border-slate-700 dark:bg-[#0d1117] dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                    <option value="">Month</option>
+                                    <option value="1" {{ old('end_month', $experience->end_date?->month) == 1 ? 'selected' : '' }}>January</option>
+                                    <option value="2" {{ old('end_month', $experience->end_date?->month) == 2 ? 'selected' : '' }}>February</option>
+                                    <option value="3" {{ old('end_month', $experience->end_date?->month) == 3 ? 'selected' : '' }}>March</option>
+                                    <option value="4" {{ old('end_month', $experience->end_date?->month) == 4 ? 'selected' : '' }}>April</option>
+                                    <option value="5" {{ old('end_month', $experience->end_date?->month) == 5 ? 'selected' : '' }}>May</option>
+                                    <option value="6" {{ old('end_month', $experience->end_date?->month) == 6 ? 'selected' : '' }}>June</option>
+                                    <option value="7" {{ old('end_month', $experience->end_date?->month) == 7 ? 'selected' : '' }}>July</option>
+                                    <option value="8" {{ old('end_month', $experience->end_date?->month) == 8 ? 'selected' : '' }}>August</option>
+                                    <option value="9" {{ old('end_month', $experience->end_date?->month) == 9 ? 'selected' : '' }}>September</option>
+                                    <option value="10" {{ old('end_month', $experience->end_date?->month) == 10 ? 'selected' : '' }}>October</option>
+                                    <option value="11" {{ old('end_month', $experience->end_date?->month) == 11 ? 'selected' : '' }}>November</option>
+                                    <option value="12" {{ old('end_month', $experience->end_date?->month) == 12 ? 'selected' : '' }}>December</option>
+                                </select>
+                                <select name="end_year" id="end_year" class="px-3 py-2 rounded-md border-slate-300 dark:border-slate-700 dark:bg-[#0d1117] dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                    <option value="">Year</option>
+                                    @for($i = date('Y'); $i >= 1990; $i--)
+                                        <option value="{{ $i }}" {{ old('end_year', $experience->end_date?->year) == $i ? 'selected' : '' }}>{{ $i }}</option>
+                                    @endfor
+                                </select>
+                            </div>
+                            <p class="text-xs text-slate-500 mt-1">Leave empty if currently working</p>
+                        </div>
                     </div>
+                    <input type="hidden" name="start_date" id="start_date" value="{{ old('start_date', $experience->start_date?->format('Y-m-d')) }}">
+                    <input type="hidden" name="end_date" id="end_date" value="{{ old('end_date', $experience->end_date?->format('Y-m-d')) }}">
+                    <input type="hidden" name="duration" id="duration" value="{{ old('duration', $experience->duration) }}">
 
                     <div>
                         <label for="description" class="block text-sm font-medium text-slate-700 dark:text-slate-300">Description</label>
-                        <textarea name="description" id="description" rows="3" class="mt-1 block w-full rounded-md border-slate-300 dark:border-slate-700 dark:bg-[#0d1117] dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">{{ old('description', $experience->description) }}</textarea>
+                        <textarea name="description" id="description" rows="3" class="mt-1 block w-full px-3 py-2 rounded-md border-slate-300 dark:border-slate-700 dark:bg-[#0d1117] dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">{{ old('description', $experience->description) }}</textarea>
                     </div>
 
                     @php
@@ -70,7 +136,7 @@
                     <div class="flex gap-4">
                         <div class="flex-1">
                             <label for="sort_order" class="block text-sm font-medium text-slate-700 dark:text-slate-300">Sort Order</label>
-                            <input type="number" name="sort_order" id="sort_order" value="{{ old('sort_order', $experience->sort_order) }}" class="mt-1 block w-full rounded-md border-slate-300 dark:border-slate-700 dark:bg-[#0d1117] dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                            <input type="number" name="sort_order" id="sort_order" value="{{ old('sort_order', $experience->sort_order) }}" class="mt-1 block w-full px-3 py-2 rounded-md border-slate-300 dark:border-slate-700 dark:bg-[#0d1117] dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                         </div>
                         <div class="flex items-center pt-6">
                             <input type="checkbox" name="is_active" id="is_active" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-slate-300 rounded" value="1" {{ $experience->is_active ? 'checked' : '' }}>
@@ -82,11 +148,84 @@
                 </div>
 
                 <div class="mt-6 flex justify-end">
-                    <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors">
+                    <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors">
                         Update Experience
                     </button>
                 </div>
             </form>
         </div>
     </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const startDay = document.getElementById('start_day');
+            const startMonth = document.getElementById('start_month');
+            const startYear = document.getElementById('start_year');
+            const endDay = document.getElementById('end_day');
+            const endMonth = document.getElementById('end_month');
+            const endYear = document.getElementById('end_year');
+            const startDateInput = document.getElementById('start_date');
+            const endDateInput = document.getElementById('end_date');
+            const durationInput = document.getElementById('duration');
+            
+            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            
+            function updateDates() {
+                // Update start_date hidden input
+                if (startDay.value && startMonth.value && startYear.value) {
+                    const startDate = `${startYear.value}-${startMonth.value.padStart(2, '0')}-${startDay.value.padStart(2, '0')}`;
+                    startDateInput.value = startDate;
+                } else {
+                    startDateInput.value = '';
+                }
+                
+                // Update end_date hidden input
+                if (endDay.value && endMonth.value && endYear.value) {
+                    const endDate = `${endYear.value}-${endMonth.value.padStart(2, '0')}-${endDay.value.padStart(2, '0')}`;
+                    endDateInput.value = endDate;
+                } else {
+                    endDateInput.value = '';
+                }
+                
+                updateDuration();
+                validateDates();
+            }
+            
+            function updateDuration() {
+                if (startDay.value && startMonth.value && startYear.value) {
+                    const startFormatted = `${months[parseInt(startMonth.value) - 1]} ${startYear.value}`;
+                    
+                    if (endDay.value && endMonth.value && endYear.value) {
+                        const endFormatted = `${months[parseInt(endMonth.value) - 1]} ${endYear.value}`;
+                        durationInput.value = startFormatted + ' - ' + endFormatted;
+                    } else {
+                        durationInput.value = startFormatted + ' - Present';
+                    }
+                }
+            }
+            
+            function validateDates() {
+                if (startDateInput.value && endDateInput.value) {
+                    const startDate = new Date(startDateInput.value);
+                    const endDate = new Date(endDateInput.value);
+                    
+                    if (startDate >= endDate) {
+                        endYear.setCustomValidity('End date must be after start date');
+                    } else {
+                        endYear.setCustomValidity('');
+                    }
+                } else {
+                    endYear.setCustomValidity('');
+                }
+            }
+            
+            // Add event listeners to all dropdowns
+            [startDay, startMonth, startYear, endDay, endMonth, endYear].forEach(element => {
+                element.addEventListener('change', updateDates);
+            });
+            
+            // Initialize duration on page load
+            updateDuration();
+        });
+    </script>
 </x-admin-layout>
