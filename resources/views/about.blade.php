@@ -37,6 +37,7 @@
                         @endphp
                         <div class="ml-4 text-xs text-slate-500 font-mono">{{ $username }} @ portfolio ~ </div>
                     </div>
+                    </div>
 
                     <!-- Terminal Body -->
                     <div class="p-8 font-mono text-sm leading-relaxed text-slate-300">
