@@ -36,6 +36,8 @@ php artisan route:cache
 # Run database migrations
 echo "🗄️  Running database migrations..."
 php artisan migrate --force
+echo "🌱 Running database seeders..."
+php artisan db:seed --force
 
 # Create storage link if it doesn't exist
 echo "🔗 Creating storage link..."
