@@ -284,18 +284,21 @@
                                     </div>
 
                                     <h5
-                                        class="text-lg font-bold text-slate-900 dark:text-white leading-tight group-hover:text-slate-700 dark:group-hover:text-slate-200 transition-colors">
+                                        class="text-lg font-bold text-slate-900 dark:text-white leading-tight group-hover:text-blue-500 dark:group-hover:text-blue-400 transition-colors line-clamp-1 mb-1">
                                         {{ $exp->position }}</h5>
-                                    @if ($exp->company)
-                                        <p
-                                            class="text-sm font-semibold text-blue-600 dark:text-blue-400 mb-1 group-hover:text-blue-500 dark:group-hover:text-blue-300 transition-colors">
-                                            {{ $exp->company }}</p>
-                                    @endif
-                                    <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">
-                                        {{ $exp->duration }}</p>
-                                    <p class="text-sm text-slate-600 dark:text-slate-300 font-light leading-relaxed">
+                                    <div class="flex flex-wrap items-center gap-x-2 gap-y-1 mb-3">
+                                        @if ($exp->company)
+                                            <p
+                                                class="text-sm font-semibold text-blue-600 dark:text-blue-400 group-hover:text-blue-500 dark:group-hover:text-blue-300 transition-colors line-clamp-1">
+                                                {{ $exp->company }}</p>
+                                            <span class="w-1 h-1 rounded-full bg-slate-200 dark:bg-slate-700 hidden sm:block"></span>
+                                        @endif
+                                        <p class="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest bg-slate-100 dark:bg-white/5 px-2 py-0.5 rounded-full inline-block">
+                                            {{ $exp->duration }}</p>
+                                    </div>
+                                    <div class="text-[13px] md:text-sm text-slate-600 dark:text-slate-400 font-light leading-relaxed line-clamp-3 group-hover:text-slate-800 dark:group-hover:text-slate-300 transition-colors">
                                         {{ $exp->description }}
-                                    </p>
+                                    </div>
                                 </a>
                             @endforeach
 
